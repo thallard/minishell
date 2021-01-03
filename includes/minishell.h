@@ -12,11 +12,15 @@
 # define SUCCESS 0
 # define FAILURE -1
 
+# define LEFT 1
+# define RIGHT 2
+
 typedef struct		s_tree
 {
 	struct s_tree	*left;
 	struct s_tree	*right;
 	void			*item;
+	int				fd;
 }					t_tree;
 
 typedef struct		s_env
@@ -33,6 +37,7 @@ typedef struct		s_shell
 	t_list			*ptrs;
 	t_tree			*root;
 	char			*input;
+	int				last_node;
 }					t_shell;
 /*
 * Utils

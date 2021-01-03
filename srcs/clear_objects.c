@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	*malloc_lst(t_shell *shell, int size)
+void	*malloc_lst(t_shell *shell, int size) // penser a bien initialiser shell-ptrs
 {
 	void	*ptr;
 	t_list	*elem;
