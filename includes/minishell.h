@@ -12,6 +12,13 @@
 # define SUCCESS 0
 # define FAILURE -1
 
+typedef struct	s_tree
+{
+	struct s_tree	*left;
+	struct s_tree	*right;
+	void			*item;
+}				t_tree;
+
 int	ft_strrfind(const char *s, int c);
-eee
+
 #endif
