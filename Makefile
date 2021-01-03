@@ -13,7 +13,7 @@ OBJS_echo = $(SRCS_echo:.c=.o)
 NAME = minishell
 CC = clang
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror -fsanatize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 INC =	-I./includes -L./libft -lft
 
 .c.o:

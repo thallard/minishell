@@ -6,6 +6,7 @@
 # include <errno.h>
 # include <dirent.h>
 # include <fcntl.h>
+# include <sys/stat.h>
 
 # include "../libft/includes/libft.h"
 # include "../libft/includes/get_next_line.h"
