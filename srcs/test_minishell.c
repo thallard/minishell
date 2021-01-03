@@ -22,8 +22,8 @@ int main()
 	char 	*buf;
 	char	**tab;
 	char 	*cmd;
-	// char	**argvnew;
-	char *newenviron[] = { NULL };
+	char	*newenviron[] = { NULL };
+	pid_t	program;
 
 	buf = calloc(1, 1000);
 	if (!buf)
@@ -33,7 +33,8 @@ int main()
 	{
 		tab = ft_split(buf, ' ');
 		cmd = tab[0];
-		execve(ft_remove_eol(cmd), tab, newenviron);  
+		if (program == fork())
+			execve(ft_remove_eol(cmd), tab, newenviron);
 		printf("stdin --> %s\n", buf);
 	}
 

@@ -23,7 +23,7 @@ $(NAME):	libft $(OBJS)
 cd:		libft $(OBJS_cd)
 	$(CC) $(CFLAGS) $(OBJS_cd) $(INC) -o cd
 
-pwd:		libft $(OBJS_pwd)
+pwd:	libft $(OBJS_pwd)
 	$(CC) $(CFLAGS) $(OBJS_pwd) $(INC) -o pwd
 
 libft:

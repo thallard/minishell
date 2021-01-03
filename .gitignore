@@ -54,3 +54,5 @@ dkms.conf
 # exec
 minishell
 cd
+pwd
+*.h.gch
