@@ -33,9 +33,7 @@ int main()
 	{
 		tab = ft_split(buf, ' ');
 		cmd = tab[0];
-
-		execve(cmd, tab, newenviron);  
-
+		execve(ft_remove_eol(cmd), tab, newenviron);  
 		printf("stdin --> %s\n", buf);
 	}
 

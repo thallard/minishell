@@ -19,6 +19,12 @@ typedef struct	s_tree
 	void			*item;
 }				t_tree;
 
-int	ft_strrfind(const char *s, int c);
+
+/*
+* Utils
+*/
+int		ft_strrfind(const char *s, int c);
+char	*ft_remove_eol(char *str);
+
 
 #endif
