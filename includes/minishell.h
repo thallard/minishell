@@ -13,6 +13,5 @@
 # define FAILURE -1
 
 int	ft_strrfind(const char *s, int c);
-
-
+eee
 #endif
