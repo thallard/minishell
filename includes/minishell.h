@@ -12,13 +12,30 @@
 # define SUCCESS 0
 # define FAILURE -1
 
-typedef struct	s_tree
+typedef struct		s_tree
 {
 	struct s_tree	*left;
 	struct s_tree	*right;
 	void			*item;
-}				t_tree;
+}					t_tree;
 
-int	ft_strrfind(const char *s, int c);
+typedef struct		s_env
+{
+	char			*name;
+	void			*content;
+	struct s_env	*next;
+}					t_env;
+
+typedef struct		s_shell
+{
+	int				exit;
+	t_env			*var_env;
+}					t_shell;
+/*
+* Utils
+*/
+int		ft_strrfind(const char *s, int c);
+char	*ft_remove_eol(char *str);
+
 
 #endif
