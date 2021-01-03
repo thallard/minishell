@@ -1,0 +1,40 @@
+malloc : http://manpagesfr.free.fr/man/man3/malloc.3.html
+free : http://manpagesfr.free.fr/man/man1/free.1.html
+
+write : http://manpagesfr.free.fr/man/man2/write.2.html
+open : http://manpagesfr.free.fr/man/man2/open.2.html
+read : http://manpagesfr.free.fr/man/man2/read.2.html
+close : http://manpagesfr.free.fr/man/man2/close.2.html
+
+fork : http://manpagesfr.free.fr/man/man2/fork.2.html
+
+wait : http://manpagesfr.free.fr/man/man2/wait.2.html
+waitpid
+
+wait3 : http://manpagesfr.free.fr/man/man2/wait4.2.html
+wait4
+
+signal : http://manpagesfr.free.fr/man/man7/signal.7.html
+kill : http://manpagesfr.free.fr/man/man2/kill.2.html
+exit : http://manpagesfr.free.fr/man/man3/exit.3.html
+
+getcwd : http://manpagesfr.free.fr/man/man3/getcwd.3.html
+chdir : http://manpagesfr.free.fr/man/man2/chdir.2.html
+
+stat : http://manpagesfr.free.fr/man/man2/stat.2.html
+lstat
+fstat
+
+execve : http://manpagesfr.free.fr/man/man2/execve.2.html
+
+dup : http://manpagesfr.free.fr/man/man2/dup.2.html
+dup2
+
+pipe : http://manpagesfr.free.fr/man/man2/pipe.2.html
+
+opendir : http://manpagesfr.free.fr/man/man3/opendir.3.html
+readdir : http://manpagesfr.free.fr/man/man3/readdir.3.html
+closedir : http://manpagesfr.free.fr/man/man3/closedir.3.html
+
+strerror : http://manpagesfr.free.fr/man/man3/strerror.3.html
+errno : http://manpagesfr.free.fr/man/man3/errno.3.html
