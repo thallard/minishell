@@ -18,10 +18,11 @@
 
 int	init_shell(t_shell *shell)
 {
-	free_all_ptr(shell);
+	// if (shell->ptrs)			a corriger
+	// 	free_all_ptr(shell);
 	shell->exit = 0;
 	shell->var_env = NULL;
-	shell->ptrs = NULL;
+	// shell->ptrs = NULL;
 	shell->root = NULL;
 	shell->input = NULL;
 	shell->last_node = SEP;
@@ -37,6 +38,9 @@ int main()
 	t_shell	*shell;
 	int		res;
 
+	shell = malloc(sizeof(t_shell));
+	shell->ptrs = NULL;
+	// init_shell(shell);
 	buf = calloc(1, 1000);
 	if (!buf)
 		return (FAILURE);
@@ -44,8 +48,9 @@ int main()
 	while ((size = read(1, buf, 1000) > 0))
 	{
 		init_shell(shell);
-		create_main_tree(shell, buf);
-
+		res = create_main_tree(shell, buf);
+		ft_printf("res = %d\n", res);
+		ft_print_tree(shell->root);
 		// if (program == fork()) // A verifier plus tard si c'est viable
 			// execve(ft_remove_eol(tab[0]), tab, newenviron);
 		// printf("stdin --> %s\n", buf);

@@ -1,8 +1,13 @@
 SRCS	=	srcs/test_minishell.c \
-			srcs/str_utils.c
+			srcs/str_utils.c \
+			srcs/tree_struct.c \
+			srcs/clear_objects.c
+
 SRCS_cd	=	srcs/commands/ft_cd.c \
 			srcs/str_utils.c
+
 SRCS_pwd =  srcs/commands/ft_pwd.c
+
 SRCS_echo = srcs/commands/ft_echo.c
 
 OBJS = $(SRCS:.c=.o)
@@ -13,7 +18,7 @@ OBJS_echo = $(SRCS_echo:.c=.o)
 NAME = minishell
 CC = clang
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror -fsanatize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 INC =	-I./includes -L./libft -lft
 
 .c.o:

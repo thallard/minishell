@@ -45,6 +45,23 @@ typedef struct		s_shell
 	char			*input;
 	int				last_node;
 }					t_shell;
+
+/*
+** tree_struct.c
+*/
+int		create_main_tree(t_shell *shell, char *input);
+int		read_input(t_shell *shell, t_tree **t_current, char **input);
+
+void	ft_print_tree(t_tree *node); // a supprimer
+
+
+/*
+** clear_objects.c
+*/
+void	*malloc_lst(t_shell *shell, int size);
+int		free_all_ptr(t_shell *shell);
+
+
 /*
 * Utils
 */

@@ -148,6 +148,10 @@ int		add_op_node(t_shell *shell, t_tree *t_current, char **input, int len)
 
 	if (!(op = strdup_and_inc_input(shell, input, len)))
 		return (FAILURE);
+
+ft_printf("op = |%s|\n", op); //////////////////////////
+
+
 	if (!(t_current->right = tree_create_node(shell, op)))		// ajout operand dans le noeud right de t_current
 		return (FAILURE);
 		
@@ -173,7 +177,7 @@ int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 	(*t_current)->left = op_node;
 	shell->last_node = SEP;
 
-		if(*input == ' ')		// un ou plusieurs espaces ? Fin de ligne ?
+		if(**input == ' ')		// un ou plusieurs espaces ? Fin de ligne ?
 			(*input)++;
 		else
 			return (FAILURE);
@@ -181,27 +185,27 @@ int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 	return (read_input(shell, t_current, input));
 }
 
-int		read_input(t_shell *shell, t_tree **t_current, char *input) 		// faut il trim les espaces ?
+int		read_input(t_shell *shell, t_tree **t_current, char **input) 		// faut il trim les espaces ?
 {
 	int		len_op;
 	t_tree	*node;
 
-	if(!(*input))										// fin de l'input
+	if(!(**input))										// fin de l'input
 	{
 		if (shell->last_node == SEP)
 			return (FAILURE);
 		return (EOL);
 	}
-	if(len_op = is_operand(input))						// operateur
+	if((len_op = is_operand(*input)))						// operateur
 	{
 		if (shell->last_node == SEP)
-			return (add_op_node(shell, *t_current, &input, len_op));
+			return (add_op_node(shell, *t_current, input, len_op));
 		return (FAILURE);
 	}
-	if (is_separator(*input))							// separateur
+	if (is_separator(**input))							// separateur
 	{
 		if (shell->last_node == OP)
-			return (add_sep_node(shell, t_current, &input));
+			return (add_sep_node(shell, t_current, input));
 		return (FAILURE);
 	}
 	return (FAILURE);
@@ -212,6 +216,9 @@ int		create_main_tree(t_shell *shell, char *input)
 	int		is_end;
 	t_tree	*t_current;
 
+
+ft_printf("input = |%s|\n", input); ////////////////////////////
+
 	if (!(shell->root = tree_create_node(shell, NULL)))
 		return (FAILURE);
 	t_current = shell->root;
@@ -221,4 +228,20 @@ int		create_main_tree(t_shell *shell, char *input)
 	while (is_end == SUCCESS)
 		is_end = read_input(shell, &t_current, &input);
 	return (is_end);
+}
+
+
+
+
+
+void	ft_print_tree(t_tree *node)
+{
+	if (!node)
+		ft_printf("NULL\n");
+	else
+	{
+		ft_print_tree(node->left);
+		ft_printf("|%s|\n", node->item);
+		ft_print_tree(node->right);
+	}
 }

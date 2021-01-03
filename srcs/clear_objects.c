@@ -48,7 +48,6 @@ void	*malloc_lst(t_shell *shell, int size) // penser a bien initialiser shell-pt
 int		free_all_ptr(t_shell *shell)
 {
 	ft_lstclear(&shell->ptrs, free);
-	clear_session_images(shell);
 	return (0);
 }
 
