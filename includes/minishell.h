@@ -30,6 +30,9 @@ typedef struct		s_shell
 {
 	int				exit;
 	t_env			*var_env;
+	t_list			*ptrs;
+	t_tree			*root;
+	char			*input;
 }					t_shell;
 /*
 * Utils
