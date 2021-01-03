@@ -9,18 +9,22 @@
 # include "../libft/includes/get_next_line.h"
 # include "../libft/printf/includes/printf.h"
 
-# define SUCCESS 0
+# define SUCCESS 1
 # define FAILURE -1
+# define EOL 0
 
-# define LEFT 1
-# define RIGHT 2
+# define OP 1
+# define SEP 2
+
+# define NOT_ENOUGH_ARG 3
+# define TOO_MANY_ARG 4
 
 typedef struct		s_tree
 {
 	struct s_tree	*left;
 	struct s_tree	*right;
 	void			*item;
-	int				fd;
+	int				fd;		// a gerer
 }					t_tree;
 
 typedef struct		s_env
