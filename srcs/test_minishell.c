@@ -21,7 +21,6 @@ int main()
 	int 	size;
 	char 	*buf;
 	char	**tab;
-	char 	*cmd;
 	char	*newenviron[] = { NULL };
 	int		errno;
 	pid_t	program;
@@ -33,9 +32,8 @@ int main()
 	while ((size = read(1, buf, 1000) > 0))
 	{
 		tab = ft_split(buf, ' ');
-		cmd = tab[0];
 		if (program == fork()) // A verifier plus tard si c'est viable
-			execve(ft_remove_eol(cmd), tab, newenviron);
+			execve(ft_remove_eol(tab[0]), tab, newenviron);
 		// printf("stdin --> %s\n", buf);
 	}
 	// go_to_upper_folder();

@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/03 15:09:01 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/03 16:13:21 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int		ft_write_in_folder(char **str, int row, char *txt)
 {
+	dprintf(1, "debug txt %s et le nom du fichier %s\n", txt, str[row + 1]);
 	int		fd;
 	fd = open(str[row + 1], O_TRUNC | O_WRONLY | O_CREAT, 0777);
 	write(fd, txt, ft_strlen(txt));
@@ -32,16 +33,25 @@ int		main(int argc, char **argv)
 
 	text_to_write = ft_calloc(1, 10000);
 	j = 0;
+	res = 0;
 	k = -1;
 	while (argv[++j] && (i = -1) == -1)
 		while (argv[j][++i])
 		{	
-			if (argv[j][i] == '>')
-				ft_write_in_folder(argv, j, text_to_write);
+			if (ft_strncmp(argv[j], "-n", 2) == 0 && i == 0)
+			{dprintf(1, "if = %s\n", argv[j]);
+				j++;
+				i = -1;
+				
+			}
+			else if (argv[j][i] == '>')
+				res = ft_write_in_folder(argv, j, text_to_write);
 			else
 				text_to_write[++k] = argv[j][i];
 		}
-	ft_printf("%s\n", text_to_write);
-	res = 0;
+	if (ft_strncmp(argv[1], "-n", 2) != 0)
+		text_to_write[ft_strlen(text_to_write)] = '\n';
+	if (!res)
+		ft_printf("%s", text_to_write);
 	return (res);
 }
