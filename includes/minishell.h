@@ -4,6 +4,8 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <errno.h>
+# include <dirent.h>
+# include <fcntl.h>
 
 # include "../libft/includes/libft.h"
 # include "../libft/includes/get_next_line.h"
