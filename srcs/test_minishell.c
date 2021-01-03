@@ -23,6 +23,7 @@ int main()
 	char	**tab;
 	char 	*cmd;
 	char	*newenviron[] = { NULL };
+	int		errno;
 	pid_t	program;
 
 	buf = calloc(1, 1000);
@@ -33,12 +34,9 @@ int main()
 	{
 		tab = ft_split(buf, ' ');
 		cmd = tab[0];
-		if (program == fork())
+		if (program == fork()) // A verifier plus tard si c'est viable
 			execve(ft_remove_eol(cmd), tab, newenviron);
-		printf("stdin --> %s\n", buf);
+		// printf("stdin --> %s\n", buf);
 	}
-
-
 	// go_to_upper_folder();
-
 }
