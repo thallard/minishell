@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/03 16:13:21 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/03 16:43:40 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,13 @@
 
 int		ft_write_in_folder(char **str, int row, char *txt)
 {
-	dprintf(1, "debug txt %s et le nom du fichier %s\n", txt, str[row + 1]);
+	char	*path;
 	int		fd;
+	
+	if (!(path = ft_calloc(1, 10000)))
+		return (-1);
+	path = ft_strjoin(getcwd(path, 10000), ft_strjoin("/", str[row + 1]));
+	dprintf(1, "debug path = %s\n", path);
 	fd = open(str[row + 1], O_TRUNC | O_WRONLY | O_CREAT, 0777);
 	write(fd, txt, ft_strlen(txt));
 	close(fd);
