@@ -37,6 +37,7 @@ int main()
 	pid_t	program;
 	t_shell	*shell;
 	int		res;
+	char	**tab;
 
 	shell = malloc(sizeof(t_shell));
 	shell->ptrs = NULL;

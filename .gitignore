@@ -56,3 +56,4 @@ minishell
 cd
 pwd
 *.h.gch
+echo
