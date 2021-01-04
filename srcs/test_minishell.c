@@ -50,7 +50,7 @@ int main()
 	size = 1;
 	while ((size = read(1, buf, 1000) > 0))
 	{
-		ft_remove_eol(buf); // 
+		// ft_remove_eol(buf); // 
 		init_shell(shell);
 		res = create_main_tree(shell, buf);
 		if (res == -2)
@@ -58,7 +58,7 @@ int main()
 		// ft_printf("res = %d\n\n", res);
 		if (res >= 0)
 		{
-			//ft_print_tree(shell->root, 0);
+			ft_print_tree(shell->root, 0);
 			read_tree(shell);
 		}
 		ft_bzero(buf, ft_strlen(buf));
