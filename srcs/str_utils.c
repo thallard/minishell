@@ -26,3 +26,16 @@ char	*ft_remove_eol(char *str)
 	str[i] = '\0';
 	return (str);
 }
+
+int		skip_spaces(char **str)
+{
+	int nb_spaces;
+
+	nb_spaces = 0;
+	while (**str == ' ')
+	{
+		(*str)++;
+		nb_spaces++;
+	}
+	return (nb_spaces);
+}

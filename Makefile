@@ -1,7 +1,8 @@
 SRCS	=	srcs/test_minishell.c \
 			srcs/str_utils.c \
 			srcs/tree_struct.c \
-			srcs/clear_objects.c
+			srcs/clear_objects.c \
+			srcs/print_functions.c
 
 SRCS_cd	=	srcs/commands/ft_cd.c \
 			srcs/str_utils.c

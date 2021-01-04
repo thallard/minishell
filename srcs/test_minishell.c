@@ -48,10 +48,11 @@ int main()
 	size = 1;
 	while ((size = read(1, buf, 1000) > 0))
 	{
+		ft_remove_eol(buf); // 
 		init_shell(shell);
 		res = create_main_tree(shell, buf);
-		ft_printf("res = %d\n", res);
-		ft_print_tree(shell->root);
+		ft_printf("res = %d\n\n", res);
+		ft_print_tree(shell->root, 0);
 		// if (program == fork()) // A verifier plus tard si c'est viable
 			// execve(ft_remove_eol(tab[0]), tab, newenviron);
 		// printf("stdin --> %s\n", buf);

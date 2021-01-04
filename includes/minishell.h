@@ -22,6 +22,8 @@
 # define NOT_ENOUGH_ARG 3
 # define TOO_MANY_ARG 4
 
+# define DOUBLE_SEP -2
+
 typedef struct		s_tree
 {
 	struct s_tree	*left;
@@ -45,6 +47,7 @@ typedef struct		s_shell
 	t_tree			*root;
 	char			*input;
 	int				last_node;
+	char			*op;
 }					t_shell;
 
 /*
@@ -52,9 +55,6 @@ typedef struct		s_shell
 */
 int		create_main_tree(t_shell *shell, char *input);
 int		read_input(t_shell *shell, t_tree **t_current, char **input);
-
-void	ft_print_tree(t_tree *node); // a supprimer
-
 
 /*
 ** clear_objects.c
@@ -68,6 +68,13 @@ int		free_all_ptr(t_shell *shell);
 */
 int		ft_strrfind(const char *s, int c);
 char	*ft_remove_eol(char *str);
+int		skip_spaces(char **str);
+
+
+/*
+** print_functions.c // A SUPPRIMER
+*/
+void	ft_print_tree(t_tree *node, int nb); // a supprimer
 
 
 #endif
