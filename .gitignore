@@ -57,4 +57,4 @@ cd
 pwd
 *.h.gch
 echo
-srcs/test_minishell.c
+# srcs/test_minishell.c
