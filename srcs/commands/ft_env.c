@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/04 16:16:58 by thallard         ###   ########lyon.fr   */
+/*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
+/*   Updated: 2021/01/04 15:03:36 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../libft/includes/libft.h"
 
-int		ft_pwd(t_shell *shell)
+int		main(int argc, char **argv)
 {
-	int		res;
-	char	*path;
+	t_env *env;
+	dprintf(1, "avant\n");
 
-	path = ft_calloc(1, 500);
-	getcwd(path, 500);
-	ft_printf("%s\n", path);
-	return (res);
+	env = (t_env *)argv[0];
+	dprintf(1, "apres\n");
+	ft_printf("je suis dans env %p\n", argv[0]);
+
+	return (SUCCESS);
 }
