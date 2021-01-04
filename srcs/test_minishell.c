@@ -31,43 +31,6 @@ int	init_shell(t_shell *shell)
 	return (SUCCESS);
 }
 
-<<<<<<< HEAD
-=======
-int main()
-{
-	int 	size;
-	char 	*buf;
-	char	*newenviron[] = { NULL };
-	pid_t	program;
-	t_shell	*shell;
-	int		res;
-	char	**tab;
-
-	shell = malloc(sizeof(t_shell));
-	shell->ptrs = NULL;
-	// init_shell(shell);
-	buf = calloc(1, 1000);
-	if (!buf)
-		return (FAILURE);
-	size = 1;
-	while ((size = read(1, buf, 1000) > 0))
-	{
-		ft_remove_eol(buf); // 
-		init_shell(shell);
-		res = create_main_tree(shell, buf);
-		ft_printf("res = %d\n\n", res);
-		if (res >= 0)
-			ft_print_tree(shell->root, 0);
-		if (res == -2)
-			ft_printf("syntax error near unexpected token `;'");
-		// if (program == fork()) // A verifier plus tard si c'est viable
-			// execve(ft_remove_eol(tab[0]), tab, newenviron);
-		// printf("stdin --> %s\n", buf);
-	}
-	// go_to_upper_folder();
-}
-
->>>>>>> 03db5885a1ff98b85d28474c71072c26de754055
 // int main()
 // {
 // 	int 	size;
