@@ -48,6 +48,7 @@ typedef struct		s_shell
 	char			*input;
 	int				last_node;
 	char			*op;
+	char			*sep;
 }					t_shell;
 
 /*
@@ -68,8 +69,10 @@ int		free_all_ptr(t_shell *shell);
 */
 int		ft_strrfind(const char *s, int c);
 char	*ft_remove_eol(char *str);
+int		is_operand(char *str);
+int		is_separator(char c);
 int		skip_spaces(char **str);
-
+void	str_to_separator(char **str);
 
 /*
 ** print_functions.c // A SUPPRIMER

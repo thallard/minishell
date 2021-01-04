@@ -26,6 +26,8 @@ int	init_shell(t_shell *shell)
 	shell->root = NULL;
 	shell->input = NULL;
 	shell->last_node = SEP;
+	shell->op = NULL;
+	shell->sep = NULL;
 	return (SUCCESS);
 }
 
@@ -52,7 +54,10 @@ int main()
 		init_shell(shell);
 		res = create_main_tree(shell, buf);
 		ft_printf("res = %d\n\n", res);
-		ft_print_tree(shell->root, 0);
+		if (res >= 0)
+			ft_print_tree(shell->root, 0);
+		if (res == -2)
+			ft_printf("syntax error near unexpected token `;'");
 		// if (program == fork()) // A verifier plus tard si c'est viable
 			// execve(ft_remove_eol(tab[0]), tab, newenviron);
 		// printf("stdin --> %s\n", buf);
