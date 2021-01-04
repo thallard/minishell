@@ -99,6 +99,7 @@ int		free_all_ptr(t_shell *shell);
 */
 int		ft_cd(t_shell *shell, t_tree *node);
 int		ft_pwd(t_shell *shell);
+int		ft_echo(t_shell *shell, t_tree *node);
 
 /*
 ** str_utils.c

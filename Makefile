@@ -4,8 +4,8 @@ SRCS	=	srcs/test_minishell.c \
 			srcs/print_functions.c \
 			srcs/str_utils.c srcs/str_utils_op_sep_space.c \
 			srcs/commands/ft_cd.c \
-			#srcs/commands/ft_pwd.c 
-			#srcs/commands/ft_echo.c 
+			srcs/commands/ft_pwd.c \
+			srcs/commands/ft_echo.c 
 			#srcs/commands/ft_env.c 
 
 OBJS = $(SRCS:.c=.o)
@@ -31,7 +31,7 @@ $(OBJS): includes/minishell.h libft/includes/libft.h
 
 $(OBJS_cd): includes/minishell.h libft/includes/libft.h
 
-all: 		$(NAME) cd pwd echo env
+all: 		$(NAME)
 
 clean:
 	$(RM) $(OBJS) 

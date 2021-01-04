@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/04 14:00:46 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/04 16:28:59 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		ft_overwrite_in_file(char **str, int row, char *txt, int flag)
 	return (SUCCESS);
 }
 
-int		main(int argc, char **argv)
+int		ft_echo(t_shell *shell, t_tree *node)
 {
 	int		res;
 	int		j;
@@ -64,26 +64,36 @@ int		main(int argc, char **argv)
 	int		k;
 
 	txt = ft_calloc(1, 10000);
-	j = 0;
-	res = 0;
-	k = -1;
-	while (argv[++j] && (i = -1) == -1)
-		while (argv[j][++i])
-		{
-			if (ft_strncmp(argv[j], "-n ", 3) == 0 && i == 0)
-			{
-				dprintf(1, "if = %s\n", argv[j]);
-				j++;
-				i = -1;
-			}
-			else if (argv[j][i] == '>')
-				res = ft_overwrite_in_file(argv, j, txt, ft_strncmp(argv[1], "-n", 2));
-			else if (!res)
-				txt[++k] = argv[j][i];
-		}
-	if (ft_strncmp(argv[1], "-n ", 3) != 0)
-		txt[ft_strlen(txt)] = '\n';
-	if (!res)
-		ft_printf("%s", txt);
+	i = -1;
+	dprintf(1, "debug du texte ; %s\n", node->left->item);
+	
+
+
+
+
+
+
+	// j = 0;
+	// res = 0;
+	// k = -1;
+
+	// while (argv[++j] && (i = -1) == -1)
+	// 	while (argv[j][++i])
+	// 	{
+	// 		if (ft_strncmp(argv[j], "-n ", 3) == 0 && i == 0)
+	// 		{
+	// 			dprintf(1, "if = %s\n", argv[j]);
+	// 			j++;
+	// 			i = -1;
+	// 		}
+	// 		else if (argv[j][i] == '>')
+	// 			res = ft_overwrite_in_file(argv, j, txt, ft_strncmp(argv[1], "-n", 2));
+	// 		else if (!res)
+	// 			txt[++k] = argv[j][i];
+	// 	}
+	// if (ft_strncmp(argv[1], "-n ", 3) != 0)
+	// 	txt[ft_strlen(txt)] = '\n';
+	// if (!res)
+	// 	ft_printf("%s", txt);
 	return (res);
 }
