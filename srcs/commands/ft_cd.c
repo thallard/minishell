@@ -18,7 +18,7 @@ int	go_to_upper_folder(void)
 	char	*upper_path;
 	int		indice;
 
-	current_path = calloc(1, 500);
+	current_path = ft_calloc(1, 500);
 	upper_path = NULL;
 
 	getcwd(current_path, 1000);
@@ -67,18 +67,18 @@ int	go_to_folder(char *folder)
 	return (res);
 }
 
-int		ft_cd(char **tab, t_tree *node, t_shell *shell)
+int		ft_cd(t_shell *shell, t_tree *node)
 {
 	int		res;
 
-	tab[1] = ft_strtrim(tab[1], "\n");
-	if (!ft_strncmp(tab[1], "..", 3))
+	node->left->item = ft_strtrim(node->left->item, "\n");
+	if (!ft_strncmp(node->left->item, "..", 3))
 		res = go_to_upper_folder();
 	else
-		res = go_to_folder(tab[1]);
+		res = go_to_folder(node->left->item);
 
+	if (res == -1)
+		ft_printf("cd: %s: Not a directory", node->left->item); // A changer selon le type d'erreur
 	ft_printf("res = %d\n", res);
-
 	return (res);
-
 }

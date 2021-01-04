@@ -97,7 +97,8 @@ int		free_all_ptr(t_shell *shell);
 /*
 * Commands
 */
-int		ft_cd(char **tab, t_tree *tree, t_shell *shell);
+int		ft_cd(t_shell *shell, t_tree *node);
+int		ft_pwd(t_shell *shell);
 
 /*
 ** str_utils.c
@@ -113,8 +114,6 @@ int		is_separator(char c);
 int		skip_spaces(char **str);
 void	str_to_separator(char **str);
 char	*strdup_and_inc_input(t_shell *shell, char **input);
-
-
 
 
 /*
