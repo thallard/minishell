@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /*
 **	Separateurs a gerer :
@@ -14,7 +14,7 @@ t_tree	*tree_create_node(t_shell *shell, void *item)
 {
 	t_tree	*node;
 
-	if (!(node = malloc_lst(shell, sizeof(t_tree*))))
+	if (!(node = malloc_lst(shell, sizeof(t_tree))))
 		return (NULL);
 	node->item = item;
 	node->left = NULL;

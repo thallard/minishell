@@ -78,6 +78,7 @@ int		get_operand_arg(t_shell *shell, char **input, t_tree *op_node);
 /*
 ** tree_read.c
 */
+int	ft_exec(t_shell *shell, t_tree *node);
 int	read_tree(t_shell *shell);
 
 
