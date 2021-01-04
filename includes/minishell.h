@@ -52,10 +52,41 @@ typedef struct		s_shell
 }					t_shell;
 
 /*
-** tree_struct.c
+****************************************************
+**						TREE					  **
+****************************************************
 */
-int		create_main_tree(t_shell *shell, char *input);
+
+/*
+** tree_build.c
+*/
+t_tree	*tree_create_node(t_shell *shell, void *item);
+int		add_op_node(t_shell *shell, t_tree *t_current, char **input);
+int		add_sep_node(t_shell *shell, t_tree **t_current, char **input);
 int		read_input(t_shell *shell, t_tree **t_current, char **input);
+int		create_main_tree(t_shell *shell, char *input);
+
+/*
+** tree_get_arg.c
+*/
+int		get_nb_operand_arg(char *op);
+t_tree	*get_next_arg_echo(t_shell *shell,char **input, int nb_arg);
+int		get_echo_arg(t_shell *shell, char **input, t_tree *op_node);
+t_tree	*get_next_arg(t_shell *shell,char **input);
+int		get_operand_arg(t_shell *shell, char **input, t_tree *op_node);
+
+/*
+** tree_read.c
+*/
+int	read_tree(t_shell *shell);
+
+
+
+/*
+****************************************************
+**						UTILS					  **
+****************************************************
+*/
 
 /*
 ** clear_objects.c
@@ -65,14 +96,28 @@ int		free_all_ptr(t_shell *shell);
 
 
 /*
-* Utils
+** str_utils.c
 */
 int		ft_strrfind(const char *s, int c);
 char	*ft_remove_eol(char *str);
+
+/*
+** str_utils_op_sep_space.c
+*/
 int		is_operand(char *str);
 int		is_separator(char c);
 int		skip_spaces(char **str);
 void	str_to_separator(char **str);
+char	*strdup_and_inc_input(t_shell *shell, char **input);
+
+
+
+
+/*
+****************************************************
+**						DRAFT					  **
+****************************************************
+*/
 
 /*
 ** print_functions.c // A SUPPRIMER
