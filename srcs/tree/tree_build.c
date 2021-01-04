@@ -71,7 +71,7 @@ int		read_input(t_shell *shell, t_tree **t_current, char **input)
 		if (shell->last_node == OP)
 			return (add_sep_node(shell, t_current, input));
 		if (!shell->sep)
-			add_sep_node(shell, t_current, input);
+			add_sep_node(shell, t_current, input);	//	erreur a gerer ;;
 		return (DOUBLE_SEP);
 	}
 	return (add_op_node(shell, *t_current, input));
@@ -82,7 +82,7 @@ int		create_main_tree(t_shell *shell, char *input)
 	int		is_end;
 	t_tree	*t_current;
 
-ft_printf("\ninput = |%s|\n", input); ////////////////////////////
+// ft_printf("\ninput = |%s|\n", input); ////////////////////////////
 
 	if (!(shell->root = tree_create_node(shell, "ROOT")))		// a supprimer, juste pour les tests
 	// if (!(shell->root = tree_create_node(shell, NULL)))

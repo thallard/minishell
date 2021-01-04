@@ -1,5 +1,10 @@
 #include "../../includes/minishell.h"
 
+int	find_exec(t_shell *shell, t_tree *node)
+{
+	ft_printf("find_exec -> %s / %s\n", node->item, node->left->item);
+	return (1);
+}
 
 int	ft_exec(t_shell *shell, t_tree *node)
 {
@@ -8,15 +13,15 @@ int	ft_exec(t_shell *shell, t_tree *node)
 	if (!ft_strncmp(node->item, "cd", 3))
 		return (ft_cd(shell, node));
 	if (!ft_strncmp(node->item, "pwd", 4))
-		return (ft_pwd(shell, node));
-	if (!ft_strncmp(node->item, "export", 7))
-		return (ft_export(shell, node));
-	if (!ft_strncmp(node->item, "unset", 6))
-		return (ft_unset(shell, node));
-	if (!ft_strncmp(node->item, "env", 4))
-		return (ft_env(shell, node));
-	if (!ft_strncmp(node->item, "exit", 5))
-		return (ft_exit(shell, node));
+		return (ft_pwd(shell));
+	// if (!ft_strncmp(node->item, "export", 7))
+	// 	return (ft_export(shell, node));
+	// if (!ft_strncmp(node->item, "unset", 6))
+	// 	return (ft_unset(shell, node));
+	// if (!ft_strncmp(node->item, "env", 4))
+	// 	return (ft_env(shell, node));
+	// if (!ft_strncmp(node->item, "exit", 5))
+	// 	return (ft_exit(shell, node));
 	return (find_exec(shell, node));
 }
 

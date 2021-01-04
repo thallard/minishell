@@ -54,14 +54,14 @@ int main()
 		init_shell(shell);
 		res = create_main_tree(shell, buf);
 		if (res == -2)
-			ft_printf("syntax error near unexpected token `%s'", shell->sep);
+			ft_printf("syntax error near unexpected token `%s'\n", shell->sep);
 		// ft_printf("res = %d\n\n", res);
 		if (res >= 0)
 		{
 			ft_print_tree(shell->root, 0);
 			read_tree(shell);
 		}
-		
+		ft_bzero(buf, ft_strlen(buf));
 		// if (program == fork()) // A verifier plus tard si c'est viable
 			// execve(ft_remove_eol(tab[0]), tab, newenviron);
 		// printf("stdin --> %s\n", buf);

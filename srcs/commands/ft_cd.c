@@ -24,10 +24,10 @@ int	go_to_upper_folder(void)
 	getcwd(current_path, 1000);
 	if (!current_path)
 	{
-		ft_printf("current_path NULL\n");
+		// ft_printf("current_path NULL\n");
 		return (-1);
 	}
-	ft_printf("\ncurrent_path = %s\n", current_path);
+	// ft_printf("\ncurrent_path = %s\n", current_path);
 
 	indice = ft_strrfind(current_path, '/');
 	if (indice > 0)
@@ -38,7 +38,7 @@ int	go_to_upper_folder(void)
 	ft_free_ptr(current_path);
 	current_path = upper_path;
 	getcwd(current_path, 1000);
-	ft_printf("current_path = %s\n", current_path);
+	// ft_printf("current_path = %s\n", current_path);
 
 	return (SUCCESS);
 }
@@ -53,16 +53,16 @@ int	go_to_folder(char *folder)
 	getcwd(current_path, 1000);
 	if (!current_path)
 	{
-		ft_printf("current_path NULL\n");
+		// ft_printf("current_path NULL\n");
 		return (-1);
 	}
-	ft_printf("\ncurrent_path = %s\n", current_path);
+	// ft_printf("\ncurrent_path = %s\n", current_path);
 	path = ft_strjoin(current_path, "/");
 	path = ft_strjoin(path, folder);
 	path = ft_strtrim(path, "\n");
 	res = chdir(path);
 	getcwd(current_path, 1000);
-	ft_printf("current_path = %s\n", current_path);
+	// ft_printf("current_path = %s\n", current_path);
 
 	return (res);
 }
@@ -78,7 +78,7 @@ int		ft_cd(t_shell *shell, t_tree *node)
 		res = go_to_folder(node->left->item);
 
 	if (res == -1)
-		ft_printf("cd: %s: Not a directory", node->left->item); // A changer selon le type d'erreur
-	ft_printf("res = %d\n", res);
+		ft_printf("cd: %s: Not a directory\n", node->left->item); // A changer selon le type d'erreur
+	// ft_printf("res = %d\n", res);
 	return (res);
 }
