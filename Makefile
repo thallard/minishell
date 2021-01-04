@@ -2,19 +2,14 @@ SRCS	=	srcs/test_minishell.c \
 			srcs/str_utils.c \
 			srcs/tree_struct.c \
 			srcs/clear_objects.c \
-			srcs/print_functions.c
-
-SRCS_cd	=	srcs/commands/ft_cd.c \
-			srcs/str_utils.c
-
-SRCS_pwd =  srcs/commands/ft_pwd.c
-
-SRCS_echo = srcs/commands/ft_echo.c
+			srcs/print_functions.c \
+			srcs/commands/ft_cd.c \
+			#srcs/commands/ft_pwd.c \
+			#srcs/commands/ft_echo.c \
+			#srcs/commands/ft_env.c
 
 OBJS = $(SRCS:.c=.o)
-OBJS_cd = $(SRCS_cd:.c=.o)
-OBJS_pwd = $(SRCS_pwd:.c=.o)
-OBJS_echo = $(SRCS_echo:.c=.o)
+
 
 NAME = minishell
 CC = clang
@@ -28,14 +23,6 @@ INC =	-I./includes -L./libft -lft
 $(NAME):	libft $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(INC) -o $(NAME)
 
-cd:		libft $(OBJS_cd)
-	$(CC) $(CFLAGS) $(OBJS_cd) $(INC) -o cd
-
-pwd:	libft $(OBJS_pwd)
-	$(CC) $(CFLAGS) $(OBJS_pwd) $(INC) -o pwd
-
-echo:	libft $(OBJS_echo)
-	$(CC) $(CFLAGS) $(OBJS_echo) $(INC) -o echo
 
 libft:
 	@$(MAKE) -C ./libft
@@ -44,15 +31,14 @@ $(OBJS): includes/minishell.h libft/includes/libft.h
 
 $(OBJS_cd): includes/minishell.h libft/includes/libft.h
 
-all: 		$(NAME) cd pwd echo
+all: 		$(NAME) cd pwd echo env
 
 clean:
-	$(RM) $(OBJS) $(OBJS_cd) $(OBJS_pwd) $(OBJS_echo)
+	$(RM) $(OBJS) 
 	@$(MAKE) clean -C libft
 
 fclean: 	clean
 	$(RM) $(NAME)
-	$(RM) cd pwd echo
 	$(RM) libft/libft.a
 
 re:		fclean all

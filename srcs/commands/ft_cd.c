@@ -57,31 +57,25 @@ int	go_to_folder(char *folder)
 		return (-1);
 	}
 	ft_printf("\ncurrent_path = %s\n", current_path);
-
 	path = ft_strjoin(current_path, "/");
 	path = ft_strjoin(path, folder);
 	path = ft_strtrim(path, "\n");
-
 	res = chdir(path);
-
 	getcwd(current_path, 1000);
 	ft_printf("current_path = %s\n", current_path);
 
 	return (res);
 }
 
-int main(int argc, char **argv)
+int		ft_cd(char **tab, t_tree *node, t_shell *shell)
 {
-	int	res;
+	int		res;
 
-	if (argc != 2)
-		return (-1);
-
-	argv[1] = ft_strtrim(argv[1], "\n");
-	if (!ft_strncmp(argv[1], "..", 3))
+	tab[1] = ft_strtrim(tab[1], "\n");
+	if (!ft_strncmp(tab[1], "..", 3))
 		res = go_to_upper_folder();
 	else
-		res = go_to_folder(argv[1]);
+		res = go_to_folder(tab[1]);
 
 	ft_printf("res = %d\n", res);
 

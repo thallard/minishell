@@ -58,3 +58,8 @@ pwd
 *.h.gch
 echo
 srcs/test_minishell.c
+a
+b
+c
+d
+e

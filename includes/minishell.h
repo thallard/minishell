@@ -63,6 +63,10 @@ int		read_input(t_shell *shell, t_tree **t_current, char **input);
 void	*malloc_lst(t_shell *shell, int size);
 int		free_all_ptr(t_shell *shell);
 
+/*
+* Commands
+*/
+int		ft_cd(char **tab, t_tree *tree, t_shell *shell);
 
 /*
 * Utils
