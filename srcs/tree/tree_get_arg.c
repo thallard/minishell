@@ -44,10 +44,7 @@ t_tree	*get_next_arg_echo(t_shell *shell,char **input, int nb_arg)
 
 int		get_echo_arg(t_shell *shell, char **input, t_tree *op_node)
 {
-<<<<<<< HEAD
-=======
 	// char	*arg;
->>>>>>> 3dfdc5636b151ae2b43fec68188279d62c17ef0b
 
 	if (!(op_node->left = get_next_arg_echo(shell, input, 1)))
 		return (FAILURE);
@@ -87,10 +84,7 @@ t_tree	*get_next_arg(t_shell *shell,char **input)
 int		get_operand_arg(t_shell *shell, char **input, t_tree *op_node)
 {
 	int		nb_arg;
-<<<<<<< HEAD
-=======
 	// char	*arg;
->>>>>>> 3dfdc5636b151ae2b43fec68188279d62c17ef0b
 
 	if ((nb_arg = get_nb_operand_arg(shell->op)) == 2)
 		return (get_echo_arg(shell, input, op_node));
