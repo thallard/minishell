@@ -18,7 +18,7 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 INC =	-I./includes -L./libft -lft
 
 .c.o:
-	$(CC) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):	libft $(OBJS)
 	$(CC)  $(CFLAGS) $(OBJS) $(INC) -o $(NAME)
