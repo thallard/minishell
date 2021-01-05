@@ -1,9 +1,90 @@
 #include "../../includes/minishell.h"
 
-int	find_exec(t_shell *shell, t_tree *node)
+int		ft_cmd_not_found(t_shell *shell, char *exec)
 {
-	ft_printf("find_exec -> %s / %s\n", node->item, node->left->item);
-	return (1);
+	ft_printf("bash: %s: command not found\n", exec);	// message a ajuster
+	return (SUCCESS);				// valeur a confirmer
+}
+
+char	*find_car_path(t_env *begin)
+{
+	while (begin)
+	{
+		if (!ft_strncmp(begin->name, "PATH", 5))
+			return (begin->content);
+		begin = begin->next;
+	}
+	return (NULL);
+}
+
+char	*is_exec_in_path(t_shell *shell, char *exec, char *folder_path)
+{
+	char	*full_path;
+	char	*path_temp;
+	struct stat sb;
+
+	if (!(path_temp = ft_strjoin(folder_path, "/")))
+		return (NULL);
+	if (!(full_path = ft_strjoin(path_temp, exec)))
+	{
+		free(path_temp);
+		return (NULL);
+	}
+	free(path_temp);
+
+dprintf(1, "path = |%s|\n", full_path); ///////////////////
+
+	if (!stat(full_path, &sb))
+		return (full_path);
+	free(full_path);
+	return (NULL);
+}
+
+char	*find_exec(t_shell *shell, t_tree *node)
+{
+// 	char	*paths = "/Users/bjacob/.brew/bin:/usr/local/bin:\
+// /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki";
+	char	*paths;
+	char	**tab_paths;
+	char	*exec_path;
+	int		i;
+
+ft_printf("paths --> %s\n", paths);
+
+	// if (!(paths = find_car_path(shell->var_env)) ||
+
+	if (0 ||
+		!(tab_paths = ft_split(paths, ':')) ||
+		!add_lst_to_free(shell, tab_paths))
+		return (NULL);
+	i = 0;
+	while (tab_paths[i])
+	{
+		if ((exec_path = is_exec_in_path(shell, node->item, tab_paths[i])))
+		{
+			if (!add_lst_to_free(shell, exec_path))
+				return (NULL);
+			return(exec_path);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+int	launch_exec(t_shell *shell, t_tree *node)
+{
+	char	*exec_path;
+	char	**exec_args;
+
+	// shell->tab_env = { "TEST=123", NULL };	// A ENLEVER
+
+	if (!(exec_path = find_exec(shell, node)))
+		return (ft_cmd_not_found(shell, node->item));	// valeur de retour a confirmer
+	if (!(exec_args = ft_split(node->left->item, ' ')) ||
+		!add_lst_to_free(shell, exec_args))
+		return (FAILURE);
+	execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+	return (SUCCESS);								// valeur a confirmer
 }
 
 int	ft_exec(t_shell *shell, t_tree *node)
@@ -22,7 +103,7 @@ int	ft_exec(t_shell *shell, t_tree *node)
 		return (ft_env(shell, node));
 	// if (!ft_strncmp(node->item, "exit", 5))
 	// 	return (ft_exit(shell, node));
-	return (find_exec(shell, node));
+	return (launch_exec(shell, node));
 }
 
 int	read_tree(t_shell *shell)

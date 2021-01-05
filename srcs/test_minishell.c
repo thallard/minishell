@@ -22,6 +22,7 @@ int	init_shell(t_shell *shell)
 	// 	free_all_ptr(shell);
 	shell->exit = 0;
 	shell->var_env = NULL;
+	shell->tab_env = NULL;
 	// shell->ptrs = NULL;
 	shell->root = NULL;
 	shell->input = NULL;
@@ -50,7 +51,7 @@ int main()
 	while ((size = read(1, buf, 1000) > 0))
 	{
 		ft_remove_eol(buf); // 
-		ft_printf("debug = |%s|\n", buf);
+		// ft_printf("debug = |%s|\n", buf);
 		init_shell(shell);
 		res = create_main_tree(shell, buf);
 		if (res == -2)
@@ -58,7 +59,7 @@ int main()
 		// ft_printf("res = %d\n\n", res);
 		if (res >= 0)
 		{
-			ft_print_tree(shell->root, 0);
+			// ft_print_tree(shell->root, 0);
 			read_tree(shell);
 		}
 		ft_bzero(buf, ft_strlen(buf));
