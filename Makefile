@@ -7,6 +7,7 @@ SRCS	=	srcs/test_minishell.c \
 			srcs/commands/ft_pwd.c \
 			srcs/commands/ft_echo.c \
 			srcs/commands/ft_env.c \
+			srcs/commands/ft_export.c
 
 OBJS = $(SRCS:.c=.o)
 
