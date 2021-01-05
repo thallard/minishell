@@ -18,8 +18,8 @@ int	ft_exec(t_shell *shell, t_tree *node)
 	// 	return (ft_export(shell, node));
 	// if (!ft_strncmp(node->item, "unset", 6))
 	// 	return (ft_unset(shell, node));
-	// if (!ft_strncmp(node->item, "env", 4))
-	// 	return (ft_env(shell, node));
+	if (!ft_strncmp(node->item, "env", 4))
+		return (ft_env(shell, node));
 	// if (!ft_strncmp(node->item, "exit", 5))
 	// 	return (ft_exit(shell, node));
 	return (find_exec(shell, node));

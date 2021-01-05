@@ -44,13 +44,15 @@ int main()
 	shell = malloc(sizeof(t_shell));
 	shell->ptrs = NULL;
 	// init_shell(shell);
+	ft_create_env_vars(shell);
 	buf = calloc(1, 1000);
 	if (!buf)
 		return (FAILURE);
 	size = 1;
 	while ((size = read(1, buf, 1000) > 0))
 	{
-		// ft_remove_eol(buf); // 
+		ft_remove_eol(buf); // 
+		ft_printf("debug = |%s|\n", buf);
 		init_shell(shell);
 		res = create_main_tree(shell, buf);
 		if (res == -2)
