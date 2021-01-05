@@ -21,7 +21,7 @@ char	*ft_remove_eol(char *str)
 	int		i;
 
 	i = -1;
-	while (str[++i] && str[++i] != '\n')
+	while (str[++i] && str[i] != '\n')
 		;
 	str[i] = '\0';
 	return (str);
