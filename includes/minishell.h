@@ -92,6 +92,7 @@ int	read_tree(t_shell *shell);
 /*
 ** clear_objects.c
 */
+void	*add_lst_to_free(t_shell *shell, void *ptr);
 void	*malloc_lst(t_shell *shell, int size);
 int		free_all_ptr(t_shell *shell);
 
