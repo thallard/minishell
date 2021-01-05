@@ -6,54 +6,35 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/04 18:53:17 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/05 09:47:15 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../libft/includes/libft.h"
 
-// int		ft_add_txt_in_file(char *txt, int fd)
-// {
-// 	int		i;
-// 	char	*str;
-// 	char	buf[100];
-
-// 	if (!(str = ft_strdup("")))
-// 		return (FAILURE);
-// 	i = -1;
-// 	while (read(fd, buf, 100) > 0)
-// 		str = ft_strjoin(str, buf);
-// 	dprintf(1, "STR = %s\n", str);
-// 	return (SUCCESS);
-// }
-
-char	*ft_get_text_echo(char *txt, t_tree *node, int i)
+char	*ft_get_text_echo(char *txt, t_tree *node)
 {
-	char	*str;
-	int		j;
+	char		*str;
+	int			i;
 
-	if (!(str = malloc(sizeof(char) * (ft_strlen(txt + 10)))))
+	if (!(str = malloc(sizeof(char) * (ft_strlen(txt) + 1))))
 		return (NULL);
-	j = 9;
-	while (txt[--j] && txt[j] == ' ')
-		dprintf(1, "caractere a %d et %c\n", j, txt[j]);
-	dprintf(1, "debug de j %d\n", j);
 	i = -1;
-	while (txt[++i] && i < j)
-		txt[i] = str[i];
-	return (str);
+	while (txt[++i] && txt[i] != '>')
+		str[i] = txt[i];
+	if (!node->left->item)
+		str[i++] = '\n';
+	str[i] = '\0';
+	return (ft_strtrim(str, " "));
 }
 
-int		ft_overwrite_in_file(char *txt, t_tree *node, int i)
+int		ft_get_fd(char *txt, t_tree *node, int j, int overwrite)
 {
-	struct stat		fd_status;
-	char			*path;
 	int				fd;
-	int				j;
-	char			new_txt[1000];
+	char			*path;
+	struct stat		fd_status;
 
-	j = i;
 	if (!(path = ft_calloc(1, 10000)))
 		return (FAILURE);
 	while (txt[++j] == ' ')
@@ -62,46 +43,68 @@ int		ft_overwrite_in_file(char *txt, t_tree *node, int i)
 		path = ft_strjoin(getcwd(path, 1000), ft_strjoin("/", (txt + j)));
 	else
 		path = (txt + j);
-	dprintf(1, "debug path = %s\n", path);
+	//dprintf(1, "debug path = %s\n", path);
 	if (stat(path, &fd_status) == -1)
-		fd = open(path, O_CREAT | O_WRONLY | O_RDONLY, 0666);
+		fd = open(path, O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666);
 	else
-		fd = open(path, O_WRONLY | O_RDONLY, 0666);
-			dprintf(1, "debug txt = %c\n", txt[i]);
+		if (overwrite)
+			fd = open(path, O_WRONLY | O_RDONLY | O_TRUNC, 0666);
+		else
+			fd = open(path, O_WRONLY | O_RDONLY, 0666);
+	return (fd);
+}
+
+int		ft_overwrite_in_file(char *txt, t_tree *node, int i, char *str)
+{
+	struct stat		fd_status;
+	char			*path;
+	int				fd;
+	int				j;
+
+	if ((fd = ft_get_fd(txt, node, i, 1)) < 0)
+		return (FAILURE);
 	txt[i] = '\0';
 	i = -1;
-	while (txt[++i] && txt[i] != ' ')
-		new_txt[i] = txt[i];
-	new_txt[i] = '\0';
-	if (!node->left->item)
-		new_txt[ft_strlen(new_txt)] = '\n';
-	dprintf(1, "debug new_txt = %s\n", new_txt);
-	write(fd, new_txt, ft_strlen(new_txt));
+	//dprintf(1, "debug str = %s\n", str);
+	write(fd, str, ft_strlen(str));
 	close(fd);
 	return (SUCCESS);
+}
+
+int		ft_add_text_in_file(char *txt, t_tree *node, int i, char *str)
+{
+	int		fd;
+
+	fd = ft_get_fd(txt, node, i, 0);
+	write(fd, str, ft_strlen(str));
+	close(fd);
+	//ft_printf("debug txt = |%c|%c|\n", txt[i], txt[i + 1]);
+	return (fd);
 }
 
 int		ft_echo(t_shell *shell, t_tree *node)
 {
 	int		res;
-	int		j;
 	int		i;
+	char	*str;
 	char	*txt;
-	int		k;
 
-	txt = ft_calloc(1, 100);
+	txt = ft_calloc(1, 10000);
 	i = -1;
 	res = 0;
 	txt = node->right->item;
+	str = ft_get_text_echo(txt, node);
+//	dprintf(1, "texte a ecrire : %s\n", str);
 	while (txt[++i])
 	{
+		if (ft_strncmp(&txt[i], ">>", 2) == 0)
+			res = ft_add_text_in_file(txt, node, (i = i + 2), str);
 		if (txt[i] == '>')
-			res = ft_overwrite_in_file(txt, node, i);
+			res = ft_overwrite_in_file(txt, node, i++, str);
 	}
 	if (!node->left->item)
-		txt[ft_strlen(txt)] = '\n';
+		str[ft_strlen(str)] = '\n';
 	if (!res)
-		ft_printf("%s", txt);
-
+		ft_printf("%s", str);
 	return (res);
 }

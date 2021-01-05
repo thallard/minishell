@@ -46,6 +46,7 @@ typedef struct		s_shell
 	char			**tab_env;
 	t_list			*ptrs;
 	t_tree			*root;
+	char			**tab_env;
 	char			*input;
 	int				last_node;
 	char			*op;
@@ -103,6 +104,11 @@ int		free_all_ptr(t_shell *shell);
 int		ft_cd(t_shell *shell, t_tree *node);
 int		ft_pwd(t_shell *shell);
 int		ft_echo(t_shell *shell, t_tree *node);
+int		ft_env(t_shell *shell, t_tree *node);
+int		ft_create_env_vars(t_shell *shell);
+int		ft_fill_lst_env(t_shell *shell);
+char	*ft_fill_env_content(t_shell *shell, char *str);
+int		ft_fill_tab_env(t_shell *shell);
 
 /*
 ** str_utils.c

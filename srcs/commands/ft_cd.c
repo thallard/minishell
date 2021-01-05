@@ -49,7 +49,7 @@ int	go_to_folder(char *folder)
 	char	*path;
 	int		res;
 
-	current_path = calloc(1, 500);
+	current_path = ft_calloc(1, 500);
 	getcwd(current_path, 1000);
 	if (!current_path)
 	{
@@ -71,7 +71,10 @@ int		ft_cd(t_shell *shell, t_tree *node)
 {
 	int		res;
 
-	node->left->item = ft_strtrim(node->left->item, "\n");
+	if (!(node->left->item = ft_strtrim(node->left->item, "\n")))
+		return (FAILURE);
+	if (!add_lst_to_free(shell, node->left->item))
+		return (FAILURE);
 	if (!ft_strncmp(node->left->item, "..", 3))
 		res = go_to_upper_folder();
 	else

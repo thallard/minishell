@@ -5,8 +5,8 @@ SRCS	=	srcs/test_minishell.c \
 			srcs/str_utils.c srcs/str_utils_op_sep_space.c \
 			srcs/commands/ft_cd.c \
 			srcs/commands/ft_pwd.c \
-			srcs/commands/ft_echo.c 
-			#srcs/commands/ft_env.c 
+			srcs/commands/ft_echo.c \
+			srcs/commands/ft_env.c 
 
 OBJS = $(SRCS:.c=.o)
 
@@ -18,10 +18,11 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 INC =	-I./includes -L./libft -lft
 
 .c.o:
-	$(CC) -c $< -o $@
+	$(CC) -fsanitize=address -g3 -c $< -o $@
 
 $(NAME):	libft $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(INC) -o $(NAME)
+	$(CC)  $(CFLAGS) $(OBJS) $(INC) -o $(NAME)
+	bash srcs/commands/sh/get_env.sh
 
 
 libft:
@@ -38,7 +39,7 @@ clean:
 	@$(MAKE) clean -C libft
 
 fclean: 	clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) env_file
 	$(RM) libft/libft.a
 
 re:		fclean all
