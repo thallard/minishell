@@ -45,6 +45,10 @@ int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 {
 	t_tree	*op_node;
+<<<<<<< HEAD
+=======
+	// int		len_op;
+>>>>>>> 3dfdc5636b151ae2b43fec68188279d62c17ef0b
 
 	op_node = (*t_current)->right;
 	shell->sep = strdup_and_inc_input(shell, input);
@@ -58,6 +62,12 @@ int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 
 int		read_input(t_shell *shell, t_tree **t_current, char **input)
 {
+<<<<<<< HEAD
+=======
+	// int		len_op;
+	// t_tree	*node;
+
+>>>>>>> 3dfdc5636b151ae2b43fec68188279d62c17ef0b
 	skip_spaces(input);
 
 	if(!(**input))										// fin de l'input

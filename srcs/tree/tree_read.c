@@ -9,8 +9,15 @@ int		ft_cmd_not_found(t_shell *shell, char *exec)
 
 char	*find_car_path(t_env *begin)
 {
+
+ft_printf("p2\n"); ///////////////////////////////////////
+
+
 	while (begin)
 	{
+		
+ft_printf("%s\n", begin->name); ////////////////////
+		
 		if (!ft_strncmp(begin->name, "PATH", 5))
 			return (begin->content);
 		begin = begin->next;
@@ -18,9 +25,8 @@ char	*find_car_path(t_env *begin)
 	return (NULL);
 }
 
-char	*is_exec_in_path(t_shell *shell, char *exec, char *folder_path)
+char	*is_exec_in_path(char *exec, char *folder_path)
 {
-	(void)shell;
 	char	*full_path;
 	char	*path_temp;
 	struct stat sb;
@@ -50,20 +56,29 @@ char	*find_exec(t_shell *shell, t_tree *node)
 	char	**tab_paths;
 	char	*exec_path;
 	int		i;
+<<<<<<< HEAD
 	(void)shell;
 		paths = NULL;
 ft_printf("paths --> %s\n", paths);
+=======
 
-	// if (!(paths = find_car_path(shell->var_env)) ||
+ft_printf("p1\n"); ///////////////////////////////////////
+>>>>>>> 3dfdc5636b151ae2b43fec68188279d62c17ef0b
 
-	if (0 ||
+ft_printf("var1 = %s\n", shell->var_env->name);
+
+
+	if (!(paths = find_car_path(shell->var_env)) ||
 		!(tab_paths = ft_split(paths, ':')) ||
 		!add_lst_to_free(shell, tab_paths))
 		return (NULL);
+
+ft_printf("paths --> %s\n", paths);
+
 	i = 0;
 	while (tab_paths[i])
 	{
-		if ((exec_path = is_exec_in_path(shell, node->item, tab_paths[i])))
+		if ((exec_path = is_exec_in_path(node->item, tab_paths[i])))
 		{
 			if (!add_lst_to_free(shell, exec_path))
 				return (NULL);
