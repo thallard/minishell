@@ -56,14 +56,8 @@ char	*find_exec(t_shell *shell, t_tree *node)
 	char	**tab_paths;
 	char	*exec_path;
 	int		i;
-<<<<<<< HEAD
-	(void)shell;
-		paths = NULL;
-ft_printf("paths --> %s\n", paths);
-=======
 
 ft_printf("p1\n"); ///////////////////////////////////////
->>>>>>> 3dfdc5636b151ae2b43fec68188279d62c17ef0b
 
 ft_printf("var1 = %s\n", shell->var_env->name);
 
