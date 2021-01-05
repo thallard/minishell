@@ -2,22 +2,15 @@
 
 int		ft_cmd_not_found(t_shell *shell, char *exec)
 {
-	(void)shell;
+	(void)shell;					// utilite de shell ?
 	ft_printf("bash: %s: command not found\n", exec);	// message a ajuster
 	return (SUCCESS);				// valeur a confirmer
 }
 
 char	*find_car_path(t_env *begin)
 {
-
-ft_printf("p2\n"); ///////////////////////////////////////
-
-
 	while (begin)
-	{
-		
-ft_printf("%s\n", begin->name); ////////////////////
-		
+	{		
 		if (!ft_strncmp(begin->name, "PATH", 5))
 			return (begin->content);
 		begin = begin->next;
@@ -50,25 +43,15 @@ dprintf(1, "path = |%s|\n", full_path); ///////////////////
 
 char	*find_exec(t_shell *shell, t_tree *node)
 {
-// 	char	*paths = "/Users/bjacob/.brew/bin:/usr/local/bin:\
-// /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki";
 	char	*paths;
 	char	**tab_paths;
 	char	*exec_path;
 	int		i;
 
-ft_printf("p1\n"); ///////////////////////////////////////
-
-ft_printf("var1 = %s\n", shell->var_env->name);
-
-
 	if (!(paths = find_car_path(shell->var_env)) ||
 		!(tab_paths = ft_split(paths, ':')) ||
 		!add_lst_to_free(shell, tab_paths))
 		return (NULL);
-
-ft_printf("paths --> %s\n", paths);
-
 	i = 0;
 	while (tab_paths[i])
 	{
@@ -83,19 +66,47 @@ ft_printf("paths --> %s\n", paths);
 	return (NULL);
 }
 
+char	**get_exec_args(char *exec, char *args)
+{
+	char 	**tab;
+	char	*str_temp;
+	char	*args_temp;
+
+	if (!(str_temp = ft_strjoin(exec, " ")))
+		return (NULL);
+	if (!(args_temp = ft_strjoin(str_temp, args)))
+	{
+		free(str_temp);
+		return (NULL);
+	}
+	free(str_temp);
+	if (!(tab = ft_split(args_temp, ' ')))
+	{
+		free(args_temp);
+		return (NULL);
+	}
+	free(args_temp);
+	return (tab);
+}
+
 int	launch_exec(t_shell *shell, t_tree *node)
 {
 	char	*exec_path;
 	char	**exec_args;
-
-	// shell->tab_env = { "TEST=123", NULL };	// A ENLEVER
+	pid_t	program;
 
 	if (!(exec_path = find_exec(shell, node)))
 		return (ft_cmd_not_found(shell, node->item));	// valeur de retour a confirmer
-	if (!(exec_args = ft_split(node->left->item, ' ')) ||
+	if (!node->left->item)
+	{
+		if (!(exec_args = ft_split(node->item, ' ')))
+			return (FAILURE);
+	}
+	else if (!(exec_args = get_exec_args(node->item, node->left->item)) ||
 		!add_lst_to_free(shell, exec_args))
 		return (FAILURE);
-	execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+	if (!(program = fork()))
+		execve(exec_path, exec_args, shell->tab_env);	// retour a checker
 	return (SUCCESS);								// valeur a confirmer
 }
 

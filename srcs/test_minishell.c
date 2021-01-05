@@ -42,9 +42,11 @@ int main()
 	shell = malloc(sizeof(t_shell));
 	shell->ptrs = NULL; 
 	// init_shell(shell);
+	// ft_fill_lst_env(shell);
 
-	//dprintf(1, "%s=%s\n", shell->var_env->name, shell->var_env->content);
-	buf = calloc(1, 1000);
+	// dprintf(1, "%s=%s\n", shell->var_env->name, shell->var_env->content); ////////
+
+	buf = calloc(1, 1000); // a ajouter a la liste
 	if (!buf)
 		return (FAILURE);
 	size = 1;
