@@ -2,6 +2,7 @@
 
 int		ft_cmd_not_found(t_shell *shell, char *exec)
 {
+	(void)shell;
 	ft_printf("bash: %s: command not found\n", exec);	// message a ajuster
 	return (SUCCESS);				// valeur a confirmer
 }
@@ -19,6 +20,7 @@ char	*find_car_path(t_env *begin)
 
 char	*is_exec_in_path(t_shell *shell, char *exec, char *folder_path)
 {
+	(void)shell;
 	char	*full_path;
 	char	*path_temp;
 	struct stat sb;
@@ -48,7 +50,8 @@ char	*find_exec(t_shell *shell, t_tree *node)
 	char	**tab_paths;
 	char	*exec_path;
 	int		i;
-
+	(void)shell;
+		paths = NULL;
 ft_printf("paths --> %s\n", paths);
 
 	// if (!(paths = find_car_path(shell->var_env)) ||
