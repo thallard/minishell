@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/04 16:28:59 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/04 18:53:17 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,55 @@
 // 	return (SUCCESS);
 // }
 
-int		ft_overwrite_in_file(char **str, int row, char *txt, int flag)
+char	*ft_get_text_echo(char *txt, t_tree *node, int i)
+{
+	char	*str;
+	int		j;
+
+	if (!(str = malloc(sizeof(char) * (ft_strlen(txt + 10)))))
+		return (NULL);
+	j = 9;
+	while (txt[--j] && txt[j] == ' ')
+		dprintf(1, "caractere a %d et %c\n", j, txt[j]);
+	dprintf(1, "debug de j %d\n", j);
+	i = -1;
+	while (txt[++i] && i < j)
+		txt[i] = str[i];
+	return (str);
+}
+
+int		ft_overwrite_in_file(char *txt, t_tree *node, int i)
 {
 	struct stat		fd_status;
 	char			*path;
 	int				fd;
+	int				j;
+	char			new_txt[1000];
 
+	j = i;
 	if (!(path = ft_calloc(1, 10000)))
 		return (FAILURE);
-	if (str[row + 1][0] != '/')
-		path = ft_strjoin(getcwd(path, 10000), ft_strjoin("/", str[row + 1]));
+	while (txt[++j] == ' ')
+		;
+	if (txt[j] == '/')
+		path = ft_strjoin(getcwd(path, 1000), ft_strjoin("/", (txt + j)));
 	else
-		path = str[row + 1];
+		path = (txt + j);
+	dprintf(1, "debug path = %s\n", path);
 	if (stat(path, &fd_status) == -1)
-		fd = open(path, O_TRUNC | O_WRONLY | O_CREAT, 0777);
+		fd = open(path, O_CREAT | O_WRONLY | O_RDONLY, 0666);
 	else
-		fd = open(path, O_WRONLY, 0777);
-	if (flag)
-		txt[ft_strlen(txt)] = '\n';
-	dprintf(1, "dbeug row = %s\n", str[row]);
-	// if (!ft_strncmp(str[row], ">>", 2))
-	// 	return (ft_add_txt_in_file(txt, fd));
-	dprintf(1, "debug path = %s\n", txt);
-	write(fd, txt, ft_strlen(txt));
+		fd = open(path, O_WRONLY | O_RDONLY, 0666);
+			dprintf(1, "debug txt = %c\n", txt[i]);
+	txt[i] = '\0';
+	i = -1;
+	while (txt[++i] && txt[i] != ' ')
+		new_txt[i] = txt[i];
+	new_txt[i] = '\0';
+	if (!node->left->item)
+		new_txt[ft_strlen(new_txt)] = '\n';
+	dprintf(1, "debug new_txt = %s\n", new_txt);
+	write(fd, new_txt, ft_strlen(new_txt));
 	close(fd);
 	return (SUCCESS);
 }
@@ -63,37 +89,19 @@ int		ft_echo(t_shell *shell, t_tree *node)
 	char	*txt;
 	int		k;
 
-	txt = ft_calloc(1, 10000);
+	txt = ft_calloc(1, 100);
 	i = -1;
-	dprintf(1, "debug du texte ; %s\n", node->left->item);
-	
+	res = 0;
+	txt = node->right->item;
+	while (txt[++i])
+	{
+		if (txt[i] == '>')
+			res = ft_overwrite_in_file(txt, node, i);
+	}
+	if (!node->left->item)
+		txt[ft_strlen(txt)] = '\n';
+	if (!res)
+		ft_printf("%s", txt);
 
-
-
-
-
-
-	// j = 0;
-	// res = 0;
-	// k = -1;
-
-	// while (argv[++j] && (i = -1) == -1)
-	// 	while (argv[j][++i])
-	// 	{
-	// 		if (ft_strncmp(argv[j], "-n ", 3) == 0 && i == 0)
-	// 		{
-	// 			dprintf(1, "if = %s\n", argv[j]);
-	// 			j++;
-	// 			i = -1;
-	// 		}
-	// 		else if (argv[j][i] == '>')
-	// 			res = ft_overwrite_in_file(argv, j, txt, ft_strncmp(argv[1], "-n", 2));
-	// 		else if (!res)
-	// 			txt[++k] = argv[j][i];
-	// 	}
-	// if (ft_strncmp(argv[1], "-n ", 3) != 0)
-	// 	txt[ft_strlen(txt)] = '\n';
-	// if (!res)
-	// 	ft_printf("%s", txt);
 	return (res);
 }
