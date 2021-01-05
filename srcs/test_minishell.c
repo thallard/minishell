@@ -36,20 +36,14 @@ int main()
 {
 	int 	size;
 	char 	*buf;
-	char	*newenviron[] = { NULL };
-	pid_t	program;
 	t_shell	*shell;
 	int		res;
-	char	**tab;
 
 	shell = malloc(sizeof(t_shell));
-	shell->ptrs = NULL;
+	shell->ptrs = NULL; 
 	// init_shell(shell);
-	ft_create_env_vars(shell);
-
-// ft_printf("var1 = %s\n", shell->var_env->name);
-
-
+	ft_fill_lst_env(shell);
+	//dprintf(1, "%s=%s\n", shell->var_env->name, shell->var_env->content);
 	buf = calloc(1, 1000);
 	if (!buf)
 		return (FAILURE);
