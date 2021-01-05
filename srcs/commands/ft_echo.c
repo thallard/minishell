@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/05 14:54:46 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/05 15:22:45 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ char	*ft_get_text_echo(char *txt, t_tree *node)
 	char		*str;
 	int			i;
 
-	if (!(str = malloc(sizeof(char) * (ft_strlen(txt) + 1))))
+	if (!(str = malloc(sizeof(char) * (ft_strlen(txt) + 2))))
 		return (NULL);
 	i = -1;
 	while (txt[++i] && txt[i] != '>')
 		str[i] = txt[i];
 	if (!node->left->item)
-		str[i++] = '\n';
-	str[i] = '\0';
+		str[i] = '\n';
+	str[++i] = '\0';
 	return (ft_strtrim(str, " "));
 }
 
@@ -92,8 +92,9 @@ int		ft_echo(t_shell *shell, t_tree *node)
 	i = -1;
 	res = 0;
 	txt = node->right->item;
+	dprintf(1, "debug node = %s\n", node->right->item);
 	str = ft_get_text_echo(txt, node);
-//	dprintf(1, "texte a ecrire : %s\n", str);
+	dprintf(1, "texte a ecrire : %s\n", str);
 	while (txt[++i])
 	{
 		if (ft_strncmp(&txt[i], ">>", 2) == 0)

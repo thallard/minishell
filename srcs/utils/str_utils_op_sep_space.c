@@ -1,4 +1,17 @@
-#include "../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   str_utils_op_sep_space.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/05 15:26:03 by thallard          #+#    #+#             */
+/*   Updated: 2021/01/05 15:26:03 by thallard         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/minishell.h"
+#include "../../libft/includes/libft.h"
 
 int		is_operand(char *str)
 {

@@ -32,7 +32,7 @@ t_tree	*get_next_arg_echo(t_shell *shell,char **input, int nb_arg)
 	else
 		while(!is_separator((*input)[len]) && (*input)[len])
 			if ((*input)[len++] != ' ')
-				len_char = len - 1;
+				len_char = len;
 	if (!(arg = malloc_lst(shell, len_char + 1)))
 		return (NULL);
 	i = 0;
