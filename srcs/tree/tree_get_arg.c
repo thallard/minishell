@@ -88,7 +88,13 @@ int		get_operand_arg(t_shell *shell, char **input, t_tree *op_node)
 		return (get_echo_arg(shell, input, op_node));
 	if (nb_arg-- > 0)
 	{
-		if (!(op_node->left = get_next_arg(shell, input)))
+		if (!ft_strncmp(op_node->item, "export", 7) ||
+			!ft_strncmp(op_node->item, "unset", 6))
+		{
+			if (!(op_node->left = get_next_arg_echo(shell, input, 2)))
+				return (FAILURE);
+		}
+		else if (!(op_node->left = get_next_arg(shell, input)))
 			return (FAILURE);
 	}
 	return (SUCCESS);

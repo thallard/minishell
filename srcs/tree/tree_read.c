@@ -118,8 +118,13 @@ int	ft_exec(t_shell *shell, t_tree *node)
 		return (ft_cd(shell, node));
 	if (!ft_strncmp(node->item, "pwd", 4))
 		return (ft_pwd(shell));
+<<<<<<< HEAD
 	if (!ft_strncmp(node->item, "export", 7))
 	 	return (ft_export(shell, node));
+=======
+	// if (!ft_strncmp(node->item, "export", 7))
+	// 	return (ft_export(shell, node));
+>>>>>>> 8047f8dc32a7fc760da61cab5b72cd78984ffa7f
 	// if (!ft_strncmp(node->item, "unset", 6))
 	// 	return (ft_unset(shell, node));
 	if (!ft_strncmp(node->item, "env", 4))
