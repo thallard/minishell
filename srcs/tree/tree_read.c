@@ -8,8 +8,15 @@ int		ft_cmd_not_found(t_shell *shell, char *exec)
 
 char	*find_car_path(t_env *begin)
 {
+
+ft_printf("p2\n"); ///////////////////////////////////////
+
+
 	while (begin)
 	{
+		
+ft_printf("%s\n", begin->name); ////////////////////
+		
 		if (!ft_strncmp(begin->name, "PATH", 5))
 			return (begin->content);
 		begin = begin->next;
@@ -49,14 +56,17 @@ char	*find_exec(t_shell *shell, t_tree *node)
 	char	*exec_path;
 	int		i;
 
-ft_printf("paths --> %s\n", paths);
+ft_printf("p1\n"); ///////////////////////////////////////
 
-	// if (!(paths = find_car_path(shell->var_env)) ||
+ft_printf("var1 = %s\n", shell->var_env->name);
 
-	if (0 ||
-		!(tab_paths = ft_split(paths, ':')) ||
+
+	if (!(paths = find_car_path(shell->var_env)) ||
 		!add_lst_to_free(shell, tab_paths))
 		return (NULL);
+
+ft_printf("paths --> %s\n", paths);
+
 	i = 0;
 	while (tab_paths[i])
 	{

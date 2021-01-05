@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/05 13:50:32 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/05 13:58:46 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		ft_fill_lst_env(t_shell *shell)
 		shell->var_env->content = ft_fill_env_content(shell, &shell->tab_env[i][j + 1]);
 		if (!shell->var_env->content)
 			return (FAILURE);
-		dprintf(1, "%s=%s\n", shell->var_env->name, shell->var_env->content);
+// dprintf(1, "%s=%s\n", shell->var_env->name, shell->var_env->content);
 		shell->var_env = shell->var_env->next;
 	}
 	

@@ -46,6 +46,10 @@ int main()
 	shell->ptrs = NULL;
 	// init_shell(shell);
 	ft_create_env_vars(shell);
+
+// ft_printf("var1 = %s\n", shell->var_env->name);
+
+
 	buf = calloc(1, 1000);
 	if (!buf)
 		return (FAILURE);
