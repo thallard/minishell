@@ -20,9 +20,9 @@ char	*ft_remove_eol(char *str)
 {
 	int		i;
 
-	i = -1;
-	while (str[++i] && str[i] != '\n')
-		;
+	i = 0;
+	while (str[i] && str[i] != '\n')
+		i++;
 	str[i] = '\0';
 	return (str);
 }

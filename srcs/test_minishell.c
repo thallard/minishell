@@ -42,9 +42,11 @@ int main()
 	shell = malloc(sizeof(t_shell));
 	shell->ptrs = NULL; 
 	// init_shell(shell);
-	ft_fill_lst_env(shell);
-	//dprintf(1, "%s=%s\n", shell->var_env->name, shell->var_env->content);
-	buf = calloc(1, 1000);
+	// ft_fill_lst_env(shell);
+
+	// dprintf(1, "%s=%s\n", shell->var_env->name, shell->var_env->content); ////////
+
+	buf = calloc(1, 1000); // a ajouter a la liste
 	if (!buf)
 		return (FAILURE);
 	size = 1;
@@ -53,6 +55,7 @@ int main()
 		ft_remove_eol(buf); // 
 		// ft_printf("debug = |%s|\n", buf);
 		init_shell(shell);
+		ft_fill_lst_env(shell);
 		res = create_main_tree(shell, buf);
 		if (res == -2)
 			ft_printf("syntax error near unexpected token `%s'\n", shell->sep);
