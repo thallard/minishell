@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/05 09:47:15 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/05 14:54:46 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		ft_get_fd(char *txt, t_tree *node, int j, int overwrite)
 	char			*path;
 	struct stat		fd_status;
 
+	(void)node;
 	if (!(path = ft_calloc(1, 10000)))
 		return (FAILURE);
 	while (txt[++j] == ' ')
@@ -56,10 +57,7 @@ int		ft_get_fd(char *txt, t_tree *node, int j, int overwrite)
 
 int		ft_overwrite_in_file(char *txt, t_tree *node, int i, char *str)
 {
-	struct stat		fd_status;
-	char			*path;
 	int				fd;
-	int				j;
 
 	if ((fd = ft_get_fd(txt, node, i, 1)) < 0)
 		return (FAILURE);
@@ -89,6 +87,7 @@ int		ft_echo(t_shell *shell, t_tree *node)
 	char	*str;
 	char	*txt;
 
+	(void)shell;
 	txt = ft_calloc(1, 10000);
 	i = -1;
 	res = 0;

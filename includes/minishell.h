@@ -46,7 +46,6 @@ typedef struct		s_shell
 	char			**tab_env;
 	t_list			*ptrs;
 	t_tree			*root;
-	char			**tab_env;
 	char			*input;
 	int				last_node;
 	char			*op;

@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/05 14:43:02 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/05 14:49:31 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,10 @@ int		ft_fill_lst_env(t_shell *shell)
 	
 	if ((ft_fill_tab_env(shell) < 0))
 		return (FAILURE);
-	//ft_fill_first_lst(shell, shell->tab_env, new_lst);
 	shell->var_env = NULL;
 	i = -1;
 	while (shell->tab_env[++i])
 	{
-		// dprintf(1, "beug de i = %d\n", i);
 		ft_bzero(str, ft_strlen(str));
 		j = -1;
 		new_lst = malloc_lst(shell, sizeof(t_env));
@@ -72,9 +70,6 @@ int		ft_fill_lst_env(t_shell *shell)
 		new_lst->content = ft_fill_env_content(shell, &shell->tab_env[i][j + 1]);
 		if (!new_lst->content)
 			return (FAILURE);
-		//dprintf(1, "%s=%s \n", new_lst->name, new_lst->content);
-		//dprintf(1, "debug var env = %p\n", shell->var_env);
-		// dprintf(1, "beug de i = %d\n", i);
 		ft_env_add_back(&shell->var_env, new_lst);
 	}
 	return (SUCCESS);
