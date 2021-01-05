@@ -16,7 +16,6 @@ void	*add_lst_to_free(t_shell *shell, void *ptr)
 void	*malloc_lst(t_shell *shell, int size) // penser a bien initialiser shell-ptrs
 {
 	void	*ptr;
-	t_list	*elem;
 
 	if (!(ptr = malloc(size)))
 		return (NULL);

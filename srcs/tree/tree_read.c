@@ -2,6 +2,7 @@
 
 int		ft_cmd_not_found(t_shell *shell, char *exec)
 {
+	(void)shell;					// utilite de shell ?
 	ft_printf("bash: %s: command not found\n", exec);	// message a ajuster
 	return (SUCCESS);				// valeur a confirmer
 }
@@ -24,7 +25,7 @@ ft_printf("%s\n", begin->name); ////////////////////
 	return (NULL);
 }
 
-char	*is_exec_in_path(t_shell *shell, char *exec, char *folder_path)
+char	*is_exec_in_path(char *exec, char *folder_path)
 {
 	char	*full_path;
 	char	*path_temp;
@@ -62,6 +63,7 @@ ft_printf("var1 = %s\n", shell->var_env->name);
 
 
 	if (!(paths = find_car_path(shell->var_env)) ||
+		!(tab_paths = ft_split(paths, ':')) ||
 		!add_lst_to_free(shell, tab_paths))
 		return (NULL);
 
@@ -70,7 +72,7 @@ ft_printf("paths --> %s\n", paths);
 	i = 0;
 	while (tab_paths[i])
 	{
-		if ((exec_path = is_exec_in_path(shell, node->item, tab_paths[i])))
+		if ((exec_path = is_exec_in_path(node->item, tab_paths[i])))
 		{
 			if (!add_lst_to_free(shell, exec_path))
 				return (NULL);
