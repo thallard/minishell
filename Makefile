@@ -1,8 +1,9 @@
-SRCS	=	srcs/test_minishell.c \
+SRCS	=	srcs/main/minishell.c \
 			srcs/tree/tree_build.c srcs/tree/tree_get_arg.c srcs/tree/tree_read.c \
 			srcs/clear_objects.c \
 			srcs/print_functions.c \
 			srcs/utils/str_utils.c srcs/utils/str_utils_op_sep_space.c srcs/utils/lst_utils.c \
+			srcs/utils/print_return.c srcs/utils/split_minishell.c \
 			srcs/commands/ft_cd.c \
 			srcs/commands/ft_pwd.c \
 			srcs/commands/ft_echo.c \

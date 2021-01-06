@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/06 08:57:14 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/06 09:57:11 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int		ft_fill_tab_env(t_shell *shell)
 		return (FAILURE);
 	fd = open("env_file", O_RDONLY);
 	read(fd, str_file, 10000);
-	if (!(shell->tab_env = ft_split(str_file, '\n')))
+	if (!(shell->tab_env = ft_split_minishell(str_file, '\n', shell)))
 		return (FAILURE);
 	if (!(add_lst_to_free(shell, shell->tab_env)))
 		return (FAILURE);

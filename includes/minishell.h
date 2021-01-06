@@ -54,6 +54,18 @@ typedef struct		s_shell
 
 /*
 ****************************************************
+**						MAIN					  **
+****************************************************
+*/
+
+/*
+** minishell.c
+*/
+int		init_shell(t_shell *shell);
+int		ft_exec(t_shell *shell, t_tree *node);
+
+/*
+****************************************************
 **						TREE					  **
 ****************************************************
 */
@@ -79,8 +91,11 @@ int		get_operand_arg(t_shell *shell, char **input, t_tree *op_node);
 /*
 ** tree_read.c
 */
-int	ft_exec(t_shell *shell, t_tree *node);
-int	read_tree(t_shell *shell);
+char	*is_exec_in_path(char *exec, char *folder_path);
+char	*find_exec(t_shell *shell, t_tree *node);
+char	**get_exec_args(t_shell *shell, char *exec, char *args);
+int		launch_exec(t_shell *shell, t_tree *node);
+int		read_tree(t_shell *shell);
 
 
 
@@ -96,6 +111,19 @@ int	read_tree(t_shell *shell);
 void	*add_lst_to_free(t_shell *shell, void *ptr);
 void	*malloc_lst(t_shell *shell, int size);
 int		free_all_ptr(t_shell *shell);
+
+/*
+** print_return.c
+*/
+int		print_unset_error(t_shell *shell, char *cmd);
+int		ft_cmd_not_found(t_shell *shell, char *exec);
+int		print_cd_error(t_shell *shell, char *cmd);
+
+/*
+** split_minishell.c
+*/
+char		**ft_split_minishell(char const *s, char c, t_shell *shell);
+
 
 /*
 * Commands

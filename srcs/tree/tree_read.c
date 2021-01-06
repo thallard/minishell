@@ -1,12 +1,5 @@
 #include "../../includes/minishell.h"
 
-int		ft_cmd_not_found(t_shell *shell, char *exec)
-{
-	(void)shell;					// utilite de shell ?
-	ft_printf("bash: %s: command not found\n", exec);	// message a ajuster
-	return (SUCCESS);				// valeur a confirmer
-}
-
 char	*is_exec_in_path(char *exec, char *folder_path)
 {
 	char	*full_path;
@@ -36,7 +29,7 @@ char	*find_exec(t_shell *shell, t_tree *node)
 
 	paths = NULL;
 	if (get_var_env(shell, "PATH", &paths) <= 0 ||
-		!(tab_paths = ft_split(paths, ':')) ||
+		!(tab_paths = ft_split_minishell(paths, ':', shell)) ||
 		!add_lst_to_free(shell, tab_paths))
 		return (NULL);
 	i = 0;
@@ -53,7 +46,7 @@ char	*find_exec(t_shell *shell, t_tree *node)
 	return (NULL);
 }
 
-char	**get_exec_args(char *exec, char *args)
+char	**get_exec_args(t_shell *shell, char *exec, char *args)
 {
 	char 	**tab;
 	char	*str_temp;
@@ -67,7 +60,7 @@ char	**get_exec_args(char *exec, char *args)
 		return (NULL);
 	}
 	free(str_temp);
-	if (!(tab = ft_split(args_temp, ' ')))
+	if (!(tab = ft_split_minishell(args_temp, ' ', shell)))
 	{
 		free(args_temp);
 		return (NULL);
@@ -86,34 +79,15 @@ int	launch_exec(t_shell *shell, t_tree *node)
 		return (ft_cmd_not_found(shell, node->item));	// valeur de retour a confirmer
 	if (!node->left->item)
 	{
-		if (!(exec_args = ft_split(node->item, ' ')))
+		if (!(exec_args = ft_split_minishell(node->item, ' ', shell)))
 			return (FAILURE);
 	}
-	else if (!(exec_args = get_exec_args(node->item, node->left->item)) ||
+	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item)) ||
 		!add_lst_to_free(shell, exec_args))
 		return (FAILURE);
 	if (!(program = fork()))
 		execve(exec_path, exec_args, shell->tab_env);	// retour a checker
 	return (SUCCESS);								// valeur a confirmer
-}
-
-int	ft_exec(t_shell *shell, t_tree *node)
-{
-	if (!ft_strncmp(node->item, "echo", 5))
-		return (ft_echo(shell, node));
-	if (!ft_strncmp(node->item, "cd", 3))
-		return (ft_cd(shell, node));
-	if (!ft_strncmp(node->item, "pwd", 4))
-		return (ft_pwd(shell));
-	if (!ft_strncmp(node->item, "export", 7))
-	 	return (ft_export(shell, node));
-	if (!ft_strncmp(node->item, "unset", 6))
-		return (ft_unset(shell, node));
-	if (!ft_strncmp(node->item, "env", 4))
-		return (ft_env(shell, node));
-	// if (!ft_strncmp(node->item, "exit", 5))
-	// 	return (ft_exit(shell, node));
-	return (launch_exec(shell, node));
 }
 
 int	read_tree(t_shell *shell)
