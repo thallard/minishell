@@ -1,18 +1,21 @@
-SRCS	=	srcs/main/minishell.c \
-			srcs/tree/tree_build.c srcs/tree/tree_get_arg.c srcs/tree/tree_read.c \
-			srcs/clear_objects.c \
+main = srcs/main
+tree = srcs/tree
+utils = srcs/utils
+comm = srcs/commands
+
+SRCS	=	$(main)/minishell.c \
+			$(tree)/tree_build.c $(tree)/tree_get_arg.c $(tree)/tree_read.c \
+			$(utils)/str_utils.c $(utils)/str_utils_op_sep_space.c $(utils)/env_utils.c $(utils)/env_utils2.c \
+			$(utils)/print_return.c $(utils)/split_minishell.c $(utils)/clear_objects.c \
+			$(comm)/ft_cd.c \
+			$(comm)/ft_pwd.c \
+			$(comm)/ft_echo.c \
+			$(comm)/ft_env.c \
+			$(comm)/ft_export.c \
+			$(comm)/ft_unset.c \
 			srcs/print_functions.c \
-			srcs/utils/str_utils.c srcs/utils/str_utils_op_sep_space.c srcs/utils/env_utils.c srcs/utils/env_utils2.c \
-			srcs/utils/print_return.c srcs/utils/split_minishell.c \
-			srcs/commands/ft_cd.c \
-			srcs/commands/ft_pwd.c \
-			srcs/commands/ft_echo.c \
-			srcs/commands/ft_env.c \
-			srcs/commands/ft_export.c \
-			srcs/commands/ft_unset.c
 
 OBJS = $(SRCS:.c=.o)
-
 
 NAME = minishell
 CC = clang

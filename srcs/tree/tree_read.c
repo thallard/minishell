@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tree_read.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/06 10:40:10 by bjacob           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 char	*is_exec_in_path(char *exec, char *folder_path)
 {
-	char	*full_path;
-	char	*path_temp;
+	char		*full_path;
+	char		*path_temp;
 	struct stat sb;
 
 	if (!(path_temp = ft_strjoin(folder_path, "/")))
@@ -39,7 +51,7 @@ char	*find_exec(t_shell *shell, t_tree *node)
 		{
 			if (!add_lst_to_free(shell, exec_path))
 				return (NULL);
-			return(exec_path);
+			return (exec_path);
 		}
 		i++;
 	}
@@ -48,7 +60,7 @@ char	*find_exec(t_shell *shell, t_tree *node)
 
 char	**get_exec_args(t_shell *shell, char *exec, char *args)
 {
-	char 	**tab;
+	char	**tab;
 	char	*str_temp;
 	char	*args_temp;
 
@@ -82,15 +94,15 @@ int		launch_exec(t_shell *shell, t_tree *node)
 		if (!(exec_args = ft_split_minishell(node->item, ' ', shell)))
 			return (FAILURE);
 	}
-	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item)) ||
-		!add_lst_to_free(shell, exec_args))
+	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item))
+			|| !add_lst_to_free(shell, exec_args))
 		return (FAILURE);
 	if (!(program = fork()))
 		execve(exec_path, exec_args, shell->tab_env);	// retour a checker
 	return (SUCCESS);								// valeur a confirmer
 }
 
-int	read_tree(t_shell *shell)
+int		read_tree(t_shell *shell)
 {
 	int		is_end;
 	t_tree	*t_current;

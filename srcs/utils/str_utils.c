@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 15:26:10 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/05 15:26:10 by thallard         ###   ########lyon.fr   */
+/*   Created: 2021/01/06 10:46:32 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/06 10:46:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../../libft/includes/libft.h"
 
-int	ft_strrfind(const char *s, int c)
+int		ft_strrfind(const char *s, int c)
 {
 	char	*ptr;
 	int		i;
@@ -37,6 +36,5 @@ char	*ft_remove_eol(char *str)
 	while (str[++i])
 		if (str[i] == '\n')
 			str[i] = '\0';
-
 	return (str);
 }
