@@ -79,9 +79,7 @@ int		ft_cd(t_shell *shell, t_tree *node)
 		res = go_to_upper_folder();
 	else
 		res = go_to_folder(node->left->item);
-
 	if (res == -1)
-		ft_printf("cd: %s: Not a directory\n", node->left->item); // A changer selon le type d'erreur
-	// ft_printf("res = %d\n", res);
+		return (print_cd_error(shell, node->left->item));
 	return (res);
 }

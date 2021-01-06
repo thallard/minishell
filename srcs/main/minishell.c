@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 // char **tab_to_argvnew(char **tab)
 // {
@@ -32,12 +32,34 @@ int	init_shell(t_shell *shell)
 	return (SUCCESS);
 }
 
+int	ft_exec(t_shell *shell, t_tree *node)
+{
+	if (!ft_strncmp(node->item, "echo", 5))
+		return (ft_echo(shell, node));
+	if (!ft_strncmp(node->item, "cd", 3))
+		return (ft_cd(shell, node));
+	if (!ft_strncmp(node->item, "pwd", 4))
+		return (ft_pwd(shell));
+	if (!ft_strncmp(node->item, "export", 7))
+	 	return (ft_export(shell, node));
+	if (!ft_strncmp(node->item, "unset", 6))
+		return (ft_unset(shell, node));
+	if (!ft_strncmp(node->item, "env", 4))
+		return (ft_env(shell, node));
+	// if (!ft_strncmp(node->item, "exit", 5))
+	// 	return (ft_exit(shell, node));
+	return (launch_exec(shell, node));
+}
+
 int main()
 {
 	int 	size;
 	char 	*buf;
 	t_shell	*shell;
 	int		res;
+
+// int	err = 2;
+// ft_printf("err = %d\nerror = %s", err, strerror(err));
 
 	shell = malloc(sizeof(t_shell));
 	shell->ptrs = NULL; 
@@ -63,7 +85,7 @@ int main()
 		// ft_printf("res = %d\n\n", res);
 		if (res >= 0)
 		{
-			ft_print_tree(shell->root, 0);
+			// ft_print_tree(shell->root, 0);
 			read_tree(shell);
 		}
 		ft_bzero(buf, ft_strlen(buf));

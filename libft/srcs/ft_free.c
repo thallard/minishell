@@ -7,3 +7,4 @@ int	ft_free_ptr(void *ptr)
 	ptr = NULL;
 	return (-1);
 }
+

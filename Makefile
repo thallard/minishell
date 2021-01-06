@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 SRCS	=	srcs/minishell.c \
+=======
+SRCS	=	srcs/main/minishell.c \
+>>>>>>> 9a1c94dbe12456b65a01a2098e86d16c1ec2705e
 			srcs/tree/tree_build.c srcs/tree/tree_get_arg.c srcs/tree/tree_read.c \
 			srcs/clear_objects.c \
 			srcs/print_functions.c \
 			srcs/utils/str_utils.c srcs/utils/str_utils_op_sep_space.c srcs/utils/lst_utils.c \
+			srcs/utils/print_return.c srcs/utils/split_minishell.c \
 			srcs/commands/ft_cd.c \
 			srcs/commands/ft_pwd.c \
 			srcs/commands/ft_echo.c \
