@@ -7,7 +7,8 @@ SRCS	=	srcs/test_minishell.c \
 			srcs/commands/ft_pwd.c \
 			srcs/commands/ft_echo.c \
 			srcs/commands/ft_env.c \
-			srcs/commands/ft_export.c
+			srcs/commands/ft_export.c \
+			srcs/commands/ft_unset.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -33,7 +34,7 @@ $(OBJS): includes/minishell.h libft/includes/libft.h
 
 $(OBJS_cd): includes/minishell.h libft/includes/libft.h
 
-all: 		$(NAME)
+all:	$(NAME)
 
 clean:
 	$(RM) $(OBJS) 

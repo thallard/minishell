@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/05 16:34:20 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/05 17:31:44 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ t_env	*ft_prepare_lst_env(t_shell *shell, t_tree *node, char **tab, int i)
 
 	(void)node;
 	new_lst = NULL;
-	if (!(new_lst = malloc_lst(shell, sizeof(t_env))) || !(add_lst_to_free(shell, new_lst)))
+	if (!(new_lst = malloc_lst(shell, sizeof(t_env))) ||
+		!(add_lst_to_free(shell, new_lst)))
 		return (NULL);
 	new_lst->next = NULL;
 	if (!(new_lst->name = malloc(sizeof(char) * ft_strlen(tab[i]))) ||
@@ -29,6 +30,28 @@ t_env	*ft_prepare_lst_env(t_shell *shell, t_tree *node, char **tab, int i)
 		!(add_lst_to_free(shell, new_lst->content)))
 		return (NULL);
 	return (new_lst);
+}
+
+int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env)
+{
+	t_env	*begin;
+
+	begin = shell->var_env;
+	while (shell->var_env->next)
+	{
+		shell->var_env = shell->var_env->next;
+		if (ft_strncmp(shell->var_env->name, name, (ft_strlen(name) + 1)) == 0)
+		{
+			dprintf(1, "difference %s et %s\n", shell->var_env->name, name);
+			free(shell->var_env->content);
+			shell->var_env->content = content;
+			shell->var_env = begin;
+			return (SUCCESS);
+		}
+	}
+	shell->var_env->next = env;
+	shell->var_env = begin;
+	return (FAILURE);
 }
 
 int		ft_add_new_env(t_shell *shell, t_tree *node)
@@ -52,8 +75,8 @@ int		ft_add_new_env(t_shell *shell, t_tree *node)
 		while (tab[i][j])
 			((char *)new_lst->content)[++k] = tab[i][j++];
 		((char *)new_lst->content)[++k] = '\0';
-		ft_env_add_back(&shell->var_env, new_lst);
-		ft_print_env_var(shell->var_env);
+		ft_if_env_exists(shell, new_lst->name, new_lst->content, new_lst);
+			ft_print_env_var(shell->var_env);
 	}
 	return (SUCCESS);
 }
@@ -61,7 +84,17 @@ int		ft_add_new_env(t_shell *shell, t_tree *node)
 int		ft_export(t_shell *shell, t_tree *node)
 {
 	if (node->left->item)
-		ft_add_new_env(shell, node);
-	
+	{
+		if (ft_add_new_env(shell, node))
+		{
+			shell->exit = 0;
+			return (SUCCESS);
+		}
+		else
+		{
+			shell->exit = 1;
+			return (SUCCESS);
+		}
+	}
 	return (SUCCESS);
 }
