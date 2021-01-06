@@ -1,4 +1,4 @@
-SRCS	=	srcs/test_minishell.c \
+SRCS	=	srcs/minishell.c \
 			srcs/tree/tree_build.c srcs/tree/tree_get_arg.c srcs/tree/tree_read.c \
 			srcs/clear_objects.c \
 			srcs/print_functions.c \

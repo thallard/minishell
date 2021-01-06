@@ -22,7 +22,7 @@ int	init_shell(t_shell *shell)
 	// 	free_all_ptr(shell);
 	shell->exit = 0;
 	//shell->var_env = NULL;
-	shell->tab_env = NULL;
+	// shell->tab_env = NULL;
 	// shell->ptrs = NULL;
 	shell->root = NULL;
 	shell->input = NULL;
@@ -42,6 +42,7 @@ int main()
 	shell = malloc(sizeof(t_shell));
 	shell->ptrs = NULL; 
 	shell->var_env = NULL;
+	shell->tab_env = NULL;
 	// init_shell(shell);
 	// ft_fill_lst_env(shell);
 	ft_fill_lst_env(shell);

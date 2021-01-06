@@ -3,34 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/06 08:57:14 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/06 09:54:25 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../libft/includes/libft.h"
-
-int		get_var_env(t_shell *shell, char *var_name, char **content)
-{
-	t_env	*begin;
-
-	begin = shell->var_env;
-	while (begin)
-	{
-		if (!ft_strncmp(begin->name, var_name, ft_strlen(var_name) + 1))
-		{
-			*content = begin->content;
-			if (!(*content))
-				return (0);
-			return (1);
-		}
-		begin = begin->next;
-	}
-	return (-1);
-}
 
 int		ft_env(t_shell *shell, t_tree *node)
 {
@@ -96,9 +77,7 @@ int		ft_fill_tab_env(t_shell *shell)
 		return (FAILURE);
 	fd = open("env_file", O_RDONLY);
 	read(fd, str_file, 10000);
-	if (!(shell->tab_env = ft_split(str_file, '\n')))
-		return (FAILURE);
-	if (!(add_lst_to_free(shell, shell->tab_env)))
+	if (!(shell->tab_env = ft_split_minishell(str_file, '\n', shell)))
 		return (FAILURE);
 	return (SUCCESS);
 }
