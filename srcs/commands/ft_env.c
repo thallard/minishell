@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/06 10:02:34 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/06 13:35:57 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int		ft_fill_lst_env(t_shell *shell)
 			!(add_lst_to_free(shell, new_lst->name)))
 			return (FAILURE);
 		new_lst->content = ft_fill_env_content(shell, &shell->tab_env[i][j + 1]);
-		if (!new_lst->content)
-			return (FAILURE);
+		if (new_lst->content)
+			new_lst->hidden = 0;
 		ft_env_add_back(&shell->var_env, new_lst);
 	}
 	return (SUCCESS);

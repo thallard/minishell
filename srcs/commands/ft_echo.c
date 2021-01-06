@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/05 15:22:45 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/06 14:24:19 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char	*ft_get_text_echo(char *txt, t_tree *node)
 	while (txt[++i] && txt[i] != '>')
 		str[i] = txt[i];
 	if (!node->left->item)
-		str[i] = '\n';
-	str[++i] = '\0';
+		str[i++] = '\n';
+	str[i] = '\0';
 	return (ft_strtrim(str, " "));
 }
 
