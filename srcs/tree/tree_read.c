@@ -7,19 +7,6 @@ int		ft_cmd_not_found(t_shell *shell, char *exec)
 	return (SUCCESS);				// valeur a confirmer
 }
 
-
-//////////////////////////////////////////////////////////////
-// char	*find_car_path(t_env *begin)
-// {
-// 	while (begin)
-// 	{		
-// 		if (!ft_strncmp(begin->name, "PATH", 5))
-// 			return (begin->content);
-// 		begin = begin->next;
-// 	}
-// 	return (NULL);
-// }
-
 char	*is_exec_in_path(char *exec, char *folder_path)
 {
 	char	*full_path;
@@ -34,9 +21,6 @@ char	*is_exec_in_path(char *exec, char *folder_path)
 		return (NULL);
 	}
 	free(path_temp);
-
-dprintf(1, "path = |%s|\n", full_path); ///////////////////
-
 	if (!stat(full_path, &sb))
 		return (full_path);
 	free(full_path);
