@@ -105,6 +105,7 @@ int		ft_pwd(t_shell *shell);
 int		ft_echo(t_shell *shell, t_tree *node);
 int		ft_env(t_shell *shell, t_tree *node);
 int		ft_export(t_shell *shell, t_tree *node);
+int		ft_unset(t_shell *shell, t_tree *node);
 int		ft_create_env_vars(t_shell *shell);
 int		ft_fill_lst_env(t_shell *shell);
 char	*ft_fill_env_content(t_shell *shell, char *str);
@@ -134,6 +135,8 @@ char	*strdup_and_inc_input(t_shell *shell, char **input);
 void	ft_env_add_back(t_env **alst, t_env *new);
 t_env	*ft_env_last(t_env *lst);
 void	ft_print_env_var(t_env *var_end);
+void	ft_env_remove_if(t_env **begin_list, void *name_ref,
+		int (*cmp)());
 
 /*
 ****************************************************

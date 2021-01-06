@@ -107,8 +107,8 @@ int	ft_exec(t_shell *shell, t_tree *node)
 		return (ft_pwd(shell));
 	if (!ft_strncmp(node->item, "export", 7))
 	 	return (ft_export(shell, node));
-	// if (!ft_strncmp(node->item, "unset", 6))
-	// 	return (ft_unset(shell, node));
+	if (!ft_strncmp(node->item, "unset", 6))
+		return (ft_unset(shell, node));
 	if (!ft_strncmp(node->item, "env", 4))
 		return (ft_env(shell, node));
 	// if (!ft_strncmp(node->item, "exit", 5))
