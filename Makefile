@@ -40,6 +40,8 @@ $(OBJS_cd): includes/minishell.h libft/includes/libft.h
 
 all:	$(NAME)
 
+allc : all clean
+
 clean:
 	$(RM) $(OBJS) 
 	@$(MAKE) clean -C libft
