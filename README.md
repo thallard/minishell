@@ -1,2 +1,2 @@
 # kikoo
-(merci brice de ta tentive de participation)
+(merci brice de ta tentative de participation)
