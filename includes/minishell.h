@@ -112,6 +112,8 @@ char	*ft_fill_env_content(t_shell *shell, char *str);
 int		ft_fill_tab_env(t_shell *shell);
 t_env	*ft_fill_first_lst(t_shell *shell, char **tab, t_env *lst);
 
+int		get_var_env(t_shell *shell, char *var_name, char **content);
+
 /*
 ** str_utils.c
 */
