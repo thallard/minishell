@@ -69,7 +69,7 @@ char	**get_exec_args(t_shell *shell, char *exec, char *args)
 	return (tab);
 }
 
-int	launch_exec(t_shell *shell, t_tree *node)
+int		launch_exec(t_shell *shell, t_tree *node)
 {
 	char	*exec_path;
 	char	**exec_args;
