@@ -1,3 +1,4 @@
+
 # Prerequisites
 *.d
 
@@ -57,13 +58,4 @@ cd
 pwd
 *.h.gch
 echo
-<<<<<<< HEAD
-# srcs/test_minishell.c
-=======
-srcs/test_minishell.c
-a
-b
-c
-d
-e
->>>>>>> a4e15c41f6639f00dacbd186e650324554139f37
+env_file
