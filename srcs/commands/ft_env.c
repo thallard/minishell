@@ -3,15 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/05 15:36:14 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/06 08:57:14 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../libft/includes/libft.h"
+
+int		get_var_env(t_shell *shell, char *var_name, char **content)
+{
+	t_env	*begin;
+
+	begin = shell->var_env;
+	while (begin)
+	{
+		if (!ft_strncmp(begin->name, var_name, ft_strlen(var_name) + 1))
+		{
+			*content = begin->content;
+			if (!(*content))
+				return (0);
+			return (1);
+		}
+		begin = begin->next;
+	}
+	return (-1);
+}
 
 int		ft_env(t_shell *shell, t_tree *node)
 {

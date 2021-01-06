@@ -7,16 +7,18 @@ int		ft_cmd_not_found(t_shell *shell, char *exec)
 	return (SUCCESS);				// valeur a confirmer
 }
 
-char	*find_car_path(t_env *begin)
-{
-	while (begin)
-	{		
-		if (!ft_strncmp(begin->name, "PATH", 5))
-			return (begin->content);
-		begin = begin->next;
-	}
-	return (NULL);
-}
+
+//////////////////////////////////////////////////////////////
+// char	*find_car_path(t_env *begin)
+// {
+// 	while (begin)
+// 	{		
+// 		if (!ft_strncmp(begin->name, "PATH", 5))
+// 			return (begin->content);
+// 		begin = begin->next;
+// 	}
+// 	return (NULL);
+// }
 
 char	*is_exec_in_path(char *exec, char *folder_path)
 {
@@ -48,7 +50,8 @@ char	*find_exec(t_shell *shell, t_tree *node)
 	char	*exec_path;
 	int		i;
 
-	if (!(paths = find_car_path(shell->var_env)) ||
+	paths = NULL;
+	if (get_var_env(shell, "PATH", &paths) <= 0 ||
 		!(tab_paths = ft_split(paths, ':')) ||
 		!add_lst_to_free(shell, tab_paths))
 		return (NULL);
