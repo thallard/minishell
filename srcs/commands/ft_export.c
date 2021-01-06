@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/01/06 09:54:41 by thallard         ###   ########lyon.fr   */
-=======
-/*   Updated: 2021/01/06 09:57:17 by bjacob           ###   ########lyon.fr   */
->>>>>>> 9a1c94dbe12456b65a01a2098e86d16c1ec2705e
+/*   Updated: 2021/01/06 10:02:33 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 

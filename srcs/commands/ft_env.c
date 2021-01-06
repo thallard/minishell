@@ -6,11 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/01/06 09:54:25 by thallard         ###   ########lyon.fr   */
-=======
-/*   Updated: 2021/01/06 09:57:11 by bjacob           ###   ########lyon.fr   */
->>>>>>> 9a1c94dbe12456b65a01a2098e86d16c1ec2705e
+/*   Updated: 2021/01/06 10:02:34 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +78,6 @@ int		ft_fill_tab_env(t_shell *shell)
 	fd = open("env_file", O_RDONLY);
 	read(fd, str_file, 10000);
 	if (!(shell->tab_env = ft_split_minishell(str_file, '\n', shell)))
-<<<<<<< HEAD
-=======
-		return (FAILURE);
-	if (!(add_lst_to_free(shell, shell->tab_env)))
->>>>>>> 9a1c94dbe12456b65a01a2098e86d16c1ec2705e
 		return (FAILURE);
 	return (SUCCESS);
 }
