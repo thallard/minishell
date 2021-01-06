@@ -1,14 +1,16 @@
-#include "../../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tree_build.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/06 10:38:26 by bjacob           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*
-**	Separateurs a gerer :
-**		;
-**		|
-**		" " et ' '
-**
-**
-**
-*/
+#include "../../includes/minishell.h"
 
 t_tree	*tree_create_node(t_shell *shell, void *item)
 {
@@ -29,14 +31,12 @@ int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	res = SUCCESS;
 	if (!(shell->op = strdup_and_inc_input(shell, input)))
 		return (FAILURE);
-	if (!(t_current->right = tree_create_node(shell, shell->op)))	// ajout operand dans le noeud right de t_current
+	if (!(t_current->right = tree_create_node(shell, shell->op)))
 		return (FAILURE);
-// argument a ajouter
 	if (is_operand(shell->op))
 		res = get_operand_arg(shell, input, t_current->right);
-	else
-		if (!(t_current->right->left = get_next_arg_echo(shell, input, 2)))
-			return (FAILURE);
+	else if (!(t_current->right->left = get_next_arg_echo(shell, input, 2)))
+		return (FAILURE);
 	str_to_separator(input);
 	shell->last_node = OP;
 	return (res);
@@ -59,10 +59,9 @@ int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 int		read_input(t_shell *shell, t_tree **t_current, char **input)
 {
 	skip_spaces(input);
-
-	if(!(**input))										// fin de l'input
+	if (!(**input))
 		return (EOL);
-	if (is_separator(**input))							// separateur
+	if (is_separator(**input))
 	{
 		if (shell->last_node == OP)
 			return (add_sep_node(shell, t_current, input));
@@ -78,14 +77,10 @@ int		create_main_tree(t_shell *shell, char *input)
 	int		is_end;
 	t_tree	*t_current;
 
-// ft_printf("\ninput = |%s|\n", input); ////////////////////////////
-
-	if (!(shell->root = tree_create_node(shell, "ROOT")))		// a supprimer, juste pour les tests
-	// if (!(shell->root = tree_create_node(shell, NULL)))
+	if (!(shell->root = tree_create_node(shell, "ROOT")))
 		return (FAILURE);
 	t_current = shell->root;
 	shell->last_node = SEP;		// a confirmer
-
 	is_end = SUCCESS;
 	while (is_end == SUCCESS)
 		is_end = read_input(shell, &t_current, &input);

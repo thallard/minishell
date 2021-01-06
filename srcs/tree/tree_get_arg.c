@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tree_get_arg.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/06 10:40:31 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/06 10:41:37 by bjacob           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int		get_nb_operand_arg(char *op)
 {
-	if(!ft_strncmp(op, "echo", 4))
+	if (!ft_strncmp(op, "echo", 4))
 		return (2);
 	if (!ft_strncmp(op, "cd", 2) ||
 		!ft_strncmp(op, "export", 6) ||
@@ -15,7 +27,7 @@ int		get_nb_operand_arg(char *op)
 	return (FAILURE);
 }
 
-t_tree	*get_next_arg_echo(t_shell *shell,char **input, int nb_arg)
+t_tree	*get_next_arg_echo(t_shell *shell, char **input, int nb_arg)
 {
 	char	*arg;
 	int		len;
@@ -25,12 +37,12 @@ t_tree	*get_next_arg_echo(t_shell *shell,char **input, int nb_arg)
 	len = 0;
 	skip_spaces(input);
 	if (!(**input) || is_separator(**input))
-		return(tree_create_node(shell, NULL));
+		return (tree_create_node(shell, NULL));
 	if (nb_arg == 1 && !strncmp(*input, "-n", 2) &&
 		((*input)[2] == ' ' || is_separator((*input)[2]) || !(*input)[2]))
 		len_char = 2;
 	else
-		while(!is_separator((*input)[len]) && (*input)[len])
+		while (!is_separator((*input)[len]) && (*input)[len])
 			if ((*input)[len++] != ' ')
 				len_char = len;
 	if (!(arg = malloc_lst(shell, len_char + 1)))
@@ -39,12 +51,11 @@ t_tree	*get_next_arg_echo(t_shell *shell,char **input, int nb_arg)
 	while (i < len_char)
 		arg[i++] = *((*input)++);
 	arg[i] = 0;
-	return(tree_create_node(shell, arg));
+	return (tree_create_node(shell, arg));
 }
 
 int		get_echo_arg(t_shell *shell, char **input, t_tree *op_node)
 {
-
 	if (!(op_node->left = get_next_arg_echo(shell, input, 1)))
 		return (FAILURE);
 	if (!ft_strncmp(op_node->left->item, "-n", 3))
@@ -58,7 +69,7 @@ int		get_echo_arg(t_shell *shell, char **input, t_tree *op_node)
 	return (SUCCESS);
 }
 
-t_tree	*get_next_arg(t_shell *shell,char **input)
+t_tree	*get_next_arg(t_shell *shell, char **input)
 {
 	char	*arg;
 	int		len;
@@ -68,7 +79,7 @@ t_tree	*get_next_arg(t_shell *shell,char **input)
 	skip_spaces(input);
 	if (!(*input)[len] || is_separator((*input)[len]))
 		return (tree_create_node(shell, NULL));
-	while((*input)[len] != ' ' && !is_separator((*input)[len])
+	while ((*input)[len] != ' ' && !is_separator((*input)[len])
 			&& (*input)[len])
 		len++;
 	if (!(arg = malloc_lst(shell, len + 1)))
@@ -77,7 +88,7 @@ t_tree	*get_next_arg(t_shell *shell,char **input)
 	while (i < len)
 		arg[i++] = *((*input)++);
 	arg[i] = 0;
-	return(tree_create_node(shell, arg));
+	return (tree_create_node(shell, arg));
 }
 
 int		get_operand_arg(t_shell *shell, char **input, t_tree *op_node)
