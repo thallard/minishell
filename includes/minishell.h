@@ -36,6 +36,7 @@ typedef struct		s_env
 {
 	char			*name;
 	void			*content;
+	int				hidden;
 	struct s_env	*next;
 }					t_env;
 
@@ -98,7 +99,6 @@ int		launch_exec(t_shell *shell, t_tree *node);
 int		read_tree(t_shell *shell);
 
 
-
 /*
 ****************************************************
 **						UTILS					  **
@@ -125,23 +125,7 @@ int		print_cd_error(t_shell *shell, char *cmd);
 char		**ft_split_minishell(char const *s, char c, t_shell *shell);
 
 
-/*
-* Commands
-*/
-int		ft_cd(t_shell *shell, t_tree *node);
-int		ft_pwd(t_shell *shell);
-int		ft_echo(t_shell *shell, t_tree *node);
-int		ft_env(t_shell *shell, t_tree *node);
-int		ft_export(t_shell *shell, t_tree *node);
-int		ft_unset(t_shell *shell, t_tree *node);
-void	ft_exit(t_shell *shell);
-int		ft_create_env_vars(t_shell *shell);
-int		ft_fill_lst_env(t_shell *shell);
-char	*ft_fill_env_content(t_shell *shell, char *str);
-int		ft_fill_tab_env(t_shell *shell);
-t_env	*ft_fill_first_lst(t_shell *shell, char **tab, t_env *lst);
 
-int		get_var_env(t_shell *shell, char *var_name, char **content);
 
 /*
 ** str_utils.c
@@ -173,6 +157,26 @@ void	ft_remove_elem(t_env **ptr_back, t_env **ptr);
 **					  COMMANDS					  **
 ****************************************************
 */
+/*
+** Commands
+*/
+int		ft_cd(t_shell *shell, t_tree *node);
+int		ft_pwd(t_shell *shell);
+int		ft_echo(t_shell *shell, t_tree *node);
+int		ft_env(t_shell *shell, t_tree *node);
+int		ft_export(t_shell *shell, t_tree *node);
+int		ft_unset(t_shell *shell, t_tree *node);
+void	ft_exit(t_shell *shell);
+
+/*
+** Utils for commands
+*/
+int		ft_create_env_vars(t_shell *shell);
+int		ft_fill_lst_env(t_shell *shell);
+char	*ft_fill_env_content(t_shell *shell, char *str);
+int		ft_fill_tab_env(t_shell *shell);
+t_env	*ft_fill_first_lst(t_shell *shell, char **tab, t_env *lst);
+int		get_var_env(t_shell *shell, char *var_name, char **content);
 
 /*
 ****************************************************
