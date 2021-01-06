@@ -158,13 +158,14 @@ void	str_to_separator(char **str);
 char	*strdup_and_inc_input(t_shell *shell, char **input);
 
 /*
-** lst_utils.c
+** env_utils.c
 */
 void	ft_env_add_back(t_env **alst, t_env *new);
 t_env	*ft_env_last(t_env *lst);
 void	ft_print_env_var(t_env *var_end);
 void	ft_env_remove_if(t_env **begin_list, void *name_ref,
 		int (*cmp)());
+void	ft_remove_elem(t_env **ptr_back, t_env **ptr);
 
 /*
 ****************************************************
