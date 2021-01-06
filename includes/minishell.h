@@ -134,6 +134,7 @@ int		ft_echo(t_shell *shell, t_tree *node);
 int		ft_env(t_shell *shell, t_tree *node);
 int		ft_export(t_shell *shell, t_tree *node);
 int		ft_unset(t_shell *shell, t_tree *node);
+void	ft_exit(t_shell *shell);
 int		ft_create_env_vars(t_shell *shell);
 int		ft_fill_lst_env(t_shell *shell);
 char	*ft_fill_env_content(t_shell *shell, char *str);

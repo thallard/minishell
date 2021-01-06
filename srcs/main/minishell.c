@@ -20,7 +20,7 @@ int	init_shell(t_shell *shell)
 {
 	// if (shell->ptrs)			a corriger
 	// 	free_all_ptr(shell);
-	shell->exit = 0;
+	shell->exit = 0;		// bonne valeur ?
 	//shell->var_env = NULL;
 	// shell->tab_env = NULL;
 	// shell->ptrs = NULL;
@@ -46,17 +46,33 @@ int	ft_exec(t_shell *shell, t_tree *node)
 		return (ft_unset(shell, node));
 	if (!ft_strncmp(node->item, "env", 4))
 		return (ft_env(shell, node));
-	// if (!ft_strncmp(node->item, "exit", 5))
-	// 	return (ft_exit(shell, node));
+	if (!ft_strncmp(node->item, "exit", 5))
+		ft_exit(shell);
 	return (launch_exec(shell, node));
 }
 
-int main()
+int		ft_apply_minishell(t_shell *shell, char *buf)
+{
+	int	res;
+
+	// ft_printf("minishell-3000$ ");
+	ft_remove_eol(buf);
+	init_shell(shell);
+	res = create_main_tree(shell, buf);
+	if (res == -2)
+		ft_printf("syntax error near unexpected token `%s'\n", shell->sep);
+	if (res >= 0)
+		read_tree(shell);
+	ft_bzero(buf, ft_strlen(buf));
+	return (SUCCESS);
+}
+
+int main(int argc, char **argv)
 {
 	int 	size;
 	char 	*buf;
 	t_shell	*shell;
-	int		res;
+	// int		res;
 
 // int	err = 2;
 // ft_printf("err = %d\nerror = %s", err, strerror(err));
@@ -68,53 +84,15 @@ int main()
 	// init_shell(shell);
 	// ft_fill_lst_env(shell);
 	ft_fill_lst_env(shell);
-	// dprintf(1, "%s=%s\n", shell->var_env->name, shell->var_env->content); ////////
 
 	buf = calloc(1, 1000); // a ajouter a la liste
 	if (!buf)
-		return (FAILURE);
-	size = 1;
-	while ((size = read(1, buf, 1000) > 0))
-	{
-		ft_remove_eol(buf); // 
-		// ft_printf("debug = |%s|\n", buf);
-		init_shell(shell);
-		res = create_main_tree(shell, buf);
-		if (res == -2)
-			ft_printf("syntax error near unexpected token `%s'\n", shell->sep);
-		// ft_printf("res = %d\n\n", res);
-		if (res >= 0)
-		{
-			// ft_print_tree(shell->root, 0);
-			read_tree(shell);
-		}
-		ft_bzero(buf, ft_strlen(buf));
-		// if (program == fork()) // A verifier plus tard si c'est viable
-			// execve(ft_remove_eol(tab[0]), tab, newenviron);
-		// printf("stdin --> %s\n", buf);
-	}
-	// go_to_upper_folder();
+		return (FAILURE);	// exit a gerer avec une erreur
+	// size = 1;
+	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))		// a voir
+		return (ft_apply_minishell(shell, argv[2]));
+	// ft_printf("minishell-3000$ ");
+	while ((size = read(0, buf, 1000) > 0))
+		ft_apply_minishell(shell, buf);
+	return (SUCCESS);
 }
-
-// int main()
-// {
-// 	int 	size;
-// 	char 	*buf;
-// 	char	**tab;
-// 	char	*newenviron[] = { NULL };
-// 	int		errno;
-// 	pid_t	program;
-
-// 	buf = calloc(1, 1000);
-// 	if (!buf)
-// 		return (FAILURE);
-// 	size = 1;
-// 	while ((size = read(1, buf, 1000) > 0))
-// 	{
-// 		tab = ft_split(buf, ' ');
-// 		if (program == fork()) // A verifier plus tard si c'est viable
-// 			execve(ft_remove_eol(tab[0]), tab, newenviron);
-// 		// printf("stdin --> %s\n", buf);
-// 	}
-// 	// go_to_upper_folder();
-// }

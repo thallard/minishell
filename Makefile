@@ -13,6 +13,7 @@ SRCS	=	$(main)/minishell.c \
 			$(comm)/ft_env.c \
 			$(comm)/ft_export.c \
 			$(comm)/ft_unset.c \
+			$(comm)/ft_exit.c \
 			srcs/print_functions.c \
 
 OBJS = $(SRCS:.c=.o)

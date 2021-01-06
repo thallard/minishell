@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/06 10:40:10 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/06 13:49:12 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ char	*find_exec(t_shell *shell, t_tree *node)
 
 	paths = NULL;
 	if (get_var_env(shell, "PATH", &paths) <= 0 ||
-		!(tab_paths = ft_split_minishell(paths, ':', shell)) ||
-		!add_lst_to_free(shell, tab_paths))
+		!(tab_paths = ft_split_minishell(paths, ':', shell)))
 		return (NULL);
 	i = 0;
 	while (tab_paths[i])
@@ -86,6 +85,7 @@ int		launch_exec(t_shell *shell, t_tree *node)
 	char	*exec_path;
 	char	**exec_args;
 	pid_t	program;
+	int		status;
 
 	if (!(exec_path = find_exec(shell, node)))
 		return (ft_cmd_not_found(shell, node->item));	// valeur de retour a confirmer
@@ -97,8 +97,11 @@ int		launch_exec(t_shell *shell, t_tree *node)
 	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item))
 			|| !add_lst_to_free(shell, exec_args))
 		return (FAILURE);
-	if (!(program = fork()))
+	if (!(program = fork())) // erreur a gerer si program = -1 ?
 		execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+	else
+		wait(&status);
+	
 	return (SUCCESS);								// valeur a confirmer
 }
 

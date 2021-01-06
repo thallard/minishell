@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/05 15:22:45 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/06 14:23:05 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../../libft/includes/libft.h"
 
 char	*ft_get_text_echo(char *txt, t_tree *node)
 {
@@ -24,8 +23,8 @@ char	*ft_get_text_echo(char *txt, t_tree *node)
 	while (txt[++i] && txt[i] != '>')
 		str[i] = txt[i];
 	if (!node->left->item)
-		str[i] = '\n';
-	str[++i] = '\0';
+		str[i++] = '\n';
+	str[i] = '\0';
 	return (ft_strtrim(str, " "));
 }
 
@@ -92,9 +91,9 @@ int		ft_echo(t_shell *shell, t_tree *node)
 	i = -1;
 	res = 0;
 	txt = node->right->item;
-	dprintf(1, "debug node = %s\n", node->right->item);
+	// dprintf(1, "debug node = %s\n", node->right->item);
 	str = ft_get_text_echo(txt, node);
-	dprintf(1, "texte a ecrire : %s\n", str);
+	// dprintf(1, "texte a ecrire : %s\n", str);
 	while (txt[++i])
 	{
 		if (ft_strncmp(&txt[i], ">>", 2) == 0)
@@ -102,8 +101,8 @@ int		ft_echo(t_shell *shell, t_tree *node)
 		if (txt[i] == '>')
 			res = ft_overwrite_in_file(txt, node, i++, str);
 	}
-	if (!node->left->item)
-		str[ft_strlen(str)] = '\n';
+	// if (!node->left->item)
+		// str[ft_strlen(str)] = '\n';
 	if (!res)
 		ft_printf("%s", str);
 	return (res);
