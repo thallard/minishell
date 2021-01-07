@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/06 13:49:12 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 12:23:18 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ int		launch_exec(t_shell *shell, t_tree *node)
 		if (!(exec_args = ft_split_minishell(node->item, ' ', shell)))
 			return (FAILURE);
 	}
-	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item))
-			|| !add_lst_to_free(shell, exec_args))
+	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item)))
 		return (FAILURE);
 	if (!(program = fork())) // erreur a gerer si program = -1 ?
 		execve(exec_path, exec_args, shell->tab_env);	// retour a checker

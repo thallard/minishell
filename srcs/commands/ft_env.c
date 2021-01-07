@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/06 13:35:57 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 11:31:17 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,16 @@ int		ft_fill_lst_env(t_shell *shell)
 	int		j;
 	t_env	*new_lst;
 
+// ft_printf(1, "bbbbbb\n");	//////////////////
+
+
+
 	if ((ft_fill_tab_env(shell) < 0))
 		return (FAILURE);
+
+// ft_printf(1, "p0\n");	//////////////////
+
+		
 	shell->var_env = NULL;
 	i = -1;
 	while (shell->tab_env[++i])
@@ -75,6 +83,10 @@ int		ft_fill_tab_env(t_shell *shell)
 
 	if (stat("env_file", &fd_status) == -1)
 		return (FAILURE);
+
+// ft_printf(1, "p0\n");	//////////////////
+
+
 	fd = open("env_file", O_RDONLY);
 	read(fd, str_file, 10000);
 	if (!(shell->tab_env = ft_split_minishell(str_file, '\n', shell)))
