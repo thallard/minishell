@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/07 13:15:50 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 16:24:16 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,28 @@ char	*find_exec(t_shell *shell, t_tree *node)
 	return (NULL);
 }
 
-char	**get_exec_args(t_shell *shell, char *exec, char *args)
+char	**get_exec_args(t_shell *shell, char *exec, char *args, int is_pipe)
 {
 	char	**tab;
 	char	*str_temp;
 	char	*args_temp;
 
+	(void)is_pipe;
+
 	if (!(str_temp = ft_strjoin(exec, " ")))
 		return (NULL);
-	if (!(args_temp = ft_strjoin(str_temp, args)))
-	{
-		free(str_temp);
-		return (NULL);
-	}
+	args_temp = ft_strjoin(str_temp, args);
 	free(str_temp);
+	if (!args_temp)
+		return (NULL);
+	// if (is_pipe == PIPE_IN)
+	// {
+	// 	str_temp = args_temp;
+	// 	args_temp = ft_strjoin(args_temp, " temp/fd_temp"); // a modifier
+	// 	free(str_temp);
+	// 	if (!args_temp)
+	// 		return (NULL);
+	// }
 	if (!(tab = ft_split_minishell(args_temp, ' ', shell)))
 	{
 		free(args_temp);
@@ -80,12 +88,19 @@ char	**get_exec_args(t_shell *shell, char *exec, char *args)
 	return (tab);
 }
 
-int		launch_exec(t_shell *shell, t_tree *node)
+int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2], int is_pipe)
 {
 	char	*exec_path;
 	char	**exec_args;
 	pid_t	program;
 	int		status;
+
+	int		stdin_s;
+	int		stdout_s;
+
+	stdin_s = dup(0);
+	stdout_s = dup(1);
+// ft_printf(1, "cmd = %s\npipe_out = %d\npipe_in = %d\n", node->item, is_pipe == PIPE_OUT, is_pipe == PIPE_IN);
 
 	if (!(exec_path = find_exec(shell, node)))
 		return (ft_cmd_not_found(shell, node->item));	// valeur de retour a confirmer
@@ -94,37 +109,111 @@ int		launch_exec(t_shell *shell, t_tree *node)
 		if (!(exec_args = ft_split_minishell(node->item, ' ', shell)))
 			return (FAILURE);
 	}
-	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item)))
+	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item, is_pipe)))
 		return (FAILURE);
-	if (!(program = fork())) // erreur a gerer si program = -1 ?
-		execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+	program = fork();
+	if (!program) // erreur a gerer si program = -1 ?
+	{
+		if (is_pipe == PIPE_OUT)
+		{
+		// ft_printf(1, "PIPE_OUT !!!\n"); ///////////
+			dup2(pipe_fd[1], 1);
+            close(pipe_fd[0]);
+            close(pipe_fd[1]);
+			execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+
+			dup2(stdin_s, 0);
+			dup2(stdout_s, 1);
+			exit(0);
+		}
+		else if (is_pipe == PIPE_IN)
+		{
+		// ft_printf(1, "PIPE_IN !!!\n"); ///////////	
+			dup2(pipe_fd[0], 0);
+            close(pipe_fd[0]);
+            close(pipe_fd[1]);
+			execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+			
+			
+			dup2(stdin_s, 0);
+			dup2(stdout_s, 1);
+			exit(0);
+
+		}
+		// execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+		else
+		{
+			// close(pipe_fd[0]);
+			// close(pipe_fd[1]);
+			dup2(stdin_s, 0);
+			dup2(stdout_s, 1);
+			execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+			exit(0);
+		}
+		
+	}
 	else
-		wait(&status);
+		waitpid(program, &status, 0);
+		// (void)status;
 	
 	return (SUCCESS);								// valeur a confirmer
+}
+
+int		read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2])
+{
+	int	res;
+	int	is_end;
+	int	pipe_in;
+	
+	// int pipe_fd[2];
+
+	is_end = 0;
+	// pipe_fd[0] = -1;
+	if (!strncmp((*t_current)->item, "|", 2))
+		pipe_in = 1;
+	*t_current = (*t_current)->right;
+	
+	if (!strncmp((*t_current)->item, ";", 2))
+	{
+		res = ft_exec(shell, (*t_current)->left, 0, 0);	// a traiter
+		is_end = ((*t_current)->right != NULL);
+	}
+	else if (!strncmp((*t_current)->item, "|", 2))
+	{
+		if (pipe(pipe_fd) == -1)
+			return (FAILURE);		// a gerer, ou a mettre is_end ?
+
+		res = ft_exec(shell, (*t_current)->left, pipe_fd, PIPE_OUT);	// a traiter
+		// verif du fd entre les deux ?
+		if ((is_end = ((*t_current)->right != NULL)))
+			return (read_node(shell, t_current, pipe_fd));
+		return (PIPE_STDIN);						// a gerer ?
+	}
+	else
+		res = ft_exec(shell, *t_current, pipe_fd, PIPE_IN);
+	return (is_end);
 }
 
 int		read_tree(t_shell *shell)
 {
 	int		is_end;
 	t_tree	*t_current;
-	int		res;
+
+	int pipe_fd[2];
+	pipe_fd[0] = -1;
+	pipe_fd[1] = -1;
+
 
 	t_current = shell->root;
 	is_end = (t_current->right != NULL);
 	while (is_end)
 	{
-		t_current = t_current->right;
-		if (!strncmp(t_current->item, ";", 2))	//	a voir pour |
-		{
-			res = ft_exec(shell, t_current->left, 0, 0);	// a traiter
-			is_end = (t_current->right != NULL);
-		}
-		else
-		{
-			res = ft_exec(shell, t_current, 0, 0);
-			is_end = 0;
-		}
+		// t_current = t_current->right;
+		is_end = read_node(shell, &t_current, pipe_fd);
+		// close(pipe_fd[0]);
+        // close(pipe_fd[1]);
+		pipe_fd[0] = -1;
+		pipe_fd[1] = -1;
 	}
 	return (SUCCESS);
 }

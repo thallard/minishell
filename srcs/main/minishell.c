@@ -32,14 +32,14 @@ int	init_shell(t_shell *shell)
 	return (SUCCESS);
 }
 
-int	ft_exec(t_shell *shell, t_tree *node)
+int	ft_exec(t_shell *shell, t_tree *node, int pipe_fd[2], int is_pipe)
 {
 	if (!ft_strncmp(node->item, "echo", 5))
 		return (ft_echo(shell, node));
 	if (!ft_strncmp(node->item, "cd", 3))
 		return (ft_cd(shell, node));
 	if (!ft_strncmp(node->item, "pwd", 4))
-		return (ft_pwd(shell));
+		return (ft_pwd(shell, pipe_fd, is_pipe));
 	if (!ft_strncmp(node->item, "export", 7))
 	 	return (ft_export(shell, node));
 	if (!ft_strncmp(node->item, "unset", 6))
@@ -48,7 +48,7 @@ int	ft_exec(t_shell *shell, t_tree *node)
 		return (ft_env(shell, node));
 	if (!ft_strncmp(node->item, "exit", 5))
 		ft_exit(shell);
-	return (launch_exec(shell, node));
+	return (launch_exec(shell, node, pipe_fd, is_pipe));
 }
 
 int		ft_apply_minishell(t_shell *shell, char *buf)
