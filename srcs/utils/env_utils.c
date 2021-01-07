@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:23:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/07 10:33:04 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 12:43:08 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,19 @@ void	ft_print_env_var(t_env *var_end)
 		if (var_end->hidden == 2)
 			ft_printf(1, "%s=\n", var_end->name);
 		if (var_end->hidden == 0)
-		ft_printf(1, "%s", var_end->name);
-		if (var_end->hidden == 0)
-			ft_printf(1, "=");
-		if (var_end->hidden == 0)
-			ft_printf(1, "%s", var_end->content);
-		if (var_end->hidden == 0)
-			ft_printf(1, "\n");
+			ft_printf(1, "%s=%s\n", var_end->name, var_end->content);
+		var_end = var_end->next;
+	}
+}
+
+void	ft_print_export_var(t_env *var_end)
+{
+	while (var_end)
+	{
+		// if (var_end->hidden == 2)
+		// 	ft_printf(1, "declare -x %s=\"\"\n", var_end->name);
+		// if (var_end->hidden == 0)
+			ft_printf(1, "declare -x %s=\"%s\"\n", var_end->name, var_end->content);
 		var_end = var_end->next;
 	}
 }

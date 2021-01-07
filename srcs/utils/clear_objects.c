@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:44:22 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/06 13:44:58 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 13:22:56 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,21 @@ int		free_all_ptr(t_shell *shell)
 {
 	ft_lstclear(&shell->ptrs, free);
 	return (0);
+}
+
+void	ft_free_export_env(t_env **env)
+{
+	t_env	*elem;
+	t_env	*next;
+
+	elem = *env;
+	while (elem)
+	{
+		next = elem->next;
+		ft_free_ptr(elem->content);
+		ft_free_ptr(elem->name);
+		ft_free_ptr(elem);
+		elem = next;
+	}
+	*env = NULL;
 }

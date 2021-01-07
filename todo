@@ -6,11 +6,6 @@
 ---   cd   ---
 DONE__Gestion du chemin absolu
 
----   export ---
-Affichage
-  - Tri des variables par ordre alhabetique
-  - Affichage avec 'declare -x' + ""
-
 =====   TREE   =====
 
 ---   pipes   ---
