@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/07 16:24:16 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 17:09:54 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,13 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2], int is_pipe)
 	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item, is_pipe)))
 		return (FAILURE);
 	program = fork();
+
 	if (!program) // erreur a gerer si program = -1 ?
 	{
 		if (is_pipe == PIPE_OUT)
 		{
-		// ft_printf(1, "PIPE_OUT !!!\n"); ///////////
 			dup2(pipe_fd[1], 1);
-            close(pipe_fd[0]);
+            // close(pipe_fd[0]);
             close(pipe_fd[1]);
 			execve(exec_path, exec_args, shell->tab_env);	// retour a checker
 
@@ -127,34 +127,34 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2], int is_pipe)
 			exit(0);
 		}
 		else if (is_pipe == PIPE_IN)
-		{
-		// ft_printf(1, "PIPE_IN !!!\n"); ///////////	
+		{			
 			dup2(pipe_fd[0], 0);
             close(pipe_fd[0]);
-            close(pipe_fd[1]);
+            // close(pipe_fd[1]);
 			execve(exec_path, exec_args, shell->tab_env);	// retour a checker
-			
-			
+				
 			dup2(stdin_s, 0);
 			dup2(stdout_s, 1);
 			exit(0);
 
 		}
-		// execve(exec_path, exec_args, shell->tab_env);	// retour a checker
 		else
 		{
 			// close(pipe_fd[0]);
 			// close(pipe_fd[1]);
 			dup2(stdin_s, 0);
 			dup2(stdout_s, 1);
+
 			execve(exec_path, exec_args, shell->tab_env);	// retour a checker
 			exit(0);
 		}
-		
 	}
 	else
-		waitpid(program, &status, 0);
-		// (void)status;
+	{		
+		wait(&status);		
+		dup2(stdin_s, 0);
+		dup2(stdout_s, 1);
+	}
 	
 	return (SUCCESS);								// valeur a confirmer
 }
