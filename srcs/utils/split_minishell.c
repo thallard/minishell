@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:15:21 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/06 09:52:33 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 12:23:41 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,37 +35,28 @@ static int	get_nb_words(const char *str, char c)
 	return (nb_w);
 }
 
-static char	*ft_malloc_ptr(int i, int *j, const char *str, char c)
+static char	*ft_malloc_ptr(t_shell *shell, int *i, const char *str, char c)
 {
 	char	*ptr;
+	int		j;
 
-	*j = 0;
-	while ((str[i + *j] != c) && str[i + *j])
-		(*j)++;
-	if (!(ptr = malloc(sizeof(char) * (*j + 1))))
+	j = 0;
+	while ((str[*i + j] != c) && str[*i + j])
+		(j)++;
+	if (!(ptr = malloc_lst(shell, sizeof(char) * (j + 1))))
 		return (NULL);
-	*j = 0;
-	while (str[i + *j] && (str[i + *j] != c))
+	j = 0;
+	while (str[*i + j] && (str[*i + j] != c))
 	{
-		ptr[(*j)] = str[i + *j];
-		(*j)++;
+		ptr[(j)] = str[*i + j];
+		(j)++;
 	}
-	ptr[(*j)] = '\0';
+	ptr[(j)] = '\0';
+	*i = *i + j;
 	return (ptr);
 }
 
-static int	free_tab_ptr(char ***str_tab, int i_words)
-{
-	int	i;
-
-	i = 0;
-	while (i < i_words)
-		free((*str_tab)[i++]);
-	free(*str_tab);
-	return (0);
-}
-
-static int	sep_str_in_tab(const char *str, char c, char ***str_tab, int *j)
+static int	sep_str_in_tab(t_shell *shell, const char *str, char c, char ***str_tab)
 {
 	int		i;
 	char	*ptr;
@@ -79,10 +70,9 @@ static int	sep_str_in_tab(const char *str, char c, char ***str_tab, int *j)
 	{
 		if ((str[i] != c) && new_w)
 		{
-			if (!(ptr = ft_malloc_ptr(i, j, str, c)))
-				return (free_tab_ptr(str_tab, i_words));
+			if (!(ptr = ft_malloc_ptr(shell, &i, str, c)))
+				return (0);
 			new_w = 0;
-			i = i + *j;
 			(*str_tab)[i_words++] = ptr;
 		}
 		else if (str[i++] == c)
@@ -95,13 +85,11 @@ char		**ft_split_minishell(char const *s, char c, t_shell *shell)
 {
 	char	**str_tab;
 	int		nb_w;
-	int		*j;
 	int		i;
 
 	if (!s)
 		return (NULL);
 	i = 0;
-	j = &i;
 	str_tab = 0;
 	nb_w = get_nb_words(s, c);
 	if (nb_w == 0)
@@ -113,7 +101,7 @@ char		**ft_split_minishell(char const *s, char c, t_shell *shell)
 	}
 	if (!(str_tab = malloc_lst(shell, sizeof(char*) * (nb_w + 1))))
 		return (NULL);
-	if (!sep_str_in_tab(s, c, &str_tab, j))
+	if (!sep_str_in_tab(shell, s, c, &str_tab))
 		return (NULL);
 	str_tab[nb_w] = 0;
 	return (str_tab);
