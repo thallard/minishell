@@ -3,28 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/07 10:33:04 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 14:02:32 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_get_text_echo(char *txt, t_tree *node)
+char	*ft_get_text_echo(char *txt, t_tree *node, t_shell *shell)
 {
 	char		*str;
 	int			i;
+	int			j;
 
 	if (!(str = malloc(sizeof(char) * (ft_strlen(txt) + 2))))
 		return (NULL);
+	j = -1;
 	i = -1;
-	while (txt[++i] && txt[i] != '>')
-		str[i] = txt[i];
+	while (ft_strlen(txt) >= ++j && txt[j] && txt[j] != '>')
+		if (ft_strncmp(&txt[j], "$?", 2) == 0)
+		{
+			str[++i] = shell->exit + '0';
+			j++;
+		}
+		else
+			str[++i] = txt[j];
 	if (!node->left->item)
-		str[i++] = '\n';
-	str[i] = '\0';
+		str[++i] = '\n';
+	str[++i] = '\0';
 	return (ft_strtrim(str, " "));
 }
 
@@ -86,14 +94,21 @@ int		ft_echo(t_shell *shell, t_tree *node)
 	char	*str;
 	char	*txt;
 
-	(void)shell;
 	txt = ft_calloc(1, 10000);
 	i = -1;
 	res = 0;
 	txt = node->right->item;
-	// dprintf(1, "debug node = %s\n", node->right->item);
-	str = ft_get_text_echo(txt, node);
-	// dprintf(1, "texte a ecrire : %s\n", str);
+	if (!txt)
+	{
+		if (!node->left->item)
+			ft_printf(1, "\n");
+		else
+			ft_printf(1, "\0");
+		shell->exit = 0;
+		return (SUCCESS);
+	}
+	if (txt)
+		str = ft_get_text_echo(txt, node, shell);
 	while (txt[++i])
 	{
 		if (ft_strncmp(&txt[i], ">>", 2) == 0)
@@ -101,8 +116,6 @@ int		ft_echo(t_shell *shell, t_tree *node)
 		if (txt[i] == '>')
 			res = ft_overwrite_in_file(txt, node, i++, str);
 	}
-	// if (!node->left->item)
-		// str[ft_strlen(str)] = '\n';
 	if (!res)
 		ft_printf(1, "%s", str);
 	return (res);
