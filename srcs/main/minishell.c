@@ -20,7 +20,7 @@ int	init_shell(t_shell *shell)
 {
 	// if (shell->ptrs)			a corriger
 	// 	free_all_ptr(shell);
-	shell->exit = 4;		// bonne valeur ?
+	shell->exit = 1;		// bonne valeur ?
 	//shell->var_env = NULL;
 	// shell->tab_env = NULL;
 	// shell->ptrs = NULL;
