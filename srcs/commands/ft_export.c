@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/06 15:48:28 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 13:21:13 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,12 @@ int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env)
 		{
 			if (env->hidden == 2 || ((char *)shell->var_env->content)[0] == '\0')
 			{
-					env->hidden = 0;
+				env->hidden = 0;
 				shell->var_env->hidden = 0;
-					free(shell->var_env->content);
+				free(shell->var_env->content);
 				shell->var_env->content = content;
-
 				shell->var_env = begin;
-
-				
-				
-			return (SUCCESS);
+				return (SUCCESS);
 			}
 		}
 	}
@@ -74,7 +70,6 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 			while (str[j])
 				((char *)env->content)[k++] = str[j++];
 			((char *)env->content)[k] = '\0';
-			// dprintf(1, "debug du k pour le 0 %d et du content %s\n", k, env->content);
 			env->hidden = 0;
 			ft_if_env_exists(shell, env->name, env->content, env);
 		}
@@ -112,19 +107,19 @@ int		ft_add_new_env(t_shell *shell, t_tree *node)
 		else
 			new_lst->hidden = 0;
 		new_lst->name[j++] = '\0';
-		//  dprintf(1, "debug str = %s\n", tab[i]);
 		if ((j + 3) <= ft_strlen(tab[i]))
 			if (ft_strncmp(&tab[i][j], "\"\"", 3) == 0)
 				((char *)new_lst->content)[0] = '\0';
 		ft_filter_and_add(shell, new_lst, tab[i], j);
-			
-		// ft_print_env_var(shell->var_env);
 	}
 	return (SUCCESS);
 }
 
 int		ft_export(t_shell *shell, t_tree *node)
 {
+	t_env	*sorted_env;
+
+	sorted_env = NULL;
 	if (node->left->item)
 	{
 		if (ft_add_new_env(shell, node))
@@ -138,5 +133,13 @@ int		ft_export(t_shell *shell, t_tree *node)
 			return (SUCCESS);
 		}
 	}
+	else
+	{
+		sorted_env = ft_clone_export_env(shell->var_env);
+		ft_sort_export_var(sorted_env);
+		ft_print_export_var(sorted_env);
+		ft_free_export_env(&sorted_env);
+	}
+		
 	return (SUCCESS);
 }
