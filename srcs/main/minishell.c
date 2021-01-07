@@ -34,8 +34,6 @@ int	init_shell(t_shell *shell)
 
 int	ft_exec(t_shell *shell, t_tree *node, int pipe_fd[2], int is_pipe)
 {
-	(void)pipe_in;
-	(void)pipe_out;
 	if (!ft_strncmp(node->item, "echo", 5))
 		return (ft_echo(shell, node));
 	if (!ft_strncmp(node->item, "cd", 3))
