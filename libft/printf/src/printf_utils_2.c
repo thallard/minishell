@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:34:52 by bjacob            #+#    #+#             */
-/*   Updated: 2020/12/22 07:48:04 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 10:29:15 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	ft_put_zero_and_space(long long i, int *tab, int len, int fd)
 	}
 	nb += ft_putspace(nb_space, fd);
 	if (i < 0 && (tab[0] > 0 || tab[2] > 0))
-		nb += ft_put_sign_fd(STDOUT);
+		nb += ft_put_sign_fd(fd);
 	nb += ft_putzero(nb_zero, fd);
 	return (nb);
 }

@@ -6,41 +6,13 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:57:24 by bjacob            #+#    #+#             */
-/*   Updated: 2020/12/22 07:46:59 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 10:34:57 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-void	fill_tab_indic(va_list ap, char **str, int *tab)
-{
-	int	etoile;
-
-	if (ft_is_digit_printf(**str) && !tab[1])
-		ft_add_digit_to_tab(ap, str, tab);
-	if (**str == '-')
-	{
-		tab[1] = ft_abs_printf(ft_atoi_simplify(ap, str));
-		tab[0] = 0;
-	}
-	if (**str == '.')
-		tab[2] = ft_atoi_simplify(ap, str);
-	if (**str == '*')
-	{
-		etoile = ft_atoi_simplify(ap, str);
-		if (etoile < 0)
-			tab[1] = -etoile;
-		else
-			tab[4] = etoile;
-	}
-	if (tab[0] < 0)
-	{
-		tab[1] = tab[0] * (-1);
-		tab[0] = 0;
-	}
-}
-
-void	str_add_hexa(va_list ap, int *nb_char, int *tab)
+void	str_add_hexa(int fd, va_list ap, int *nb_char, int *tab)
 {
 	void			*p;
 	unsigned long	add;
@@ -54,15 +26,15 @@ void	str_add_hexa(va_list ap, int *nb_char, int *tab)
 	if (tab[0] < 0)
 	{
 		tab[0] *= -1;
-		nb += ft_putspace(1, STDOUT);
+		nb += ft_putspace(1, fd);
 	}
-	nb += ft_put_zero_and_space_add(tab, len, STDOUT);
-	nb += print_base_fd(add, tab, STDOUT, "0123456789abcdef");
-	nb += ft_putspace(ft_max_printf(tab[1] - nb, 0), STDOUT);
+	nb += ft_put_zero_and_space_add(tab, len, fd);
+	nb += print_base_fd(add, tab, fd, "0123456789abcdef");
+	nb += ft_putspace(ft_max_printf(tab[1] - nb, 0), fd);
 	*nb_char += nb;
 }
 
-void	str_unsigned_hexa(va_list ap, char **str, int *nb_char, int *tab)
+void	str_unsigned_hexa_x(int fd, va_list ap, int *nb_char, int *tab)
 {
 	unsigned int	x;
 	int				len;
@@ -71,12 +43,24 @@ void	str_unsigned_hexa(va_list ap, char **str, int *nb_char, int *tab)
 	nb = 0;
 	x = va_arg(ap, unsigned int);
 	len = ft_nbrlen_base(x, 16);
-	nb += ft_put_zero_and_space(x, tab, len, STDOUT);
-	if (**str == 'x')
-		nb += print_base_fd(x, tab, STDOUT, "0123456789abcdef");
-	if (**str == 'X')
-		nb += print_base_fd(x, tab, STDOUT, "0123456789ABCDEF");
-	nb += ft_putspace(ft_max_printf(tab[1] - nb, 0), STDOUT);
+	nb += ft_put_zero_and_space(x, tab, len, fd);
+	nb += print_base_fd(x, tab, fd, "0123456789abcdef");
+	nb += ft_putspace(ft_max_printf(tab[1] - nb, 0), fd);
+	*nb_char += nb;
+}
+
+void	str_unsigned_hexa_x_maj(int fd, va_list ap, int *nb_char, int *tab)
+{
+	unsigned int	x;
+	int				len;
+	int				nb;
+
+	nb = 0;
+	x = va_arg(ap, unsigned int);
+	len = ft_nbrlen_base(x, 16);
+	nb += ft_put_zero_and_space(x, tab, len, fd);
+	nb += print_base_fd(x, tab, fd, "0123456789ABCDEF");
+	nb += ft_putspace(ft_max_printf(tab[1] - nb, 0), fd);
 	*nb_char += nb;
 }
 

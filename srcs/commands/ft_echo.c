@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/06 15:50:59 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 10:33:04 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		ft_add_text_in_file(char *txt, t_tree *node, int i, char *str)
 	fd = ft_get_fd(txt, node, i, 0);
 	write(fd, str, ft_strlen(str));
 	close(fd);
-	//ft_printf("debug txt = |%c|%c|\n", txt[i], txt[i + 1]);
+	//ft_printf(1, "debug txt = |%c|%c|\n", txt[i], txt[i + 1]);
 	return (fd);
 }
 
@@ -104,6 +104,6 @@ int		ft_echo(t_shell *shell, t_tree *node)
 	// if (!node->left->item)
 		// str[ft_strlen(str)] = '\n';
 	if (!res)
-		ft_printf("%s", str);
+		ft_printf(1, "%s", str);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:52:12 by bjacob            #+#    #+#             */
-/*   Updated: 2020/12/22 07:46:59 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 10:34:38 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@
 # include <unistd.h>
 # include <stdarg.h>
 
-void	str_convert(va_list ap, char **str, int *nb_char);
-void	str_process(va_list ap, char **str, int *nb_char);
-int		ft_printf(const char *format, ...) __attribute__((format(printf,1,2)));
-
-void	str_int(va_list ap, int *nb_char, int *tab);
-void	str_char(va_list ap, int *nb_char, int *tab);
-void	str_string(va_list ap, int *nb_char, int *tab);
-void	str_percent(int *nb_char, int *tab);
-void	str_decimal(va_list ap, int *nb_char, int *tab);
-
 void	fill_tab_indic(va_list ap, char **str, int *tab);
-void	str_add_hexa(va_list ap, int *nb_char, int *tab);
-void	str_unsigned_hexa(va_list ap, char **str, int *nb_char, int *tab);
+void	str_convert(int fd, va_list ap, char **str, int *nb_char);
+void	str_process(int fd, va_list ap, char **str, int *nb_char);
+int		ft_printf(int fd, const char *format, ...);
+
+void	str_int(int fd, va_list ap, int *nb_char, int *tab);
+void	str_char(int fd, va_list ap, int *nb_char, int *tab);
+void	str_string(int fd, va_list ap, int *nb_char, int *tab);
+void	str_percent(int fd, int *nb_char, int *tab);
+void	str_decimal(int fd, va_list ap, int *nb_char, int *tab);
+
+void	str_add_hexa(int fd, va_list ap, int *nb_char, int *tab);
+void	str_unsigned_hexa_x(int fd, va_list ap, int *nb_char, int *tab);
+void	str_unsigned_hexa_x_maj(int fd, va_list ap, int *nb_char, int *tab);
 int		ft_putchar_and_space_fd(int *tab, char c, int fd);
 int		ft_putstr_and_space_fd(int *tab, char *s, int fd);
 

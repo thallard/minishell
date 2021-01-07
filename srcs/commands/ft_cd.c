@@ -94,19 +94,47 @@ static int	go_to_folder(char *folder)
 	return (get_correct_return(res));
 }
 
+static int	go_to_home(t_shell *shell)
+{
+	char	*path;
+	int		res;
+
+ft_printf(1, "aaaaaa\n");
+ft_printf(1, "--- %s\n", shell->var_env->name);
+
+
+	path = NULL;
+	if ((get_var_env(shell, "HOME", &path) == -1) || !path)
+		return (-1);
+
+// ft_printf(1, "path cd = %s\n", path);
+
+
+	res = chdir(path);
+
+	// ft_printf(1, "res cd1 = %d\n", res);
+
+	return (get_correct_return(res));
+}
+
 int		ft_cd(t_shell *shell, t_tree *node)
 {
 	int		res;
 
-	if (!(node->left->item = ft_strtrim(node->left->item, "\n")))
-		return (FAILURE);
-	if (!add_lst_to_free(shell, node->left->item))
-		return (FAILURE);
-	if (!ft_strncmp(node->left->item, "..", 3))
+	// ft_print_env_var(shell->var_env); ////
+
+	if (!node->left->item)
+		res = go_to_home(shell);
+	else if (!ft_strncmp(node->left->item, "..", 3))
 		res = go_to_upper_folder();
 	else
 		res = go_to_folder(node->left->item);
+
+	ft_print_env_var(shell->var_env); ////
+	ft_printf(1, "res cd2 = %d\n", res);
+
+
 	if (res == -1)
 		return (print_cd_error(shell, node->left->item));
-	return (res);
+	return (SUCCESS);
 }

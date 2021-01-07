@@ -55,14 +55,17 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 {
 	int	res;
 
-	// ft_printf("minishell-3000$ ");
+	// ft_printf(1, "minishell-3000$ ");
 	ft_remove_eol(buf);
 	init_shell(shell);
 	res = create_main_tree(shell, buf);
 	if (res == -2)
-		ft_printf("syntax error near unexpected token `%s'\n", shell->sep);
+		ft_printf(1, "syntax error near unexpected token `%s'\n", shell->sep);
 	if (res >= 0)
+	{
+		// ft_print_tree(shell->root, 0); ////////////
 		read_tree(shell);
+	}
 	ft_bzero(buf, ft_strlen(buf));
 	return (SUCCESS);
 }
@@ -75,7 +78,7 @@ int main(int argc, char **argv)
 	// int		res;
 
 // int	err = 2;
-// ft_printf("err = %d\nerror = %s", err, strerror(err));
+// ft_printf(1, "err = %d\nerror = %s", err, strerror(err));
 
 	shell = malloc(sizeof(t_shell));
 	shell->ptrs = NULL; 
@@ -85,13 +88,17 @@ int main(int argc, char **argv)
 	// ft_fill_lst_env(shell);
 	ft_fill_lst_env(shell);
 
+
+	// ft_print_env_var(shell->var_env); ////
+
+
 	buf = calloc(1, 1000); // a ajouter a la liste
 	if (!buf)
 		return (FAILURE);	// exit a gerer avec une erreur
 	// size = 1;
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))		// a voir
 		return (ft_apply_minishell(shell, argv[2]));
-	// ft_printf("minishell-3000$ ");
+	// ft_printf(1, "minishell-3000$ ");
 	while ((size = read(0, buf, 1000) > 0))
 		ft_apply_minishell(shell, buf);
 	return (SUCCESS);

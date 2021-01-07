@@ -14,26 +14,26 @@ void	ft_print_tree(t_tree *node, int nb)
 	if (!node)
 	{
 		print_nb_char(nb, ' ');
-		ft_printf("0\n");
+		ft_printf(1, "0\n");
 	}
 	else
 	{
 		print_nb_char(nb, ' ');
-		ft_printf("|%s|\n", node->item);
+		ft_printf(1, "|%s|\n", node->item);
 
 		print_nb_char(nb, '-');
-		ft_printf("\n");
+		ft_printf(1, "\n");
 
-		ft_printf("l.");
+		ft_printf(1, "l.");
 		ft_print_tree(node->left, nb + 1);
-		// ft_printf("|%s|\n", node->item);
+		// ft_printf(1, "|%s|\n", node->item);
 
 		print_nb_char(nb, '-');
-		ft_printf("\n");
+		ft_printf(1, "\n");
 
-		ft_printf("r.");
+		ft_printf(1, "r.");
 
 		ft_print_tree(node->right, nb + 1);
-		ft_printf("\n");
+		ft_printf(1, "\n");
 	}
 }

@@ -2,7 +2,7 @@
 
 
 =====   COMMANDS   =====
-w
+
 ---   cd   ---
 DONE__Gestion du chemin absolu
 
@@ -23,5 +23,3 @@ Utilisation
 Parsing
    - Priorite avec les pipes et ';' ?
    - Bonne gestion de la recuperation des parametres
-
-
