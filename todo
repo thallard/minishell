@@ -1,0 +1,27 @@
+
+
+
+=====   COMMANDS   =====
+
+---   cd   ---
+Gestion du chemin absolu
+
+---   export ---
+Affichage
+  - Tri des variables par ordre alhabetique
+  - Affichage avec 'declare -x' + ""
+
+=====   TREE   =====
+
+---   pipes   ---
+Parsing
+   - Recuperation des pipes dans l'arbre (avec ';' ?)
+Utilisation
+   - Gestion des input/output et fd
+
+---   " " et ' '   ---
+Parsing
+   - Priorite avec les pipes et ';' ?
+   - Bonne gestion de la recuperation des parametres
+
+
