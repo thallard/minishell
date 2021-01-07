@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:40:31 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/06 10:41:37 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 13:10:55 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		get_echo_arg(t_shell *shell, char **input, t_tree *op_node)
 {
 	if (!(op_node->left = get_next_arg_echo(shell, input, 1)))
 		return (FAILURE);
-	if (!ft_strncmp(op_node->left->item, "-n", 3))
+	if (op_node->left->item && !ft_strncmp(op_node->left->item, "-n", 3))
 		op_node->right = get_next_arg_echo(shell, input, 2);
 	else
 	{

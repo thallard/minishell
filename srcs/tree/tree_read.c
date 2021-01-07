@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/07 12:23:18 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/07 13:15:50 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,12 @@ int		read_tree(t_shell *shell)
 		t_current = t_current->right;
 		if (!strncmp(t_current->item, ";", 2))	//	a voir pour |
 		{
-			res = ft_exec(shell, t_current->left);	// a traiter
+			res = ft_exec(shell, t_current->left, 0, 0);	// a traiter
 			is_end = (t_current->right != NULL);
 		}
 		else
 		{
-			res = ft_exec(shell, t_current);
+			res = ft_exec(shell, t_current, 0, 0);
 			is_end = 0;
 		}
 	}
