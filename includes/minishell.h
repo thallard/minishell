@@ -24,6 +24,8 @@
 
 # define DOUBLE_SEP -2
 
+# define PIPE 1
+
 typedef struct		s_tree
 {
 	struct s_tree	*left;
@@ -63,7 +65,7 @@ typedef struct		s_shell
 ** minishell.c
 */
 int		init_shell(t_shell *shell);
-int		ft_exec(t_shell *shell, t_tree *node);
+int	ft_exec(t_shell *shell, t_tree *node, int pipe_out, int pipe_in);
 
 /*
 ****************************************************
