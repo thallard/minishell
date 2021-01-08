@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/08 10:21:25 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/08 10:34:09 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,16 +123,16 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 
 	if (!program) // erreur a gerer si program = -1 ?
 	{
-		if (is_pipe / 2 != 1)
+		if (is_pipe / 2 < 1)
 		{
-// dprintf(1, "--NOT PIPE_IN %s\n", node->item);
+dprintf(1, "--NOT PIPE_IN %s %s\n", node->item, exec_args[1]);
 			// close(pipe_fd[1 - shell->last_pipe][0]);
 			// pipe_fd[1 - shell->last_pipe][0] = shell->std[0];
 			dup2(shell->std[0], pipe_fd[1 - shell->last_pipe][0]);
 		}
 		if (is_pipe % 2 != PIPE_OUT)
 		{
-// dprintf(1, "--NOT PIPE_OUT %s\n", node->item);
+dprintf(1, "--NOT PIPE_OUT %s %s\n", node->item, exec_args[1]);
 			// close(pipe_fd[shell->last_pipe][1]);
 			// pipe_fd[shell->last_pipe][1] = shell->std[1];
 			dup2(shell->std[1], pipe_fd[shell->last_pipe][1]);
