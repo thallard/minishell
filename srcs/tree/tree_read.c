@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/07 17:09:54 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/08 10:21:25 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,18 @@ char	**get_exec_args(t_shell *shell, char *exec, char *args, int is_pipe)
 	return (tab);
 }
 
-int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2], int is_pipe)
+int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 {
 	char	*exec_path;
 	char	**exec_args;
 	pid_t	program;
 	int		status;
 
-	int		stdin_s;
-	int		stdout_s;
+	// int		stdin_s;
+	// int		stdout_s;
 
-	stdin_s = dup(0);
-	stdout_s = dup(1);
+	// stdin_s = dup(0);
+	// stdout_s = dup(1);
 // ft_printf(1, "cmd = %s\npipe_out = %d\npipe_in = %d\n", node->item, is_pipe == PIPE_OUT, is_pipe == PIPE_IN);
 
 	if (!(exec_path = find_exec(shell, node)))
@@ -111,86 +111,97 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2], int is_pipe)
 	}
 	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item, is_pipe)))
 		return (FAILURE);
-	program = fork();
+
+// dprintf(1, "pipe_in = %d\n\n", is_pipe);
+// dprintf(1, "shell->last_pipe = %d\n", shell->last_pipe);
+// dprintf(1, "main program pid = %d\n", getpid());
+
+	if ((program = fork()) == -1)
+		return (FAILURE);	// a gerer
+
+// dprintf(1, "program = %d\n\n", program);
 
 	if (!program) // erreur a gerer si program = -1 ?
 	{
-		if (is_pipe == PIPE_OUT)
+		if (is_pipe / 2 != 1)
 		{
-			dup2(pipe_fd[1], 1);
-            // close(pipe_fd[0]);
-            close(pipe_fd[1]);
-			execve(exec_path, exec_args, shell->tab_env);	// retour a checker
-
-			dup2(stdin_s, 0);
-			dup2(stdout_s, 1);
-			exit(0);
+// dprintf(1, "--NOT PIPE_IN %s\n", node->item);
+			// close(pipe_fd[1 - shell->last_pipe][0]);
+			// pipe_fd[1 - shell->last_pipe][0] = shell->std[0];
+			dup2(shell->std[0], pipe_fd[1 - shell->last_pipe][0]);
 		}
-		else if (is_pipe == PIPE_IN)
-		{			
-			dup2(pipe_fd[0], 0);
-            close(pipe_fd[0]);
-            // close(pipe_fd[1]);
-			execve(exec_path, exec_args, shell->tab_env);	// retour a checker
-				
-			dup2(stdin_s, 0);
-			dup2(stdout_s, 1);
-			exit(0);
-
-		}
-		else
+		if (is_pipe % 2 != PIPE_OUT)
 		{
-			// close(pipe_fd[0]);
-			// close(pipe_fd[1]);
-			dup2(stdin_s, 0);
-			dup2(stdout_s, 1);
-
-			execve(exec_path, exec_args, shell->tab_env);	// retour a checker
-			exit(0);
+// dprintf(1, "--NOT PIPE_OUT %s\n", node->item);
+			// close(pipe_fd[shell->last_pipe][1]);
+			// pipe_fd[shell->last_pipe][1] = shell->std[1];
+			dup2(shell->std[1], pipe_fd[shell->last_pipe][1]);
 		}
+		
+		dup2(pipe_fd[shell->last_pipe][1], 1);
+		dup2(pipe_fd[1 - shell->last_pipe][0], 0);
+		
+		close(pipe_fd[shell->last_pipe][0]);
+		close(pipe_fd[1 - shell->last_pipe][1]);
+
+// dprintf(1, "--PIPE %s\n", node->item);
+		execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+		exit(0);
 	}
 	else
 	{		
-		wait(&status);		
-		dup2(stdin_s, 0);
-		dup2(stdout_s, 1);
+		close(pipe_fd[shell->last_pipe][1]);
+		close(pipe_fd[1 - shell->last_pipe][0]);
+		wait(&status);
+		// dup2(shell->std[0], 0);
+		// dup2(shell->std[1], 1);
+
+// dprintf(1, "--> %s\n", node->item);
+		
 	}
-	
+
 	return (SUCCESS);								// valeur a confirmer
 }
 
-int		read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2])
+int	ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
+{
+	pipe(pipe_fd[1 - shell->last_pipe]);
+	dup2(pipe_fd[shell->last_pipe][0], pipe_fd[1 - shell->last_pipe][0]);
+	dup2(pipe_fd[shell->last_pipe][1], pipe_fd[1 - shell->last_pipe][1]);
+	shell->last_pipe = 1 - shell->last_pipe;
+	ft_exec(shell, node, pipe_fd, is_pipe);
+	return (SUCCESS);
+}
+
+int		read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int pipe_in)
 {
 	int	res;
 	int	is_end;
-	int	pipe_in;
-	
-	// int pipe_fd[2];
 
 	is_end = 0;
-	// pipe_fd[0] = -1;
 	if (!strncmp((*t_current)->item, "|", 2))
-		pipe_in = 1;
+		pipe_in += PIPE_IN;
+		
 	*t_current = (*t_current)->right;
 	
 	if (!strncmp((*t_current)->item, ";", 2))
 	{
-		res = ft_exec(shell, (*t_current)->left, 0, 0);	// a traiter
+		res = ft_exec_and_pipe(shell, (*t_current)->left, pipe_fd, pipe_in);	// a traiter
 		is_end = ((*t_current)->right != NULL);
 	}
 	else if (!strncmp((*t_current)->item, "|", 2))
 	{
-		if (pipe(pipe_fd) == -1)
-			return (FAILURE);		// a gerer, ou a mettre is_end ?
-
-		res = ft_exec(shell, (*t_current)->left, pipe_fd, PIPE_OUT);	// a traiter
+		if (pipe(pipe_fd[1 - shell->last_pipe]) == -1)
+			return (FAILURE);
+		shell->last_pipe = 1 - shell->last_pipe;		
+		res = ft_exec(shell, (*t_current)->left, pipe_fd, PIPE_OUT + pipe_in);	// a traiter
 		// verif du fd entre les deux ?
 		if ((is_end = ((*t_current)->right != NULL)))
-			return (read_node(shell, t_current, pipe_fd));
+			return (read_node(shell, t_current, pipe_fd, pipe_in));
 		return (PIPE_STDIN);						// a gerer ?
 	}
 	else
-		res = ft_exec(shell, *t_current, pipe_fd, PIPE_IN);
+		res = ft_exec_and_pipe(shell, *t_current, pipe_fd, pipe_in);
 	return (is_end);
 }
 
@@ -199,21 +210,22 @@ int		read_tree(t_shell *shell)
 	int		is_end;
 	t_tree	*t_current;
 
-	int pipe_fd[2];
-	pipe_fd[0] = -1;
-	pipe_fd[1] = -1;
-
+	int pipe_fd[2][2];
+	pipe_fd[0][0] = -1;
+	pipe_fd[0][1] = -1;
+	pipe_fd[1][0] = -1;
+	pipe_fd[1][1] = -1;
 
 	t_current = shell->root;
 	is_end = (t_current->right != NULL);
 	while (is_end)
 	{
 		// t_current = t_current->right;
-		is_end = read_node(shell, &t_current, pipe_fd);
+		is_end = read_node(shell, &t_current, pipe_fd, 0);
 		// close(pipe_fd[0]);
         // close(pipe_fd[1]);
-		pipe_fd[0] = -1;
-		pipe_fd[1] = -1;
+		// pipe_fd[0] = -1;
+		// pipe_fd[1] = -1;	
 	}
 	return (SUCCESS);
 }

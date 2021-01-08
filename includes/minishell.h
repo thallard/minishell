@@ -7,6 +7,7 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 
 # include "../libft/includes/libft.h"
 # include "../libft/includes/get_next_line.h"
@@ -55,6 +56,8 @@ typedef struct		s_shell
 	int				last_node;
 	char			*op;
 	char			*sep;
+	int				last_pipe;
+	int				std[2];
 }					t_shell;
 
 /*
@@ -67,7 +70,7 @@ typedef struct		s_shell
 ** minishell.c
 */
 int		init_shell(t_shell *shell);
-int		ft_exec(t_shell *shell, t_tree *node, int pipe_fd[2], int is_pipe);
+int		ft_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
 
 /*
 ****************************************************
@@ -99,8 +102,9 @@ int		get_operand_arg(t_shell *shell, char **input, t_tree *op_node);
 char	*is_exec_in_path(char *exec, char *folder_path);
 char	*find_exec(t_shell *shell, t_tree *node);
 char	**get_exec_args(t_shell *shell, char *exec, char *args, int is_pipe);
-int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2], int is_pipe);
-int		read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2]);
+int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
+int	ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
+int		read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int pipe_in);
 int		read_tree(t_shell *shell);
 
 
@@ -172,7 +176,7 @@ t_env	*ft_clone_export_env(t_env *lst);
 ** Commands
 */
 int		ft_cd(t_shell *shell, t_tree *node);
-int		ft_pwd(t_shell *shell, int pipe_out[2], int is_pipe);
+int		ft_pwd(t_shell *shell, int pipe_out[2][2], int is_pipe);
 int		ft_echo(t_shell *shell, t_tree *node);
 int		ft_env(t_shell *shell, t_tree *node);
 int		ft_export(t_shell *shell, t_tree *node);

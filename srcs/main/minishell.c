@@ -29,10 +29,13 @@ int	init_shell(t_shell *shell)
 	shell->last_node = SEP;
 	shell->op = NULL;
 	shell->sep = NULL;
+	shell->last_pipe = 1;
+	shell->std[0] = dup(0);
+	shell->std[1] = dup(1);
 	return (SUCCESS);
 }
 
-int	ft_exec(t_shell *shell, t_tree *node, int pipe_fd[2], int is_pipe)
+int	ft_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 {
 	if (!ft_strncmp(node->item, "echo", 5))
 		return (ft_echo(shell, node));
@@ -63,7 +66,7 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 		ft_printf(1, "syntax error near unexpected token `%s'\n", shell->sep);
 	if (res >= 0)
 	{
-		//ft_print_tree(shell->root, 0); ////////////
+		// ft_print_tree(shell->root, 0); ////////////
 		read_tree(shell);
 	}
 	ft_bzero(buf, ft_strlen(buf));
