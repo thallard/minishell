@@ -6,7 +6,7 @@ comm = srcs/commands
 SRCS	=	$(main)/minishell.c \
 			$(tree)/tree_build.c $(tree)/tree_get_arg.c $(tree)/tree_read.c \
 			$(utils)/str_utils.c $(utils)/str_utils_op_sep_space.c $(utils)/env_utils.c $(utils)/env_utils2.c \
-			$(utils)/print_return.c $(utils)/split_minishell.c $(utils)/clear_objects.c \
+			$(utils)/print_return.c $(utils)/split_minishell.c $(utils)/clear_objects.c $(utils)/ft_split_quotes.c \
 			$(comm)/ft_cd.c \
 			$(comm)/ft_pwd.c \
 			$(comm)/ft_echo.c \
@@ -14,6 +14,7 @@ SRCS	=	$(main)/minishell.c \
 			$(comm)/ft_export.c \
 			$(comm)/ft_unset.c \
 			$(comm)/ft_exit.c \
+			$(comm)/ft_echo_env.c \
 			srcs/print_functions.c \
 
 OBJS = $(SRCS:.c=.o)
@@ -25,11 +26,11 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 INC =	-I./includes -L./libft -lft
 
 .c.o:
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 $(NAME):	libft $(OBJS)
-	$(CC)  $(CFLAGS) $(OBJS) $(INC) -o $(NAME)
-	bash srcs/commands/sh/get_env.sh
+	$(CC) $(CFLAGS) $(OBJS) $(INC) -o $(NAME) 
+	bash srcs/commands/sh/get_env.sh 
 
 
 libft:
@@ -39,6 +40,7 @@ $(OBJS): includes/minishell.h libft/includes/libft.h
 
 $(OBJS_cd): includes/minishell.h libft/includes/libft.h
 
+SILENT:
 all:	$(NAME)
 
 allc : all clean

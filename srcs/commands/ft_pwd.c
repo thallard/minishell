@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/07 10:33:04 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/08 11:02:09 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 int		ft_pwd(t_shell *shell)
 {
-	int		res;
-	char	*path;
+	char	path[10000];
 
-	(void)shell;
-	res = 0;
-	path = ft_calloc(1, 500);
-	getcwd(path, 500);
+	getcwd(path, 10000);
 	ft_printf(1, "%s\n", path);
-	return (res);
+	shell->exit = 0;
+	return (SUCCESS);
 }

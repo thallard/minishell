@@ -42,6 +42,12 @@ typedef struct		s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct		s_split
+{
+	int		s_quotes;
+	int		d_quotes;
+}					t_split;
+
 typedef struct		s_shell
 {
 	int				exit;
@@ -53,6 +59,7 @@ typedef struct		s_shell
 	int				last_node;
 	char			*op;
 	char			*sep;
+	t_split			*split;
 }					t_shell;
 
 /*
@@ -127,8 +134,10 @@ int		print_cd_error(t_shell *shell, char *cmd);
 */
 char		**ft_split_minishell(char const *s, char c, t_shell *shell);
 
-
-
+/*
+** ft_split_quotes.c
+*/
+char	**ft_split_quotes(t_shell *shell, t_split *s, char *str);
 
 /*
 ** str_utils.c
@@ -136,6 +145,7 @@ char		**ft_split_minishell(char const *s, char c, t_shell *shell);
 int		ft_strrfind(const char *s, int c);
 char	*ft_remove_eol(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2);
 
 /*
 ** str_utils_op_sep_space.c
@@ -185,6 +195,7 @@ char	*ft_fill_env_content(t_shell *shell, char *str);
 int		ft_fill_tab_env(t_shell *shell);
 t_env	*ft_fill_first_lst(t_shell *shell, char **tab, t_env *lst);
 int		get_var_env(t_shell *shell, char *var_name, char **content);
+char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
 
 
 /*

@@ -24,6 +24,8 @@ int	init_shell(t_shell *shell)
 	//shell->var_env = NULL;
 	// shell->tab_env = NULL;
 	// shell->ptrs = NULL;
+	shell->split->s_quotes = 0;
+	shell->split->d_quotes = 0;
 	shell->root = NULL;
 	shell->input = NULL;
 	shell->last_node = SEP;
@@ -57,7 +59,7 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 {
 	int	res;
 
-	// ft_printf(1, "minishell-3000$ ");
+	//ft_printf(1, "minishell-3000$ ");
 	ft_remove_eol(buf);
 	init_shell(shell);
 	res = create_main_tree(shell, buf);
@@ -83,6 +85,7 @@ int main(int argc, char **argv)
 // ft_printf(1, "err = %d\nerror = %s", err, strerror(err));
 
 	shell = malloc(sizeof(t_shell));
+	shell->split = malloc(sizeof(t_split));
 	shell->ptrs = NULL; 
 	shell->var_env = NULL;
 	shell->tab_env = NULL;

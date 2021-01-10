@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/07 13:21:13 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/08 10:57:47 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int		ft_add_new_env(t_shell *shell, t_tree *node)
 			new_lst->hidden = 0;
 		new_lst->name[j++] = '\0';
 		if ((j + 3) <= ft_strlen(tab[i]))
-			if (ft_strncmp(&tab[i][j], "\"\"", 3) == 0)
+			if (ft_strncmp(&tab[i][j], "\"\"", 3) == 0 || ft_strncmp(&tab[i][j], "\'\'", 3) == 0)
 				((char *)new_lst->content)[0] = '\0';
 		ft_filter_and_add(shell, new_lst, tab[i], j);
 	}
