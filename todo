@@ -13,6 +13,8 @@ Parsing
    - Recuperation des pipes dans l'arbre (avec ';' ?)
 Utilisation
    - Gestion des input/output et fd
+Si input se termine par |
+   - attente sur l'entree standard ?
 
 ---   " " et ' '   ---
 Parsing

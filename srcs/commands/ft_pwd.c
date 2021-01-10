@@ -6,18 +6,25 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/08 11:02:09 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/10 16:06:50 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		ft_pwd(t_shell *shell)
+int		ft_pwd(t_shell *shell, int pipe_fd[2][2], int is_pipe)
 {
-	char	path[10000];
+	int		res;
+	char	*path;
+	int		fd;
 
-	getcwd(path, 10000);
-	ft_printf(1, "%s\n", path);
-	shell->exit = 0;
-	return (SUCCESS);
+	fd = 1;
+	(void)shell;
+	res = 0;
+	path = ft_calloc(1, 500);
+	getcwd(path, 500);
+	if (is_pipe == PIPE_OUT) // quid de PIPE_IN ??
+		fd = pipe_fd[shell->last_pipe][1];
+	ft_printf(fd, "%s\n", path);
+	return (res);
 }
