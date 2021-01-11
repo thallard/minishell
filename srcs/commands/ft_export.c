@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/08 10:57:47 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 13:59:08 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env)
 	t_env	*begin;
 
 	begin = shell->var_env;
+	dprintf(1, "debug entree du add : %d\n", env->hidden);
 	while (shell->var_env->next)
 	{
 		shell->var_env = shell->var_env->next;
@@ -44,8 +45,7 @@ int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env)
 		{
 			if (env->hidden == 2 || ((char *)shell->var_env->content)[0] == '\0')
 			{
-				env->hidden = 0;
-				shell->var_env->hidden = 0;
+				shell->var_env->hidden = env->hidden;
 				free(shell->var_env->content);
 				shell->var_env->content = content;
 				shell->var_env = begin;
@@ -104,11 +104,14 @@ int		ft_add_new_env(t_shell *shell, t_tree *node)
 			new_lst->name[j] = tab[i][j];
 		if (tab[i][j] == '=' && !tab[i][j + 1])
 			new_lst->hidden = 2;
+		else if (tab[i][j] != '=' && !tab[i][j])
+			new_lst->hidden = 1;
 		else
 			new_lst->hidden = 0;
+		dprintf(1, "debug hidden = %d\n", new_lst->hidden);
 		new_lst->name[j++] = '\0';
-		if ((j + 3) <= ft_strlen(tab[i]))
-			if (ft_strncmp(&tab[i][j], "\"\"", 3) == 0 || ft_strncmp(&tab[i][j], "\'\'", 3) == 0)
+		if ((j + 2) <= ft_strlen(tab[i]))
+			if (ft_strncmp(&tab[i][j], "\"\"", 2) == 0 || ft_strncmp(&tab[i][j], "\'\'", 2) == 0)
 				((char *)new_lst->content)[0] = '\0';
 		ft_filter_and_add(shell, new_lst, tab[i], j);
 	}

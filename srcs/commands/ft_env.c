@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/07 11:31:17 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 13:02:48 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,15 @@ int		ft_env(t_shell *shell, t_tree *node)
 	return (SUCCESS);
 }
 
-int		ft_fill_lst_env(t_shell *shell)
+int		ft_fill_lst_env(t_shell *shell, char **envp)
 {
 	char	str[10000];
 	int		i;
 	int		j;
 	t_env	*new_lst;
 
-// ft_printf(1, "bbbbbb\n");	//////////////////
-
-
-
-	if ((ft_fill_tab_env(shell) < 0))
+	if ((ft_fill_tab_env(shell, envp) < 0))
 		return (FAILURE);
-
-// ft_printf(1, "p0\n");	//////////////////
-
-		
 	shell->var_env = NULL;
 	i = -1;
 	while (shell->tab_env[++i])
@@ -75,22 +67,33 @@ char	*ft_fill_env_content(t_shell *shell, char *str)
 	return (content);
 }
 
-int		ft_fill_tab_env(t_shell *shell)
+int		ft_fill_tab_env(t_shell *shell, char **envp)
 {
-	int				fd;
-	char			str_file[10000];
-	struct stat		fd_status;
+	int				i;
 
-	if (stat("env_file", &fd_status) == -1)
+	dprintf(1, "%s\n\n\n", envp[0]);
+	i = -1;
+	while (envp[++i])
+		;
+	if (!(shell->tab_env = malloc(100000)))
 		return (FAILURE);
+	i = -1;
+	while (envp[++i])
+	{
+		shell->tab_env[i] = malloc_lst(shell, sizeof(char) * ft_strlen(envp[i]) + 100);
+		shell->tab_env[i] = envp[i];
+	}
+	shell->tab_env[i] = NULL;
+// 	if (stat("env_file", &fd_status) == -1)
+// 		return (FAILURE);
 
-// ft_printf(1, "p0\n");	//////////////////
+// // ft_printf(1, "p0\n");	//////////////////
 
 
-	fd = open("env_file", O_RDONLY);
-	read(fd, str_file, 10000);
-	if (!(shell->tab_env = ft_split_minishell(str_file, '\n', shell)))
-		return (FAILURE);
+// 	fd = open("env_file", O_RDONLY);
+// 	read(fd, str_file, 10000);
+// 	if (!(shell->tab_env = ft_split_minishell(str_file, '\n', shell)))
+// 		return (FAILURE);
 	return (SUCCESS);
 }
 
