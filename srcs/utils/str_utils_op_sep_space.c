@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:26:03 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/06 10:52:56 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 14:37:55 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*strdup_and_inc_input(t_shell *shell, char **input)
 	else
 	{
 		while ((*input)[len] != ' ' && !is_separator((*input)[len])
-			&& (*input)[len])
+			&& (*input)[len] && (*input)[len] != '<'&& (*input)[len] != '>')
 			len++;
 	}
 	if (!(op = malloc_lst(shell, len + 1)))
