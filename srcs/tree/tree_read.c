@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/11 14:05:10 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 16:06:59 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,18 @@ int		manage_redirection(t_shell *shell, t_dir **exec_dir)
 			if ((exec_dir[i]->dir == 1 && (fd = open(exec_dir[i]->file, O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1) ||
 				(exec_dir[i]->dir == 2 && (fd = open(exec_dir[i]->file, O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1))
 				return (FAILURE);
+
+dprintf(1, "pppp2\n");
+				
 			dup2(fd, STDOUT_FILENO);
 		}
 		if (exec_dir[i]->dir == -1)
 		{
 			if ((fd = open(exec_dir[i]->file, O_RDONLY, 0666)) == -1)
 				return (FAILURE);	// a gerer avec errno
+
+dprintf(1, "pppp3\n");
+				
 			dup2(fd, STDIN_FILENO);
 		}
 	}
@@ -149,6 +155,9 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 	if (manage_redirection(shell, exec_dir) == FAILURE)
 		return (FAILURE);	// a gerer avec errno
 
+
+dprintf(1, "is_pipe = %d, node = %s\n", is_pipe, node->item);
+
 	if ((program = fork()) == -1)
 		return (FAILURE);	// a gerer
 
@@ -160,20 +169,32 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 		if (is_pipe % 2 != PIPE_OUT)
 			dup2(1, pipe_fd[shell->last_pipe][1]);
 			// dup2(shell->std[1], pipe_fd[shell->last_pipe][1]);
-		
+
+// dprintf(1, "fils___ is_pipe = %d, node = %s\n", is_pipe, node->item);
+
+
 		dup2(pipe_fd[shell->last_pipe][1], STDOUT_FILENO);
 		dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO);
 		
 		close(pipe_fd[shell->last_pipe][0]);
 		close(pipe_fd[1 - shell->last_pipe][1]);
 
+		// close(pipe_fd[shell->last_pipe][1]);
+		// close(pipe_fd[1 - shell->last_pipe][0]);
+
+// dprintf(1, "p0 %s\n", node->item);
 		execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+// dprintf(1, "p1\n");
 		exit(0);
 	}
 	else
 	{
 		close(pipe_fd[shell->last_pipe][1]);
 		close(pipe_fd[1 - shell->last_pipe][0]);
+
+		// close(pipe_fd[shell->last_pipe][0]);
+		// close(pipe_fd[1 - shell->last_pipe][1]);
+// dprintf(1, "p5\n");
 		wait(&status);
 		dup2(shell->std[0], STDIN_FILENO);
 		dup2(shell->std[1], STDOUT_FILENO);
@@ -184,9 +205,15 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 int	ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 {
 	pipe(pipe_fd[1 - shell->last_pipe]);
-	dup2(pipe_fd[shell->last_pipe][0], pipe_fd[1 - shell->last_pipe][0]);
-	dup2(pipe_fd[shell->last_pipe][1], pipe_fd[1 - shell->last_pipe][1]);
+	// dup2(pipe_fd[shell->last_pipe][0], pipe_fd[1 - shell->last_pipe][0]);
+	// dup2(pipe_fd[shell->last_pipe][1], pipe_fd[1 - shell->last_pipe][1]);
+	
 	shell->last_pipe = 1 - shell->last_pipe;
+
+// pwd | cat -e | grep bjacob
+
+// dprintf(1, "ft_exec and pipe, is_pipe = %d, node = %s\n", is_pipe, node->item);
+	
 	ft_exec(shell, node, pipe_fd, is_pipe);
 	return (SUCCESS);
 }
@@ -198,7 +225,7 @@ int		read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int pipe_i
 
 	is_end = 0;
 	if (!strncmp((*t_current)->item, "|", 2))
-		pipe_in += PIPE_IN;
+		pipe_in = PIPE_IN; // ou += ?
 		
 	*t_current = (*t_current)->right;
 	
@@ -211,7 +238,7 @@ int		read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int pipe_i
 	{
 		if (pipe(pipe_fd[1 - shell->last_pipe]) == -1)
 			return (FAILURE);
-		shell->last_pipe = 1 - shell->last_pipe;		
+		shell->last_pipe = 1 - shell->last_pipe;
 		res = ft_exec(shell, (*t_current)->left, pipe_fd, PIPE_OUT + pipe_in);	// a traiter
 		// verif du fd entre les deux ?
 		if ((is_end = ((*t_current)->right != NULL)))

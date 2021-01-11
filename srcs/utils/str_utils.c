@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:46:32 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/07 14:29:41 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 14:51:47 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,18 @@ char	*ft_remove_eol(char *str)
 {
 	int		i;
 
+// dprintf(1, "----------> |%s|\n", str);
+
+	if (!str)
+		return (NULL);
 	i = -1;
 	while (str[++i])
 		if (str[i] == '\n')
 			str[i] = '\0';
+
+// dprintf(1, "----------> |%s|\n", str);
+
+
 	return (str);
 }
 
