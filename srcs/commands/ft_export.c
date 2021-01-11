@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/11 14:36:02 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 14:38:30 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int		ft_add_new_env(t_shell *shell, t_tree *node)
 	char	**tab;
 	char	**str;
 
-	tab = ft_split_minishell(node->left->item, ' ', shell);
+	tab = ft_split_minishell_args(node->left->item, ' ', shell);
 	i = -1;
 	while (tab[++i])
 	{

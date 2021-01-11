@@ -32,8 +32,8 @@ int	init_shell(t_shell *shell)
 	shell->op = NULL;
 	shell->sep = NULL;
 	shell->last_pipe = 1;
-	shell->std[0] = dup(0);
-	shell->std[1] = dup(1);
+	shell->std[0] = dup(STDIN_FILENO);
+	shell->std[1] = dup(STDOUT_FILENO);
 	return (SUCCESS);
 }
 
@@ -99,9 +99,7 @@ int main(int argc, char **argv, char **envp)
 	// 	ft_printf(1, "ENV : %s\n", envp[i]);
 	ft_fill_lst_env(shell, envp);
 
-
 	// ft_print_env_var(shell->var_env); ////
-
 
 	buf = calloc(1, 1000); // a ajouter a la liste
 	if (!buf)
@@ -112,5 +110,6 @@ int main(int argc, char **argv, char **envp)
 	// ft_printf(1, "minishell-3000$ ");
 	while ((size = read(0, buf, 1000) > 0))
 		ft_apply_minishell(shell, buf);
+	ft_exit(shell);
 	return (SUCCESS);
 }

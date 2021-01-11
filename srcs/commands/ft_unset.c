@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 16:42:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/06 10:46:16 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 10:25:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		ft_unset(t_shell *shell, t_tree *node)
 	else
 	{
 		row = -1;
-		tab = ft_split_minishell(node->left->item, ' ', shell);
+		tab = ft_split_minishell_args(node->left->item, ' ', shell);
 		while (tab[++row])
 			if ((ft_search_wrong_character(tab[row])) == 1)
 				ft_env_remove_if(&shell->var_env, node->left->item, &ft_strncmp);
