@@ -68,7 +68,7 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 		ft_printf(1, "syntax error near unexpected token `%s'\n", shell->sep);
 	if (res >= 0)
 	{
-		// ft_print_tree(shell->root, 0); ////////////
+		//ft_print_tree(shell->root, 0); ////////////
 		read_tree(shell);
 	}
 	ft_bzero(buf, ft_strlen(buf));
