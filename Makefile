@@ -47,12 +47,12 @@ all:	$(NAME)
 allc : all clean
 
 clean:
-	$(RM) $(OBJS) 
+	@$(RM) $(OBJS) 
 	@$(MAKE) clean -C libft
 
 fclean: 	clean
-	$(RM) $(NAME) env_file
-	$(RM) libft/libft.a
+	@$(RM) $(NAME) env_file
+	@$(RM) libft/libft.a
 
 re:		fclean all
 

@@ -218,9 +218,9 @@ void	ft_exit(t_shell *shell);
 ** Utils for commands
 */
 int		ft_create_env_vars(t_shell *shell);
-int		ft_fill_lst_env(t_shell *shell);
+int		ft_fill_lst_env(t_shell *shell, char **envp);
 char	*ft_fill_env_content(t_shell *shell, char *str);
-int		ft_fill_tab_env(t_shell *shell);
+int		ft_fill_tab_env(t_shell *shell, char **envp);
 t_env	*ft_fill_first_lst(t_shell *shell, char **tab, t_env *lst);
 int		get_var_env(t_shell *shell, char *var_name, char **content);
 char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);

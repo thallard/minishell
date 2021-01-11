@@ -68,14 +68,14 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 		ft_printf(1, "syntax error near unexpected token `%s'\n", shell->sep);
 	if (res >= 0)
 	{
-		// ft_print_tree(shell->root, 0); ////////////
+		ft_print_tree(shell->root, 0); ////////////
 		read_tree(shell);
 	}
 	ft_bzero(buf, ft_strlen(buf));
 	return (SUCCESS);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
 	int 	size;
 	char 	*buf;
@@ -92,7 +92,12 @@ int main(int argc, char **argv)
 	shell->tab_env = NULL;
 	// init_shell(shell);
 	// ft_fill_lst_env(shell);
-	ft_fill_lst_env(shell);
+	int i;
+
+	i = -1;
+	while (envp[++i])
+		ft_printf(1, "ENV : %s\n", envp[i]);
+	ft_fill_lst_env(shell, envp);
 
 	// ft_print_env_var(shell->var_env); ////
 
