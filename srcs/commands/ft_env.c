@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/11 14:11:03 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 14:40:24 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int		ft_fill_tab_env(t_shell *shell, char **envp)
 {
 	int				i;
 
-	// dprintf(1, "%s\n\n\n", envp[0]);
 	i = -1;
 	while (envp[++i])
 		;

@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/11 14:06:30 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 14:19:04 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,8 @@ int		ft_echo(t_shell *shell, t_tree *node)
 	tab = ft_split_quotes(shell, shell->split, node->right->item);
 		i = -1;
 	while (tab[++i])
-	{ft_printf(1, "|%s|", tab[i]);
+	{
+		ft_printf(1, "|%s|", tab[i]);
 		if (tab[i + 1])
 			ft_printf(1, " ");
 	}

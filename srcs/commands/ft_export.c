@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/11 14:09:40 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 14:38:30 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ t_env	*ft_prepare_lst_env(t_shell *shell, t_tree *node, char **tab, int i)
 		!(add_lst_to_free(shell, new_lst)))
 		return (NULL);
 	new_lst->next = NULL;
-	if (!(new_lst->name = malloc(sizeof(char) * (ft_strlen(tab[i]) + 1))) ||
+	if (!(new_lst->name = malloc(sizeof(char) * (ft_strlen(tab[i]) + 100))) ||
 		!(add_lst_to_free(shell, new_lst->name)))
 		return (NULL);
-	if (!(new_lst->content = malloc(sizeof(char) * (ft_strlen(tab[i]) + 1))) ||
+	if (!(new_lst->content = malloc(sizeof(char) * (ft_strlen(tab[i]) + 100))) ||
 		!(add_lst_to_free(shell, new_lst->content)))
 		return (NULL);
 	return (new_lst);
@@ -37,20 +37,21 @@ int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env)
 	t_env	*begin;
 
 	begin = shell->var_env;
-	dprintf(1, "debug entree du add : %d\n", env->hidden);
 	while (shell->var_env->next)
 	{
 		shell->var_env = shell->var_env->next;
-		if (ft_strncmp(shell->var_env->name, name, (ft_strlen(name) + 1)) == 0)
+		if (ft_strncmp(shell->var_env->name, name, (ft_strlen(name))) == 0)
 		{
-			if (env->hidden == 2 || ((char *)shell->var_env->content)[0] == '\0')
+			if (env->hidden == 1)
 			{
-				shell->var_env->hidden = env->hidden;
-				free(shell->var_env->content);
-				shell->var_env->content = content;
 				shell->var_env = begin;
 				return (SUCCESS);
 			}
+			shell->var_env->hidden = env->hidden;
+			free(shell->var_env->content);
+			shell->var_env->content = content;
+			shell->var_env = begin;
+			return (SUCCESS);
 		}
 	}
 	shell->var_env->next = env;
@@ -93,27 +94,29 @@ int		ft_add_new_env(t_shell *shell, t_tree *node)
 	int		j;
 	t_env	*new_lst;
 	char	**tab;
+	char	**str;
 
 	tab = ft_split_minishell_args(node->left->item, ' ', shell);
 	i = -1;
 	while (tab[++i])
 	{
-		new_lst = ft_prepare_lst_env(shell, node, tab, i);
+	
+		str = ft_split_quotes(shell, shell->split, tab[i]);
+			new_lst = ft_prepare_lst_env(shell, node, str, 0);
 		j = -1;
-		while (tab[i][++j] && tab[i][j] != '=')
-			new_lst->name[j] = tab[i][j];
-		if (tab[i][j] == '=' && !tab[i][j + 1])
+		while (str[0][++j] && str[0][j] != '=')
+			new_lst->name[j] = str[0][j];
+		if (str[0][j] == '=' && !str[0][j + 1])
 			new_lst->hidden = 2;
-		else if (tab[i][j] != '=' && !tab[i][j])
+		else if (str[0][j] != '=' && !str[0][j])
 			new_lst->hidden = 1;
 		else
 			new_lst->hidden = 0;
-		dprintf(1, "debug hidden = %d\n", new_lst->hidden);
 		new_lst->name[j++] = '\0';
-		if ((j + 2) <= ft_strlen(tab[i]))
-			if (ft_strncmp(&tab[i][j], "\"\"", 2) == 0 || ft_strncmp(&tab[i][j], "\'\'", 2) == 0)
+		if ((j + 2) <= ft_strlen(str[0]))
+			if (ft_strncmp(&str[0][j], "\"\"", 2) == 0 || ft_strncmp(&str[0][j], "\'\'", 2) == 0)
 				((char *)new_lst->content)[0] = '\0';
-		ft_filter_and_add(shell, new_lst, tab[i], j);
+		ft_filter_and_add(shell, new_lst, str[0], j);
 	}
 	return (SUCCESS);
 }
