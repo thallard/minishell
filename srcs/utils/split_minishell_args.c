@@ -1,16 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_minishell.c                                  :+:      :+:    :+:   */
+/*   split_minishell_args.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:15:21 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/07 12:23:41 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 13:17:17 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	get_word_len(const char *str, int i, char c)
+{
+	int j;
+	int	indice;
+
+	j = 0;
+	indice = 1;
+	if (str[i + j] == '<' || str[i + j] == '>')
+	{
+		indice = -1;
+		if (str[i + j] == '<' && str[i + j + 1] == '<')
+			j++;
+		j++;
+	}
+	while (indice == -1 && str[i + j] == c && str[i + j])
+		j++;
+	while (str[i + j] != c && str[i + j]
+			&& (str[i + j] != '<' || str[i + j - 1] == '\\')
+			&& (str[i + j] != '>' || str[i + j - 1] == '\\'))
+		j++;
+	return (indice * j);
+}
 
 static int	get_nb_words(const char *str, char c)
 {
@@ -39,19 +62,15 @@ static char	*ft_malloc_ptr(t_shell *shell, int *i, const char *str, char c)
 {
 	char	*ptr;
 	int		j;
+	int		len;
 
-	j = 0;
-	while ((str[*i + j] != c) && str[*i + j])
-		(j)++;
-	if (!(ptr = malloc_lst(shell, sizeof(char) * (j + 1))))
+	len = get_word_len(str, *i, c);
+	if (!(ptr = malloc_lst(shell, sizeof(char) * (len + 1))))
 		return (NULL);
-	j = 0;
-	while (str[*i + j] && (str[*i + j] != c))
-	{
-		ptr[(j)] = str[*i + j];
-		(j)++;
-	}
-	ptr[(j)] = '\0';
+	j = -1;
+	while (++j < len)
+		ptr[j] = str[*i + j];
+	ptr[j] = '\0';
 	*i = *i + j;
 	return (ptr);
 }
@@ -70,18 +89,24 @@ static int	sep_str_in_tab(t_shell *shell, const char *str, char c, char ***str_t
 	{
 		if ((str[i] != c) && new_w)
 		{
-			if (!(ptr = ft_malloc_ptr(shell, &i, str, c)))
-				return (0);
-			new_w = 0;
-			(*str_tab)[i_words++] = ptr;
+			if (get_word_len(str, i, c) >= 0)
+			{
+				if (!(ptr = ft_malloc_ptr(shell, &i, str, c)))
+					return (0);
+				new_w = 0;
+				(*str_tab)[i_words++] = ptr;
+			}
+			else
+				i = i - get_word_len(str, i, c);
 		}
 		else if (str[i++] == c)
 			new_w = 1;
 	}
+	(*str_tab)[i_words] = NULL;
 	return (1);
 }
 
-char		**ft_split_minishell(char const *s, char c, t_shell *shell)
+char		**ft_split_minishell_args(char const *s, char c, t_shell *shell)
 {
 	char	**str_tab;
 	int		nb_w;
@@ -103,6 +128,5 @@ char		**ft_split_minishell(char const *s, char c, t_shell *shell)
 		return (NULL);
 	if (!sep_str_in_tab(shell, s, c, &str_tab))
 		return (NULL);
-	str_tab[nb_w] = 0;
 	return (str_tab);
 }

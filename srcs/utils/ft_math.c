@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_math.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/11 08:58:27 by bjacob           ###   ########lyon.fr   */
+/*   Created: 2021/01/11 11:26:11 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/11 11:26:48 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void		ft_exit(t_shell *shell)
+int	ft_max(int a, int b)
 {
-	free_all_ptr(shell);
-	ft_printf(1, "exit\n");
-	exit(shell->exit);
-	return ;
+	if (a >= b)
+		return (a);
+	return (b);
+}
+
+int	ft_min(int a, int b)
+{
+	if (a <= b)
+		return (a);
+	return (b);
+}
+
+int	ft_abs(int a)
+{
+	if (a >= 0)
+		return a;
+	return (-1 * a);
 }

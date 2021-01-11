@@ -45,6 +45,13 @@ typedef struct		s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct		s_dir
+{
+	int				dir;
+	char			*file;
+}					t_dir;
+
+
 typedef struct		s_split
 {
 	int		s_quotes;
@@ -110,9 +117,14 @@ char	*is_exec_in_path(char *exec, char *folder_path);
 char	*find_exec(t_shell *shell, t_tree *node);
 char	**get_exec_args(t_shell *shell, char *exec, char *args, int is_pipe);
 int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
-int	ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
+int		ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
 int		read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int pipe_in);
 int		read_tree(t_shell *shell);
+
+/*
+** redirection.c
+*/
+int		manage_redirection(t_shell *shell, t_dir **exec_dir);
 
 
 /*
@@ -139,7 +151,8 @@ int		print_cd_error(t_shell *shell, char *cmd);
 /*
 ** split_minishell.c
 */
-char		**ft_split_minishell(char const *s, char c, t_shell *shell);
+char		**ft_split_minishell_args(char const *s, char c, t_shell *shell);
+t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell);
 
 /*
 ** ft_split_quotes.c
@@ -176,6 +189,14 @@ void	ft_remove_elem(t_env **ptr_back, t_env **ptr);
 void	ft_sort_export_var(t_env *env);
 void	ft_swap_env(t_env *a, t_env *b);
 t_env	*ft_clone_export_env(t_env *lst);
+
+/*
+** math.c
+*/
+int	ft_max(int a, int b);
+int	ft_min(int a, int b);
+int	ft_abs(int a);
+
 
 /*
 ****************************************************
