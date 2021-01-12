@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 17:56:52 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 08:56:19 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 11:15:24 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*ft_create_word(t_shell *shell, t_split *s, char *str, int *iterator)
 	while (str[++i])
 		if (str[i] == ' ' && (s->d_quotes == 0 && s->s_quotes == 0))
 			break ;
-		else if (str[i] == '\'')
-			s->s_quotes++;
+		else if (str[i] == '\'' && s->s_quotes++ >= 0)
+			word[++j] = str[i];
 		else if (str[i] == '\"')
 			s->d_quotes++;
 		else if (str[i] == '$' && str[i + 1])
@@ -45,6 +45,8 @@ char	*ft_create_word(t_shell *shell, t_split *s, char *str, int *iterator)
 		else
 			word[++j] = str[i];
 	word[++j] = '\0';
+	if (s->d_quotes % 2 != 0 || s->s_quotes % 2 != 0)
+		return (ft_exit_split("Error : need a quote to finish the line.\n"));
 	*iterator += i;
 	return (word);
 }
@@ -66,7 +68,7 @@ char	*ft_create_word_simple(t_shell *shell, char *str, int *iterator)
 			word[++j] = str[i];
 	word[++j] = '\0';
 	if (shell->split->s_quotes == 1)
-		return (ft_exit_split("Error : need a quote to finish the line."));
+		return (ft_exit_split("Error : need a quote to finish the line.\n"));
 	*iterator += i + 1;
 	return (word);
 }
@@ -80,11 +82,12 @@ char	*ft_create_word_double(t_shell *shell, char *str, int *iterator)
 
 	j = -1;
 	i = -1;
-	dprintf(1, "debug de l'entree : [%s]\n", str);
 	if (!(word = malloc_lst(shell, sizeof(char) * (ft_strlen(str) + 1000))))
 		return (NULL);
-	while (str[++i] && str[i] != '\"')
-		if (str[i] == '$' && str[i + 1])
+	while (str[++i] && str[i] != ' ')
+		if (str[i] == '\"')
+			continue ;
+		else if (str[i] == '$' && str[i + 1])
 			if (!(env = ft_get_env_value(shell, &str[i], &i, j)))
 				continue ;
 			else
@@ -96,12 +99,8 @@ char	*ft_create_word_double(t_shell *shell, char *str, int *iterator)
 			word[++j] = str[i];
 	word[++j] = '\0';
 	if (str[i] != '\"')
-	{
-		*iterator += i - 1;
-			return (ft_exit_split("Error : need a double quote to finish the line."));
-	}
-	else
-		*iterator += i + 1;
+		return (ft_exit_split("Error : need a double quote to finish the line.\n"));
+	*iterator += i + 1;
 	return (word);
 }
 
@@ -128,6 +127,10 @@ char	**ft_split_quotes(t_shell *shell, t_split *s, char *str)
 			i++;
 		else
 			tab[++j] = ft_create_word(shell, shell->split, &str[i], &i);
+		if (!tab[j])
+		{
+			return (NULL);
+		}
 		s->d_quotes = 0;
 		s->s_quotes = 0;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/11 15:02:22 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 11:16:31 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,11 @@ int		ft_echo(t_shell *shell, t_tree *node)
 	// if (txt)
 	// 	str = ft_get_text_echo(txt, node, shell);
 	tab = ft_split_quotes(shell, shell->split, node->right->item);
+	if (!tab)
+	{
+		shell->exit = 1;
+		return (FAILURE);
+	}
 		i = -1;
 	while (tab[++i])
 	{
