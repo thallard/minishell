@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 11:45:32 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 13:43:44 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 	getcwd(path, 500);
 	if (to_print == CHILD)
 		res = ft_printf(STDOUT_FILENO, "%s\n", path);	// \n a conserver ?
+	shell->exit = 0;
 	return (res);
 }

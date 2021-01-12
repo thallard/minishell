@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 12:55:55 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 13:00:01 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,28 +134,5 @@ int		ft_echo(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 		}
 	}
 	shell->exit = 0;
-	// 		//dprintf(1, "debug du txt sortie de get echo text = %s\n", txt);
-	// while (txt[++i])
-	// {
-	// 	if (ft_strncmp(&txt[i], ">>", 2) == 0 &&
-	// 	(res = ft_add_text_in_file(&txt[i], node, (i + 2), str)))
-	// 		i = i + 2;
-	// 	if (txt[i] == '>')
-	// 	{
-	// 		dprintf(1, "debug du txt avec le > = %s\n", &txt[i]);
-	// 		res = ft_overwrite_in_file(&txt[i + 1], node, i, str);
-	// 		i++;
-	// 	}
-	// 	if (txt[i] == '<')
-	// 	{
-	// 		// while (txt[++i] && txt[i] != '>' && txt[i] != '<' && txt[i + 1])
-	// 		// 	;
-	// 	}
-	// 		//dprintf(1, "Chaque caractere a i : %d et le caractere %c\n", i, txt[i]);
-	// }
-	// if (!res)
-	// 	ft_printf(1, "%s", str);
-	// free(str);
-	// free(txt);
 	return (SUCCESS);
 }

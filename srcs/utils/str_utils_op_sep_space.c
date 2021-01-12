@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:26:03 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/11 14:37:55 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 14:23:03 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ char	*strdup_and_inc_input(t_shell *shell, char **input)
 		len++;
 	else
 	{
-		while ((*input)[len] != ' ' && !is_separator((*input)[len])
-			&& (*input)[len] && (*input)[len] != '<'&& (*input)[len] != '>')
+		while (!is_separator((*input)[len])	&& (*input)[len])
 			len++;
 	}
 	if (!(op = malloc_lst(shell, len + 1)))
@@ -79,3 +78,28 @@ char	*strdup_and_inc_input(t_shell *shell, char **input)
 	op[i] = 0;
 	return (op);
 }
+
+// char	*strdup_and_inc_input(t_shell *shell, char **input)
+// {
+// 	char	*op;
+// 	int		i;
+// 	int		len;
+
+// 	len = 0;
+// 	if (is_separator((*input)[len]))
+// 		len++;
+// 	else
+// 	{
+// 		while ((*input)[len] != ' ' && !is_separator((*input)[len])
+// 			&& (*input)[len] && (*input)[len] != '<'&& (*input)[len] != '>')
+// 			len++;
+// 	}
+// 	if (!(op = malloc_lst(shell, len + 1)))
+// 		return (NULL);
+// 	i = 0;
+// 	while (i < len)
+// 		op[i++] = *((*input)++);
+// 	op[i] = 0;
+// 	return (op);
+// }
+

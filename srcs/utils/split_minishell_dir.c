@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 10:42:05 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/11 14:24:15 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 14:54:33 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell)
 		if (!(str_tab[0] = malloc_lst(shell, sizeof(t_dir))))	// sans l'etoile
 			return (NULL);	// a gerer
 		(str_tab[0])->file = NULL;	// OK ?
+		(str_tab[0])->dir = 0; // indispensable ?
 		return (str_tab);
 	}
 	if (!(str_tab = malloc_lst(shell, sizeof(t_dir*) * (nb_w + 1))))

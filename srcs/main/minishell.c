@@ -20,7 +20,7 @@ int	init_shell(t_shell *shell)
 {
 	// if (shell->ptrs)			a corriger
 	// 	free_all_ptr(shell);
-	shell->exit = 1;		// bonne valeur ?
+	shell->exit = 0;		// bonne valeur ?
 	//shell->var_env = NULL;
 	// shell->tab_env = NULL;
 	// shell->ptrs = NULL;
@@ -106,14 +106,14 @@ int main(int argc, char **argv, char **envp)
 
 	// ft_print_env_var(shell->var_env); ////
 
-	buf = calloc(1, 1000); // a ajouter a la liste
+	buf = calloc(1, 10000); // a ajouter a la liste
 	if (!buf)
 		return (FAILURE);	// exit a gerer avec une erreur
 	// size = 1;
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))		// a voir
 		return (ft_apply_minishell(shell, argv[2]));
 	// ft_printf(1, "minishell-3000$ ");
-	while ((size = read(0, buf, 1000) > 0))
+	while ((size = read(0, buf, 10000) > 0))
 		ft_apply_minishell(shell, buf);
 	ft_exit(shell, PARENT);
 	return (SUCCESS);

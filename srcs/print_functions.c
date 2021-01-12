@@ -19,7 +19,7 @@ void	ft_print_tree(t_tree *node, int nb)
 	else
 	{
 		print_nb_char(nb, ' ');
-		ft_printf(1, "|%s|\n", node->item);
+		ft_print_tab_char(node->args);
 
 		print_nb_char(nb, '-');
 		ft_printf(1, "\n");
@@ -46,4 +46,14 @@ void	ft_print_tab_char(char **tab)
 	while (tab[++i])
 		dprintf(1, "tab[%d] = %s\n", i, tab[i]);
 	dprintf(1, "tab[%d] = %s\n", i, tab[i]);
+}
+
+void	ft_print_tab_dir(t_dir **dir)
+{
+	int i;
+
+	i = -1;
+	while (dir[++i]->dir)
+		dprintf(1, "i = %d, file = %s, dir = %d\n", i, dir[i]->file, dir[i]->dir);
+	dprintf(1, "i = %d, file = %s, dir = %d\n", i, dir[i]->file, dir[i]->dir);
 }

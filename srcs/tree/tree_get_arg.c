@@ -6,11 +6,13 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:40:31 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/07 13:10:55 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 14:42:50 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+/*
 
 int		get_nb_operand_arg(char *op)
 {
@@ -110,3 +112,5 @@ int		get_operand_arg(t_shell *shell, char **input, t_tree *op_node)
 	}
 	return (SUCCESS);
 }
+
+*/

@@ -32,12 +32,25 @@
 # define PARENT 1
 # define CHILD 0
 
+// typedef struct		s_tree
+// {
+// 	struct s_tree	*left;
+// 	struct s_tree	*right;
+// 	void			*item;
+// }					t_tree;
+
+typedef struct		s_dir
+{
+	int				dir;
+	char			*file;
+}					t_dir;
+
 typedef struct		s_tree
 {
 	struct s_tree	*left;
 	struct s_tree	*right;
-	void			*item;
-	int				fd;		// a gerer
+	char			**args;
+	t_dir			**dir;
 }					t_tree;
 
 typedef struct		s_env
@@ -47,13 +60,6 @@ typedef struct		s_env
 	int				hidden;
 	struct s_env	*next;
 }					t_env;
-
-typedef struct		s_dir
-{
-	int				dir;
-	char			*file;
-}					t_dir;
-
 
 typedef struct		s_split
 {
@@ -98,7 +104,7 @@ int		ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_print);
 /*
 ** tree_build.c
 */
-t_tree	*tree_create_node(t_shell *shell, void *item);
+t_tree	*tree_create_node(t_shell *shell, char **args, t_dir **dir);
 int		add_op_node(t_shell *shell, t_tree *t_current, char **input);
 int		add_sep_node(t_shell *shell, t_tree **t_current, char **input);
 int		read_input(t_shell *shell, t_tree **t_current, char **input);
@@ -242,6 +248,7 @@ char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
 */
 void	ft_print_tree(t_tree *node, int nb); // a supprimer
 void	ft_print_tab_char(char **tab);
+void	ft_print_tab_dir(t_dir **dir);
 
 
 #endif

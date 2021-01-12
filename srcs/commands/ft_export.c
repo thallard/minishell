@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 12:53:09 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 14:44:20 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,9 @@ int		ft_add_new_env(t_shell *shell, t_tree *node)
 	char	**tab;
 	char	**str;
 
-	tab = ft_split_minishell_args(node->left->item, ' ', shell);
+	// tab = ft_split_minishell_args(node->left->item, ' ', shell);
+	tab = node->args;
+	
 	i = -1;
 	while (tab[++i])
 	{
@@ -128,7 +130,7 @@ int		ft_export(t_shell *shell, t_tree *node)
 	t_env	*sorted_env;
 
 	sorted_env = NULL;
-	if (node->left->item)
+	if (node->left->args[1])
 	{
 		if (ft_add_new_env(shell, node))
 		{
