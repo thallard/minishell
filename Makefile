@@ -31,8 +31,6 @@ INC =	-I./includes -L./libft -lft
 
 $(NAME):	libft $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(INC) -o $(NAME) 
-	bash srcs/commands/sh/get_env.sh 
-
 
 libft:
 	@$(MAKE) -C ./libft

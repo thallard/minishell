@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 10:42:05 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/11 13:22:04 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 14:24:15 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,24 @@ static int	get_word_len(const char *str, int i, char c)
 	return (1);
 }
 
-static int	get_nb_words(const char *str, char c)
+static int	get_nb_words(const char *str)
 {
 	int	i;
 	int	nb_w;
 
-	i = 1;
+	i = 0;
 	nb_w = 0;
 	if (!str[0])
 		return (0);
 	while (str[i])
 	{
-		if (str[i] == c)
+		if (str[i] == '>' || str[i] == '<')
 		{
-			if (str[i - 1] != c)
+			if (str[i] == '<' || !i || str[i - 1] != '>')
 				nb_w++;
 		}
 		i++;
 	}
-	if (str[i - 1] != c)
-		nb_w++;
 	return (nb_w);
 }
 
@@ -117,7 +115,7 @@ t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell)
 	if (!s)
 		nb_w = 0;
 	else
-		nb_w = get_nb_words(s, c);
+		nb_w = get_nb_words(s);		
 	if (nb_w == 0)
 	{
 		if (!(str_tab = malloc_lst(shell, sizeof(t_dir*))))
