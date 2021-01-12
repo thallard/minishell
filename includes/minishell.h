@@ -224,7 +224,7 @@ int		ft_echo(t_shell *shell, char **exec_args, char **tab_env, int to_print);
 
 int		ft_export(t_shell *shell, t_tree *node);
 
-void	ft_exit(t_shell *shell, int to_print);
+void	ft_exit(t_shell *shell, char **exec_args, char **tab_env, int to_print);
 
 /*
 ** Utils for commands
