@@ -167,7 +167,8 @@ t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell);
 ** ft_split_quotes.c
 */
 char	**ft_split_quotes(t_shell *shell, t_split *s, char *str);
-
+char	*ft_create_word(t_shell *shell, t_split *s, char *str, int *iterator);
+t_dir	**ft_split_redirection(t_shell *shell, char *str);
 /*
 ** str_utils.c
 */

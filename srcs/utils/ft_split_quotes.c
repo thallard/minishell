@@ -6,13 +6,13 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 17:56:52 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 11:15:24 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 13:56:20 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_exit_split(char *str)
+static char	*ft_exit_split(char *str)
 {
 	ft_printf(1, "%s", str);
 	return (NULL);

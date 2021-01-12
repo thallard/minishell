@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/12 14:56:28 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 15:08:42 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 	int		status;
 
 // dprintf(1, "\n\n");
-
+	// exec_dir = ft_split_redirection(shell, node->left->item);
 	if (!(exec_path = find_exec(shell, node)))
 		return (ft_cmd_not_found(shell, node->args[0]));	// valeur de retour a confirmer
 
