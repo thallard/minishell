@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 10:08:50 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/07 10:09:56 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 16:14:37 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,4 @@
 int		output_to_file(char *output)
 {
 
-
-	
 }

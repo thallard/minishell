@@ -1,4 +1,4 @@
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
 // char **tab_to_argvnew(char **tab)
 // {
@@ -106,9 +106,8 @@ int main(int argc, char **argv, char **envp)
 
 	// ft_print_env_var(shell->var_env); ////
 
-	buf = calloc(1, 10000); // a ajouter a la liste
-	if (!buf)
-		return (FAILURE);	// exit a gerer avec une erreur
+	if (!(buf = malloc_lst(shell, 10000)))
+		return (FAILURE); // a ajouter a la liste // exit a gerer avec une erreur
 	// size = 1;
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))		// a voir
 		return (ft_apply_minishell(shell, argv[2]));

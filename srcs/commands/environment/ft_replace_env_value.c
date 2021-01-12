@@ -6,19 +6,38 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 13:01:12 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 18:50:38 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int		ft_search_tab_value(char **env, char *name)
+char	*ft_search_env_content(t_shell *shell, char *name, int limit)
 {
-	
+	t_env	*lst;
+
+	lst = shell->var_env;
+	while (lst)
+	{
+		if (ft_strncmp(lst->name, name, limit) == 0)
+			return (lst->content);
+		lst = lst->next;
+	}
+	return (NULL);
 }
 
-int		ft_replace_tab_value(t_shell *shell)
+char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i)
 {
-	
-	return (0);
+	char	*tmp;
+	int		k;
+	(void)i;
+	txt++;
+	k = 0;
+	while (txt[k] && txt[k] != ' ' && txt[k] != '\'' && txt[k] != '\"'
+			&& txt[k] != '/' && txt[k] != '$' && txt[k] != '_')
+		k++;
+	tmp = ft_search_env_content(shell, txt, k);
+	//dprintf(1, "debug env = |%s| et limit %d\n", tmp, k);
+	*j += k;
+	return (tmp);
 }

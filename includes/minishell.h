@@ -156,19 +156,18 @@ void	ft_free_export_env(t_env **env);
 int		print_unset_error(t_shell *shell, char *cmd);
 int		ft_cmd_not_found(t_shell *shell, char *exec);
 int		print_cd_error(t_shell *shell, char *cmd);
+char	*ft_exit_split(char *str);
 
 /*
-** split_minishell.c
+** All splits 
 */
+char		**ft_split_quotes(t_shell *shell, t_split *s, char *str);
+char		*ft_create_word(t_shell *shell, t_split *s, char *str, int *iterator);
+t_dir		**ft_split_redirection(t_shell *shell, char *str);
 char		**ft_split_minishell_args(char const *s, char c, t_shell *shell);
 t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell);
+char		**ft_split_args_quotes(t_shell *shell, char *str);
 
-/*
-** ft_split_quotes.c
-*/
-char	**ft_split_quotes(t_shell *shell, t_split *s, char *str);
-char	*ft_create_word(t_shell *shell, t_split *s, char *str, int *iterator);
-t_dir	**ft_split_redirection(t_shell *shell, char *str);
 /*
 ** str_utils.c
 */
@@ -199,7 +198,8 @@ void	ft_remove_elem(t_env **ptr_back, t_env **ptr);
 void	ft_sort_export_var(t_env *env);
 void	ft_swap_env(t_env *a, t_env *b);
 t_env	*ft_clone_export_env(t_env *lst);
-
+char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
+char	*ft_search_env_content(t_shell *shell, char *name, int limit);
 /*
 ** math.c
 */
@@ -221,9 +221,7 @@ int		ft_env(t_shell *shell, char **exec_args, char **tab_env, int to_print);
 int		ft_cd(t_shell *shell, char **exec_args, char **tab_env, int to_print);
 int		ft_unset(t_shell *shell, char **exec_args, char **tab_env, int to_print);
 int		ft_echo(t_shell *shell, char **exec_args, char **tab_env, int to_print);
-
 int		ft_export(t_shell *shell, t_tree *node);
-
 void	ft_exit(t_shell *shell, int to_print);
 
 /*

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   split_minishell_dir.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 10:42:05 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/12 15:07:50 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 16:11:56 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 static int	get_word_len(const char *str, int i, char c)
 {
