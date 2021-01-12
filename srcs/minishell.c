@@ -54,7 +54,7 @@ int	ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_print)
 	if (!ft_strncmp(exec_path, "env", 4))
 		return (ft_env(shell, exec_args, shell->tab_env, to_print));
 	if (!ft_strncmp(exec_path, "exit", 5))
-		ft_exit(shell, to_print);
+		ft_exit(shell, exec_args, shell->tab_env, to_print);
 	if (to_print == CHILD)
 		return (execve(exec_path, exec_args, shell->tab_env));
 	else
@@ -114,6 +114,6 @@ int main(int argc, char **argv, char **envp)
 	// ft_printf(1, "minishell-3000$ ");
 	while ((size = read(0, buf, 10000) > 0))
 		ft_apply_minishell(shell, buf);
-	ft_exit(shell, PARENT);
+	// ft_exit(shell, PARENT);
 	return (SUCCESS);
 }
