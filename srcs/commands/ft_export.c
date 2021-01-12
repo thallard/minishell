@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 12:53:09 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 12:59:08 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 			((char *)env->content)[k] = '\0';
 			ft_if_env_exists(shell, env->name, env->content, env);
 		}
-	
 	return (SUCCESS);
 }
 

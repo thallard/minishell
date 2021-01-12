@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_minishell_dir.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 10:42:05 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/11 14:24:15 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 14:26:03 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,6 @@ t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell)
 		return (NULL);
 	if (!sep_str_in_tab(shell, s, c, &str_tab))
 		return (NULL);
+	i = -1;
 	return (str_tab);
 }

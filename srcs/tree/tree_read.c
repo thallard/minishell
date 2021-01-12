@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_read.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/12 12:02:21 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 15:05:02 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int		manage_redirection(t_shell *shell, t_dir **exec_dir)
 	{
 		if (exec_dir[i]->dir >= 0)
 		{
-dprintf(1, "redir > - %s\n", exec_dir[i]->file);
+// dprintf(1, "redir > - %s\n", exec_dir[i]->file);
 
 			if ((exec_dir[i]->dir == 1 && (fd = open(exec_dir[i]->file, O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1) ||
 				(exec_dir[i]->dir == 2 && (fd = open(exec_dir[i]->file, O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1))
@@ -117,7 +117,7 @@ dprintf(1, "redir > - %s\n", exec_dir[i]->file);
 		}
 		if (exec_dir[i]->dir == -1)
 		{
-dprintf(1, "redir < - %s\n", exec_dir[i]->file);
+// dprintf(1, "redir < - %s\n", exec_dir[i]->file);
 
 			if ((fd = open(exec_dir[i]->file, O_RDONLY, 0666)) == -1)
 				return (FAILURE);	// a gerer avec errno				
@@ -136,18 +136,19 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 	int		status;
 
 // dprintf(1, "\n\n");
-
+	exec_dir = ft_split_redirection(shell, node->left->item);
 	if (!(exec_path = find_exec(shell, node)))
 		return (ft_cmd_not_found(shell, node->item));	// valeur de retour a confirmer
 
 	if (!node->left->item)
 	{
+		
 		if (!(exec_args = ft_split_minishell_args(node->item, ' ', shell)) ||
-			!(exec_dir = ft_split_minishell_dir(node->left->item, ' ', shell)))
+			!(exec_dir = ft_split_redirection(shell, node->left->item)))
 			return (FAILURE);
 	}
 	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item, is_pipe)) ||
-			!(exec_dir = ft_split_minishell_dir(node->left->item, ' ', shell)))
+			!(exec_dir = ft_split_redirection(shell, node->left->item)))
 		return (FAILURE);
 
 	if (manage_redirection(shell, exec_dir) == FAILURE)
