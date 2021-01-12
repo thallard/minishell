@@ -41,8 +41,8 @@ int	init_shell(t_shell *shell)
 
 int	ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_print)
 {
-	// if (!ft_strncmp(exec_path, "echo", 5))
-	// 	return (ft_echo(shell, node));
+	if (!ft_strncmp(exec_path, "echo", 5))
+		return (ft_echo(shell, exec_args, shell->tab_env, to_print));
 	if (!ft_strncmp(exec_path, "cd", 3))
 		return (ft_cd(shell, exec_args, shell->tab_env, to_print));
 	if (!ft_strncmp(exec_path, "pwd", 4))
