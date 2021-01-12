@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 11:16:31 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 12:55:55 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,42 +103,36 @@
 // 	return (fd);
 // }
 
-int		ft_echo(t_shell *shell, t_tree *node)
+int		ft_echo(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 {
-	int		res;
 	int		i;
-	char	**tab;
+	int		remove_eol;
 
-	i = -1;
-	res = 0;
-	// txt = node->right->item;
-	// if (!txt)
-	// {
-	// 	if (!node->left->item)
-	// 		ft_printf(1, "\n");
-	// 	else
-	// 		ft_printf(1, "\0");
-	// 	shell->exit = 0;
-	// 	free(txt);
-	// 	return (SUCCESS);
-	// }
-	// if (txt)
-	// 	str = ft_get_text_echo(txt, node, shell);
-	tab = ft_split_quotes(shell, shell->split, node->right->item);
-	if (!tab)
+	(void)tab_env;
+	i = 0;
+	remove_eol = 0;
+	if (to_print == CHILD)
 	{
-		shell->exit = 1;
-		return (FAILURE);
+		if (!exec_args[1])	// [1]
+			ft_printf(1, "\n");
+		else
+		{
+			if (!strncmp(exec_args[1], "-n", 3))
+				remove_eol = 1;
+			while (exec_args[++i])
+			{
+				if (remove_eol != 1 || ft_strncmp(exec_args[i], "-n", 3))
+				{
+					ft_printf(1, "%s", exec_args[i]);
+					if (exec_args[i + 1])
+						ft_printf(1, " ");
+					remove_eol *= (-1);
+				}
+			}
+			if (!remove_eol)
+					ft_printf(1, "\n");
+		}
 	}
-		i = -1;
-	while (tab[++i])
-	{
-		ft_printf(1, "%s", tab[i]);
-		if (tab[i + 1])
-			ft_printf(1, " ");
-	}
-	if (!node->left->item)
-		ft_printf(1, "\n");
 	shell->exit = 0;
 	// 		//dprintf(1, "debug du txt sortie de get echo text = %s\n", txt);
 	// while (txt[++i])
@@ -163,5 +157,5 @@ int		ft_echo(t_shell *shell, t_tree *node)
 	// 	ft_printf(1, "%s", str);
 	// free(str);
 	// free(txt);
-	return (res);
+	return (SUCCESS);
 }

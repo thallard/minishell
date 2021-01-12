@@ -6,17 +6,22 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/11 14:40:24 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 11:45:29 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../libft/includes/libft.h"
 
-int		ft_env(t_shell *shell, t_tree *node)
+// int		ft_env(t_shell *shell, t_tree *node)
+int		ft_env(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 {
-	(void)node;
-	ft_print_env_var(shell->var_env);
+// dprintf(1, "builtin env\n");		////////////////////////
+	
+	(void)exec_args;
+	(void)tab_env;
+	if (to_print == CHILD)
+		ft_print_env_var(shell->var_env);
 	return (SUCCESS);
 }
 

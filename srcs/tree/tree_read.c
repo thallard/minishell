@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/11 16:06:59 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 12:02:21 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,19 @@ char	*is_exec_in_path(char *exec, char *folder_path)
 	return (NULL);
 }
 
+int		is_builtin(char *exec)
+{
+	if (!ft_strncmp(exec, "echo", 5) ||
+		!ft_strncmp(exec, "cd", 3) ||
+		!ft_strncmp(exec, "pwd", 4) ||
+		!ft_strncmp(exec, "export", 7) ||
+		!ft_strncmp(exec, "unset", 6) ||
+		!ft_strncmp(exec, "env", 4) ||
+		!ft_strncmp(exec, "exit", 5))
+		return (1);
+	return (0);
+}
+
 char	*find_exec(t_shell *shell, t_tree *node)
 {
 	char	*paths;
@@ -40,6 +53,9 @@ char	*find_exec(t_shell *shell, t_tree *node)
 	int		i;
 
 	paths = NULL;
+	
+	if (is_builtin(node->item))
+		return (node->item);
 	if (get_var_env(shell, "PATH", &paths) <= 0 ||
 		!(tab_paths = ft_split_minishell_args(paths, ':', shell)))
 		return (NULL);
@@ -92,21 +108,19 @@ int		manage_redirection(t_shell *shell, t_dir **exec_dir)
 	{
 		if (exec_dir[i]->dir >= 0)
 		{
+dprintf(1, "redir > - %s\n", exec_dir[i]->file);
+
 			if ((exec_dir[i]->dir == 1 && (fd = open(exec_dir[i]->file, O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1) ||
 				(exec_dir[i]->dir == 2 && (fd = open(exec_dir[i]->file, O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1))
-				return (FAILURE);
-
-dprintf(1, "pppp2\n");
-				
+				return (FAILURE);				
 			dup2(fd, STDOUT_FILENO);
 		}
 		if (exec_dir[i]->dir == -1)
 		{
-			if ((fd = open(exec_dir[i]->file, O_RDONLY, 0666)) == -1)
-				return (FAILURE);	// a gerer avec errno
+dprintf(1, "redir < - %s\n", exec_dir[i]->file);
 
-dprintf(1, "pppp3\n");
-				
+			if ((fd = open(exec_dir[i]->file, O_RDONLY, 0666)) == -1)
+				return (FAILURE);	// a gerer avec errno				
 			dup2(fd, STDIN_FILENO);
 		}
 	}
@@ -121,6 +135,8 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 	pid_t	program;
 	int		status;
 
+// dprintf(1, "\n\n");
+
 	if (!(exec_path = find_exec(shell, node)))
 		return (ft_cmd_not_found(shell, node->item));	// valeur de retour a confirmer
 
@@ -134,29 +150,8 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 			!(exec_dir = ft_split_minishell_dir(node->left->item, ' ', shell)))
 		return (FAILURE);
 
-
-
-///////////////////////
-// int k = -1;
-// dprintf(1, "\nPRINT EXEC_ARGS\n");
-// while (exec_args[++k])
-// 	dprintf(1, "tab[%d] = |%s|\n", k, exec_args[k]);
-// dprintf(1, "tab[%d] = |%s|\n\n", k, exec_args[k]);
-// //////////////////////
-
-// 	///////////////////////
-// k = -1;
-// dprintf(1, "PRINT EXEC_DIR\n");
-// while (exec_dir[++k]->file)
-// 	dprintf(1, "tab[%d] = |%s|, %d\n", k, exec_dir[k]->file, exec_dir[k]->dir);
-// dprintf(1, "tab[%d] = |%s|, %d\n\n", k, exec_dir[k]->file, exec_dir[k]->dir);
-////////////////////
-
 	if (manage_redirection(shell, exec_dir) == FAILURE)
 		return (FAILURE);	// a gerer avec errno
-
-
-dprintf(1, "is_pipe = %d, node = %s\n", is_pipe, node->item);
 
 	if ((program = fork()) == -1)
 		return (FAILURE);	// a gerer
@@ -164,13 +159,10 @@ dprintf(1, "is_pipe = %d, node = %s\n", is_pipe, node->item);
 	if (!program) // erreur a gerer si program = -1 ?
 	{
 		if (is_pipe / 2 < 1)	// if !PIPE_IN
-			dup2(0, pipe_fd[1 - shell->last_pipe][0]);
-			// dup2(shell->std[0], pipe_fd[1 - shell->last_pipe][0]);
+			dup2(shell->std[0], pipe_fd[1 - shell->last_pipe][0]);
 		if (is_pipe % 2 != PIPE_OUT)
-			dup2(1, pipe_fd[shell->last_pipe][1]);
-			// dup2(shell->std[1], pipe_fd[shell->last_pipe][1]);
+			dup2(shell->std[1], pipe_fd[shell->last_pipe][1]);
 
-// dprintf(1, "fils___ is_pipe = %d, node = %s\n", is_pipe, node->item);
 
 
 		dup2(pipe_fd[shell->last_pipe][1], STDOUT_FILENO);
@@ -179,12 +171,13 @@ dprintf(1, "is_pipe = %d, node = %s\n", is_pipe, node->item);
 		close(pipe_fd[shell->last_pipe][0]);
 		close(pipe_fd[1 - shell->last_pipe][1]);
 
-		// close(pipe_fd[shell->last_pipe][1]);
-		// close(pipe_fd[1 - shell->last_pipe][0]);
+// dprintf(shell->std[1], "begin fils - %s\n", exec_path);
 
-// dprintf(1, "p0 %s\n", node->item);
-		execve(exec_path, exec_args, shell->tab_env);	// retour a checker
-// dprintf(1, "p1\n");
+		ft_exec(shell, exec_path, exec_args, CHILD);
+
+// dprintf(shell->std[1], "end fils - %s\n", exec_path);
+
+		// execve(exec_path, exec_args, shell->tab_env);	// retour a checker
 		exit(0);
 	}
 	else
@@ -192,29 +185,28 @@ dprintf(1, "is_pipe = %d, node = %s\n", is_pipe, node->item);
 		close(pipe_fd[shell->last_pipe][1]);
 		close(pipe_fd[1 - shell->last_pipe][0]);
 
-		// close(pipe_fd[shell->last_pipe][0]);
-		// close(pipe_fd[1 - shell->last_pipe][1]);
-// dprintf(1, "p5\n");
 		wait(&status);
-		dup2(shell->std[0], STDIN_FILENO);
+		
+		dup2(shell->std[0], STDIN_FILENO);	// pour les redirections
 		dup2(shell->std[1], STDOUT_FILENO);
+
+		ft_exec(shell, exec_path, exec_args, PARENT);	// ou le mettre ?
 	}
 	return (SUCCESS);								// valeur a confirmer
 }
 
+
 int	ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 {
-	pipe(pipe_fd[1 - shell->last_pipe]);
+	pipe(pipe_fd[1 - shell->last_pipe]);	// a verifier
+	
 	// dup2(pipe_fd[shell->last_pipe][0], pipe_fd[1 - shell->last_pipe][0]);
 	// dup2(pipe_fd[shell->last_pipe][1], pipe_fd[1 - shell->last_pipe][1]);
 	
 	shell->last_pipe = 1 - shell->last_pipe;
 
-// pwd | cat -e | grep bjacob
-
-// dprintf(1, "ft_exec and pipe, is_pipe = %d, node = %s\n", is_pipe, node->item);
+	launch_exec(shell, node, pipe_fd, is_pipe);
 	
-	ft_exec(shell, node, pipe_fd, is_pipe);
 	return (SUCCESS);
 }
 
@@ -239,10 +231,11 @@ int		read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int pipe_i
 		if (pipe(pipe_fd[1 - shell->last_pipe]) == -1)
 			return (FAILURE);
 		shell->last_pipe = 1 - shell->last_pipe;
-		res = ft_exec(shell, (*t_current)->left, pipe_fd, PIPE_OUT + pipe_in);	// a traiter
+		res = launch_exec(shell, (*t_current)->left, pipe_fd, PIPE_OUT + pipe_in);
+		// res = ft_exec(shell, (*t_current)->left, pipe_fd, PIPE_OUT + pipe_in);	// a traiter
 		// verif du fd entre les deux ?
 		if ((is_end = ((*t_current)->right != NULL)))
-			return (read_node(shell, t_current, pipe_fd, pipe_in));
+			return (read_node(shell, t_current, pipe_fd, 0));
 		return (PIPE_STDIN);						// a gerer ?
 	}
 	else
@@ -269,3 +262,91 @@ int		read_tree(t_shell *shell)
 	}
 	return (SUCCESS);
 }
+
+
+
+/*
+int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
+{
+	char	*exec_path;
+	char	**exec_args;
+	t_dir	**exec_dir;
+	pid_t	program;
+	int		status;
+
+// dprintf(1, "\n\n");
+
+	if (!(exec_path = find_exec(shell, node)))
+		return (ft_cmd_not_found(shell, node->item));	// valeur de retour a confirmer
+
+	if (!node->left->item)
+	{
+		if (!(exec_args = ft_split_minishell_args(node->item, ' ', shell)) ||
+			!(exec_dir = ft_split_minishell_dir(node->left->item, ' ', shell)))
+			return (FAILURE);
+	}
+	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item, is_pipe)) ||
+			!(exec_dir = ft_split_minishell_dir(node->left->item, ' ', shell)))
+		return (FAILURE);
+
+	if (manage_redirection(shell, exec_dir) == FAILURE)
+		return (FAILURE);	// a gerer avec errno
+
+	if (is_pipe / 2 < 1)	// if !PIPE_IN
+	{
+dprintf(1, "not pipe IN - %s\n", exec_path);
+		dup2(shell->std[0], pipe_fd[1 - shell->last_pipe][0]);
+	}
+	if (is_pipe % 2 != PIPE_OUT)
+	{
+dprintf(1, "not pipe OUT - %s\n", exec_path);
+		dup2(shell->std[1], pipe_fd[shell->last_pipe][1]);
+	}
+
+	dup2(pipe_fd[shell->last_pipe][1], STDOUT_FILENO);
+	dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO);
+
+	close(pipe_fd[shell->last_pipe][0]);
+	close(pipe_fd[1 - shell->last_pipe][1]);
+
+
+// dprintf(1, "test STDOUT - %s\n", exec_path);
+	if ((program = fork()) == -1)
+		return (FAILURE);	// a gerer
+
+	if (!program) // erreur a gerer si program = -1 ?
+	{
+
+dprintf(shell->std[1], "begin fils - %s\n", exec_path);
+
+		ft_exec(shell, exec_path, exec_args);
+		// execve(exec_path, exec_args, shell->tab_env);	// retour a checker
+
+// dup2(shell->std[0], STDIN_FILENO);	// pour les redirections
+		// dup2(shell->std[1], STDOUT_FILENO);
+// dprintf(STDOUT_FILENO, "end fils - %s\n", exec_path);
+// dprintf(shell->std[1], "end fils - %s\n", exec_path);
+
+		
+		exit(shell->exit);	// pas indispensable ?
+	}
+	else
+	{
+		// close(pipe_fd[shell->last_pipe][1]);
+		// close(pipe_fd[1 - shell->last_pipe][0]);
+
+		wait(&status);
+		
+		dup2(shell->std[0], STDIN_FILENO);	// pour les redirections
+		dup2(shell->std[1], STDOUT_FILENO);
+
+		if (!ft_strncmp(exec_path, "exit", 5))
+			exit(shell->exit);
+
+dprintf(shell->std[1], "end parent - %s\n\n", exec_path);
+
+
+	}
+	return (SUCCESS);								// valeur a confirmer
+}
+*/

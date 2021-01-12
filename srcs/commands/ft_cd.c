@@ -45,6 +45,8 @@ static int	go_to_upper_folder(void)
 	int		indice;
 	int		res;
 
+// dprintf(1, ".. upperfolder\n");
+
 	if (!(current_path = ft_calloc(1, 500)))
 		return (-1);
 	upper_path = NULL;
@@ -103,21 +105,35 @@ static int	go_to_home(t_shell *shell)
 	path = NULL;
 	if ((get_var_env(shell, "HOME", &path) == -1) || !path)
 		return (-1);
+
+// dprintf(1, "HOME = %s\n", path);
+
 	res = chdir(path);
 	return (get_correct_return(res));
 }
 
-int		ft_cd(t_shell *shell, t_tree *node)
+int		ft_cd(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 {
 	int		res;
 
-	if (!node->left->item)
+// dprintf(1, "builtin cd\n");		////////////////////////
+
+// ft_print_tab_char(exec_args);	///////////////
+
+(void)shell;
+(void)tab_env;
+(void)to_print;
+
+	if (!exec_args[1])
 		res = go_to_home(shell);
-	else if (!ft_strncmp(node->left->item, "..", 3))
+	else if (!ft_strncmp(exec_args[1], "..", 3))
 		res = go_to_upper_folder();
 	else
-		res = go_to_folder(node->left->item);
-	if (res == -1)
-		return (print_cd_error(shell, node->left->item));
+		res = go_to_folder(exec_args[1]);
+
+// dprintf(1, "res = %d\n", res);	/////////////////
+
+	if (res == -1 && to_print == PARENT)		// PARENT ou CHILD
+		return (print_cd_error(shell, exec_args[1]));
 	return (SUCCESS);
 }

@@ -3,28 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/10 16:06:50 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 11:45:32 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		ft_pwd(t_shell *shell, int pipe_fd[2][2], int is_pipe)
+int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 {
 	int		res;
 	char	*path;
-	int		fd;
 
-	fd = 1;
+// dprintf(1, "builtin pwd\n");	////////////////////////
+
 	(void)shell;
-	res = 0;
-	path = ft_calloc(1, 500);
+	(void)exec_args;
+	(void)tab_env;
+	res = SUCCESS;
+	path = ft_calloc(1, 500);	// a proteger
 	getcwd(path, 500);
-	if (is_pipe == PIPE_OUT) // quid de PIPE_IN ??
-		fd = pipe_fd[shell->last_pipe][1];
-	ft_printf(fd, "%s\n", path);
+	if (to_print == CHILD)
+		res = ft_printf(STDOUT_FILENO, "%s\n", path);	// \n a conserver ?
 	return (res);
 }

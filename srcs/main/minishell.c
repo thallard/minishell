@@ -37,23 +37,28 @@ int	init_shell(t_shell *shell)
 	return (SUCCESS);
 }
 
-int	ft_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
+		// ft_exec(shell, exec_path, exec_args, shell->tab_env);
+
+int	ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_print)
 {
-	if (!ft_strncmp(node->item, "echo", 5))
-		return (ft_echo(shell, node));
-	if (!ft_strncmp(node->item, "cd", 3))
-		return (ft_cd(shell, node));
-	if (!ft_strncmp(node->item, "pwd", 4))
-		return (ft_pwd(shell, pipe_fd, is_pipe));
-	if (!ft_strncmp(node->item, "export", 7))
-	 	return (ft_export(shell, node));
-	if (!ft_strncmp(node->item, "unset", 6))
-		return (ft_unset(shell, node));
-	if (!ft_strncmp(node->item, "env", 4))
-		return (ft_env(shell, node));
-	if (!ft_strncmp(node->item, "exit", 5))
-		ft_exit(shell);
-	return (launch_exec(shell, node, pipe_fd, is_pipe));
+	if (!ft_strncmp(exec_path, "echo", 5))
+		return (ft_echo(shell, exec_args, shell->tab_env, to_print));
+	if (!ft_strncmp(exec_path, "cd", 3))
+		return (ft_cd(shell, exec_args, shell->tab_env, to_print));
+	if (!ft_strncmp(exec_path, "pwd", 4))
+		return (ft_pwd(shell, exec_args, shell->tab_env, to_print));
+	// if (!ft_strncmp(exec_path, "export", 7))
+	//  	return (ft_export(shell, node));
+	if (!ft_strncmp(exec_path, "unset", 6))
+		return (ft_unset(shell, exec_args, shell->tab_env, to_print));
+	if (!ft_strncmp(exec_path, "env", 4))
+		return (ft_env(shell, exec_args, shell->tab_env, to_print));
+	if (!ft_strncmp(exec_path, "exit", 5))
+		ft_exit(shell, to_print);
+	if (to_print == CHILD)
+		return (execve(exec_path, exec_args, shell->tab_env));
+	else
+		return (SUCCESS);
 }
 
 int		ft_apply_minishell(t_shell *shell, char *buf)
@@ -68,7 +73,7 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 		ft_printf(1, "syntax error near unexpected token `%s'\n", shell->sep);
 	if (res >= 0)
 	{
-		// ft_print_tree(shell->root, 0); ////////////
+		// ft_print_tree(shell->root, 0); ////////////////////////
 		read_tree(shell);
 	}
 	ft_bzero(buf, ft_strlen(buf));
@@ -110,6 +115,6 @@ int main(int argc, char **argv, char **envp)
 	// ft_printf(1, "minishell-3000$ ");
 	while ((size = read(0, buf, 1000) > 0))
 		ft_apply_minishell(shell, buf);
-	ft_exit(shell);
+	ft_exit(shell, PARENT);
 	return (SUCCESS);
 }

@@ -37,3 +37,13 @@ void	ft_print_tree(t_tree *node, int nb)
 		ft_printf(1, "\n");
 	}
 }
+
+void	ft_print_tab_char(char **tab)
+{
+	int i;
+
+	i = -1;
+	while (tab[++i])
+		dprintf(1, "tab[%d] = %s\n", i, tab[i]);
+	dprintf(1, "tab[%d] = %s\n", i, tab[i]);
+}
