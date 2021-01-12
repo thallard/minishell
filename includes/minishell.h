@@ -29,6 +29,9 @@
 # define PIPE_IN 2
 # define PIPE_STDIN 5
 
+# define PARENT 1
+# define CHILD 0
+
 typedef struct		s_tree
 {
 	struct s_tree	*left;
@@ -84,7 +87,7 @@ typedef struct		s_shell
 ** minishell.c
 */
 int		init_shell(t_shell *shell);
-int		ft_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
+int		ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_print);
 
 /*
 ****************************************************
@@ -206,13 +209,15 @@ int	ft_abs(int a);
 /*
 ** Commands
 */
-int		ft_cd(t_shell *shell, t_tree *node);
-int		ft_pwd(t_shell *shell, int pipe_out[2][2], int is_pipe);
+int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env, int to_print);
+int		ft_env(t_shell *shell, char **exec_args, char **tab_env, int to_print);
+int		ft_cd(t_shell *shell, char **exec_args, char **tab_env, int to_print);
+int		ft_unset(t_shell *shell, char **exec_args, char **tab_env, int to_print);
+
 int		ft_echo(t_shell *shell, t_tree *node);
-int		ft_env(t_shell *shell, t_tree *node);
 int		ft_export(t_shell *shell, t_tree *node);
-int		ft_unset(t_shell *shell, t_tree *node);
-void	ft_exit(t_shell *shell);
+
+void	ft_exit(t_shell *shell, int to_print);
 
 /*
 ** Utils for commands
@@ -236,6 +241,7 @@ char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
 ** print_functions.c // A SUPPRIMER
 */
 void	ft_print_tree(t_tree *node, int nb); // a supprimer
+void	ft_print_tab_char(char **tab);
 
 
 #endif

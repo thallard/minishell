@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/06 10:38:26 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 09:10:28 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,14 @@ int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 		return (FAILURE);
 	if (!(t_current->right = tree_create_node(shell, shell->op)))
 		return (FAILURE);
-	if (is_operand(shell->op))
-		res = get_operand_arg(shell, input, t_current->right);
-	else if (!(t_current->right->left = get_next_arg_echo(shell, input, 2)))
+	// if (is_operand(shell->op))
+	// {
+	// 	if (!(t_current->right->left = get_next_arg_echo(shell, input, 2)))
+	// 		return (FAILURE);
+	// 	// res = get_operand_arg(shell, input, t_current->right);
+	// }
+	// else 
+	if (!(t_current->right->left = get_next_arg_echo(shell, input, 2)))
 		return (FAILURE);
 	str_to_separator(input);
 	shell->last_node = OP;
