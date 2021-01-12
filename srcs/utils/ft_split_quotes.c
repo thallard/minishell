@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 17:56:52 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/11 11:33:22 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 08:56:19 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ char	*ft_create_word_double(t_shell *shell, char *str, int *iterator)
 
 	j = -1;
 	i = -1;
+	dprintf(1, "debug de l'entree : [%s]\n", str);
 	if (!(word = malloc_lst(shell, sizeof(char) * (ft_strlen(str) + 1000))))
 		return (NULL);
 	while (str[++i] && str[i] != '\"')
@@ -95,8 +96,12 @@ char	*ft_create_word_double(t_shell *shell, char *str, int *iterator)
 			word[++j] = str[i];
 	word[++j] = '\0';
 	if (str[i] != '\"')
-		return (ft_exit_split("Error : need a double quote to finish the line."));
-	*iterator += i + 1;
+	{
+		*iterator += i - 1;
+			return (ft_exit_split("Error : need a double quote to finish the line."));
+	}
+	else
+		*iterator += i + 1;
 	return (word);
 }
 
