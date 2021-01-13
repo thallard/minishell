@@ -178,6 +178,7 @@ int		ft_fill_lst_env(t_shell *shell, char **envp);
 ** env_replace_value.c
 */
 char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
+int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env);
 
 /*
 ** env_utils.c
