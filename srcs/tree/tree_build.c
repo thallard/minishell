@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_build.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/12 19:23:31 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 11:22:56 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	ft_split_args_quotes(shell, shell->op);
 	if (!(tab = ft_split_minishell_args(shell->op, ' ', shell)))
 		return (FAILURE);
-	if (!(dir = ft_split_redirection(shell, shell->op)))
+	// if (!(dir = ft_split_redirection(shell, shell->op)))
+	if (!(dir = ft_split_minishell_dir(shell->op, ' ', shell)))
 		return (FAILURE);
 
 	if (!(t_current->right = tree_create_node(shell, tab, dir)))

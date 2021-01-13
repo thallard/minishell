@@ -6,8 +6,10 @@
 # include <errno.h>
 # include <dirent.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <sys/types.h>
 
 # include "../libft/includes/libft.h"
 # include "../libft/includes/get_next_line.h"
@@ -32,12 +34,12 @@
 # define PARENT 1
 # define CHILD 0
 
-// typedef struct		s_tree
-// {
-// 	struct s_tree	*left;
-// 	struct s_tree	*right;
-// 	void			*item;
-// }					t_tree;
+typedef struct		s_fd
+{
+	struct s_fd		*next;
+	int				fd;
+}					t_fd;
+
 
 typedef struct		s_dir
 {
@@ -81,6 +83,7 @@ typedef struct		s_shell
 	t_split			*split;
 	int				last_pipe;
 	int				std[2];
+	t_fd			*lst_fd;
 }					t_shell;
 
 /*
@@ -94,6 +97,13 @@ typedef struct		s_shell
 */
 int		init_shell(t_shell *shell);
 int		ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_print);
+
+/*
+** redirection.c
+*/
+void	ft_lstfd_close_clear(t_fd **lst);
+int		manage_redirection(t_shell *shell, t_dir **exec_dir);
+
 
 /*
 ****************************************************

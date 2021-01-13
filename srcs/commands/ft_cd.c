@@ -120,7 +120,6 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 
 // ft_print_tab_char(exec_args);	///////////////
 
-(void)shell;
 (void)tab_env;
 (void)to_print;
 
@@ -133,7 +132,7 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 
 // dprintf(1, "res = %d\n", res);	/////////////////
 
-	if (res == -1 && to_print == PARENT)		// PARENT ou CHILD
+	if (res == -1 && to_print == CHILD)		// PARENT ou CHILD
 		return (print_cd_error(shell, exec_args[1]));
 	return (SUCCESS);
 }

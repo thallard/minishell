@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_read.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/12 19:05:35 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 10:54:38 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,48 +97,14 @@ char	**get_exec_args(t_shell *shell, char *exec, char *args, int is_pipe)
 	return (tab);
 }
 
-int		manage_redirection(t_shell *shell, t_dir **exec_dir)
-{
-	int i;
-	int	fd;
-
-	(void)shell;	// exit a gerer dans cette fonction ?
-
-	// ft_print_tab_dir(exec_dir);
-	
-	i = -1;
-	if (!exec_dir[0]->file)
-		return (SUCCESS);
-	while (exec_dir[++i]->file)
-	{
-		if (exec_dir[i]->dir >= 0)
-		{
-// dprintf(1, "redir > - %s\n", exec_dir[i]->file);
-
-			if ((exec_dir[i]->dir == 1 && (fd = open(exec_dir[i]->file, O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1) ||
-				(exec_dir[i]->dir == 2 && (fd = open(exec_dir[i]->file, O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1))
-				return (FAILURE);				
-			dup2(fd, STDOUT_FILENO);
-		}
-		if (exec_dir[i]->dir == -1)
-		{
-// dprintf(1, "redir < - %s\n", exec_dir[i]->file);
-
-			if ((fd = open(exec_dir[i]->file, O_RDONLY, 0666)) == -1)
-				return (FAILURE);	// a gerer avec errno				
-			dup2(fd, STDIN_FILENO);
-		}
-	}
-	return (SUCCESS);
-}
-
 int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 {
 	char	*exec_path;
 	// char	**exec_args;
 	// t_dir	**exec_dir;
 	pid_t	program;
-	int		status;
+	// int		status;
+
 
 // dprintf(1, "\n\n");
 	// exec_dir = ft_split_redirection(shell, node->left->item);
@@ -176,27 +142,41 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 		close(pipe_fd[shell->last_pipe][0]);
 		close(pipe_fd[1 - shell->last_pipe][1]);
 
-// dprintf(shell->std[1], "begin fils - %s\n", exec_path);
+		if (ft_exec(shell, exec_path, node->args, CHILD) == -1)
+			exit(FAILURE);	// bonne valeur
 
-		ft_exec(shell, exec_path, node->args, CHILD);
+// dprintf(1, "exit status child = %d\n", shell->exit);
 
-// dprintf(shell->std[1], "end fils - %s\n", exec_path);
-
-		// execve(exec_path, exec_args, shell->tab_env);	// retour a checker
-		exit(0);
+		exit(shell->exit);	// int a changer
+		// exit(2);	// int a changer
 	}
 	else
 	{
 		close(pipe_fd[shell->last_pipe][1]);
 		close(pipe_fd[1 - shell->last_pipe][0]);
 
-		wait(&status);
-		
+// dprintf(1, "exit status0 = %d\n", shell->exit);
+
+
+		waitpid(program, &(shell->exit), 0);
+		shell->exit /= 256;
+
+		// waitpid(program, &status, 0);
+		// shell->exit = status;
+
 		dup2(shell->std[0], STDIN_FILENO);	// pour les redirections
 		dup2(shell->std[1], STDOUT_FILENO);
 
-		ft_exec(shell, exec_path, node->args, PARENT);	// ou le mettre ?
+// dprintf(1, "exit status = %d\n", shell->exit);
+
+		// if (!shell->exit)	// bon ?
+			ft_exec(shell, exec_path, node->args, PARENT);	// ou le mettre ?
 	}
+
+// dprintf(shell->std[1], "PID3 = %d\n", program);
+
+	// ft_lstfd_close_clear(&shell->lst_fd);	// a mettre ici ?
+
 	return (SUCCESS);								// valeur a confirmer
 }
 
@@ -267,91 +247,3 @@ int		read_tree(t_shell *shell)
 	}
 	return (SUCCESS);
 }
-
-
-
-/*
-int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
-{
-	char	*exec_path;
-	char	**exec_args;
-	t_dir	**exec_dir;
-	pid_t	program;
-	int		status;
-
-// dprintf(1, "\n\n");
-
-	if (!(exec_path = find_exec(shell, node)))
-		return (ft_cmd_not_found(shell, node->item));	// valeur de retour a confirmer
-
-	if (!node->left->item)
-	{
-		if (!(exec_args = ft_split_minishell_args(node->item, ' ', shell)) ||
-			!(exec_dir = ft_split_minishell_dir(node->left->item, ' ', shell)))
-			return (FAILURE);
-	}
-	else if (!(exec_args = get_exec_args(shell, node->item, node->left->item, is_pipe)) ||
-			!(exec_dir = ft_split_minishell_dir(node->left->item, ' ', shell)))
-		return (FAILURE);
-
-	if (manage_redirection(shell, exec_dir) == FAILURE)
-		return (FAILURE);	// a gerer avec errno
-
-	if (is_pipe / 2 < 1)	// if !PIPE_IN
-	{
-dprintf(1, "not pipe IN - %s\n", exec_path);
-		dup2(shell->std[0], pipe_fd[1 - shell->last_pipe][0]);
-	}
-	if (is_pipe % 2 != PIPE_OUT)
-	{
-dprintf(1, "not pipe OUT - %s\n", exec_path);
-		dup2(shell->std[1], pipe_fd[shell->last_pipe][1]);
-	}
-
-	dup2(pipe_fd[shell->last_pipe][1], STDOUT_FILENO);
-	dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO);
-
-	close(pipe_fd[shell->last_pipe][0]);
-	close(pipe_fd[1 - shell->last_pipe][1]);
-
-
-// dprintf(1, "test STDOUT - %s\n", exec_path);
-	if ((program = fork()) == -1)
-		return (FAILURE);	// a gerer
-
-	if (!program) // erreur a gerer si program = -1 ?
-	{
-
-dprintf(shell->std[1], "begin fils - %s\n", exec_path);
-
-		ft_exec(shell, exec_path, exec_args);
-		// execve(exec_path, exec_args, shell->tab_env);	// retour a checker
-
-// dup2(shell->std[0], STDIN_FILENO);	// pour les redirections
-		// dup2(shell->std[1], STDOUT_FILENO);
-// dprintf(STDOUT_FILENO, "end fils - %s\n", exec_path);
-// dprintf(shell->std[1], "end fils - %s\n", exec_path);
-
-		
-		exit(shell->exit);	// pas indispensable ?
-	}
-	else
-	{
-		// close(pipe_fd[shell->last_pipe][1]);
-		// close(pipe_fd[1 - shell->last_pipe][0]);
-
-		wait(&status);
-		
-		dup2(shell->std[0], STDIN_FILENO);	// pour les redirections
-		dup2(shell->std[1], STDOUT_FILENO);
-
-		if (!ft_strncmp(exec_path, "exit", 5))
-			exit(shell->exit);
-
-dprintf(shell->std[1], "end parent - %s\n\n", exec_path);
-
-
-	}
-	return (SUCCESS);								// valeur a confirmer
-}
-*/

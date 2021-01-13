@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_return.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:45:02 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/12 19:23:50 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 10:46:45 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		print_cd_error(t_shell *shell, char *cmd)
 {
 	ft_printf(STDERR_FILENO, "cd: %s: %s\n", cmd, strerror(errno));
 	shell->exit = 1;
+	// exit (shell->exit);
 	return (SUCCESS);
 }
 

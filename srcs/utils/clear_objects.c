@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:44:22 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/07 13:22:56 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 09:03:32 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 // char **tab_to_argvnew(char **tab)
 // {
@@ -34,10 +34,9 @@ int	init_shell(t_shell *shell)
 	shell->last_pipe = 1;
 	shell->std[0] = dup(STDIN_FILENO);
 	shell->std[1] = dup(STDOUT_FILENO);
+	shell->lst_fd = NULL;
 	return (SUCCESS);
 }
-
-		// ft_exec(shell, exec_path, exec_args, shell->tab_env);
 
 int	ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_print)
 {
