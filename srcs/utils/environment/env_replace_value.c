@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_replace_env_value.c                             :+:      :+:    :+:   */
+/*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 18:50:38 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 13:46:24 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char	*ft_search_env_content(t_shell *shell, char *name, int limit)
+static char	*ft_search_env_content(t_shell *shell, char *name, int limit)
 {
 	t_env	*lst;
 
@@ -26,7 +26,7 @@ char	*ft_search_env_content(t_shell *shell, char *name, int limit)
 	return (NULL);
 }
 
-char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i)
+char		*ft_get_env_value(t_shell *shell, char *txt, int *j, int i)
 {
 	char	*tmp;
 	int		k;

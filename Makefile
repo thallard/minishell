@@ -1,14 +1,16 @@
+main = srcs/main
 tree = srcs/tree
 utils = srcs/utils
 splits = srcs/utils/splits
 comm = srcs/commands
-env = srcs/commands/environment
+env = srcs/utils/environment
+str = srcs/utils/str
 
-SRCS	=	srcs/minishell.c \
-			$(tree)/tree_build.c $(tree)/tree_get_arg.c $(tree)/tree_read.c \
-			$(utils)/str_utils.c $(utils)/str_utils_op_sep_space.c $(utils)/env_utils.c $(utils)/env_utils2.c \
-			$(utils)/print_return.c $(utils)/clear_objects.c  \
-			$(utils)/ft_math.c \
+SRCS	=	$(main)/minishell.c $(main)/redirection.c \
+			$(tree)/tree_build.c $(tree)/tree_read.c $(tree)/node_exec.c \
+			$(utils)/print_return.c $(utils)/clear_objects.c \
+			$(str)/str_utils.c $(str)/str_utils_op_sep_space.c \
+			$(env)/env_utils.c $(env)/env_utils2.c $(env)/env_replace_value.c $(env)/env_fill.c \
 			$(splits)/ft_split_quotes.c $(splits)/split_minishell_dir.c $(splits)/split_minishell_args.c $(splits)/ft_split_dir.c \
 			$(splits)/ft_split_args_quotes.c \
 			$(comm)/ft_cd.c \
@@ -18,9 +20,9 @@ SRCS	=	srcs/minishell.c \
 			$(comm)/ft_export.c \
 			$(comm)/ft_unset.c \
 			$(comm)/ft_exit.c \
-			$(env)/ft_replace_env_value.c \
-			srcs/print_functions.c \
+			srcs/print_functions.c # a supprimer
 
+ODIR=obj
 
 OBJS = $(SRCS:.c=.o)
 
@@ -31,7 +33,8 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 INC =	-I./includes -L./libft -lft
 
 .c.o:
-	$(CC) $(CFLAGS) -c $< -o $@ 
+# $(ODIR)/%.o: %.c:
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):	libft $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(INC) -o $(NAME) 

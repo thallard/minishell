@@ -3,16 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 09:08:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/08 10:54:13 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 13:49:14 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
-void	ft_env_remove_if(t_env **begin_list, void *name_ref,
+static void	ft_swap_env(t_env *a, t_env *b)
+{
+	char *lastName;
+
+	lastName = a->name;
+	a->name = b->name;
+	b->name = lastName;
+
+	lastName = a->content;
+	a->content = b->content;
+	b->content = lastName;
+}
+
+void		ft_env_remove_if(t_env **begin_list, void *name_ref,
 		int (*cmp)())
 {
 	t_env	*ptr;
@@ -42,7 +55,7 @@ void	ft_env_remove_if(t_env **begin_list, void *name_ref,
 	}
 }
 
-int		get_var_env(t_shell *shell, char *var_name, char **content)
+int			get_var_env(t_shell *shell, char *var_name, char **content)
 {
 	t_env	*begin;
 
@@ -61,7 +74,7 @@ int		get_var_env(t_shell *shell, char *var_name, char **content)
 	return (-1);
 }
 
-void	ft_sort_export_var(t_env *env)
+void		ft_sort_export_var(t_env *env)
 {
 	t_env	*ptr;
 
@@ -76,7 +89,7 @@ void	ft_sort_export_var(t_env *env)
 			ptr = ptr->next;
 }
 
-t_env	*ft_clone_export_env(t_env *lst)
+t_env		*ft_clone_export_env(t_env *lst)
 {
 	t_env	*sorted;
 
@@ -87,17 +100,4 @@ t_env	*ft_clone_export_env(t_env *lst)
 	sorted->hidden = lst->hidden;
 	sorted->next = ft_clone_export_env(lst->next);
 	return (sorted);
-}
-
-void	ft_swap_env(t_env *a, t_env *b)
-{
-	char *lastName;
-
-	lastName = a->name;
-	a->name = b->name;
-	b->name = lastName;
-
-	lastName = a->content;
-	a->content = b->content;
-	b->content = lastName;
 }

@@ -6,13 +6,13 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 14:14:58 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 14:19:17 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_tree	*tree_create_node(t_shell *shell, char **args, t_dir **dir)
+static t_tree	*tree_create_node(t_shell *shell, char **args, t_dir **dir)
 {
 	t_tree	*node;
 
@@ -25,7 +25,7 @@ t_tree	*tree_create_node(t_shell *shell, char **args, t_dir **dir)
 	return (node);
 }
 
-int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
+static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 {
 	int		res;
 	char	**tab;
@@ -38,6 +38,7 @@ int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	if (!(tab = ft_split_args_quotes(shell, shell->op)))
 		return (FAILURE);
 	if (!(dir = ft_split_redirection(shell, shell->op)))
+	// if (!(dir = ft_split_minishell_dir(shell->op, ' ', shell)))
 		return (FAILURE);
 
 	if (!(t_current->right = tree_create_node(shell, tab, dir)))
@@ -59,7 +60,7 @@ int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	return (res);
 }
 
-int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
+static int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 {
 	t_tree	*op_node;
 	char	**tab;

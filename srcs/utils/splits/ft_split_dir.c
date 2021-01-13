@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:33 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 11:45:05 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 14:19:28 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ char	*ft_create_word_dir(t_shell *shell, t_split *s, char *str, int *iterator)
 
 	j = -1;
 	i = -1;
-	//dprintf(1, "dbeug entree de create word = %s\n", str);
 	if (!(word = malloc_lst(shell, sizeof(char) * (ft_strlen(str) + 1000))))
 		return (NULL);
 	while (str[++i] && str[i] != '>' && str[i] != '<')
