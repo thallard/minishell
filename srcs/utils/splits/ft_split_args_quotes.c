@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_args_quotes.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 18:52:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 14:59:35 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 15:53:53 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	*ft_create_word_double_arg(t_shell *shell, char *str, int *iterator)
 		return (ft_exit_split("Error : need a double quote to finish the line.\n"));
 	shell->split->d_quotes = 0;
 	shell->split->s_quotes = 0;
+	
 	return (word);
 }
 
