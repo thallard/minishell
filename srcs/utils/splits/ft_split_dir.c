@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:33 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 11:35:24 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 11:45:05 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_dir	**ft_split_redirection(t_shell *shell, char *str)
 		if ((redirection = is_redirection(&str[i]) )!= 0)
 		{
 			if (redirection == 2)
-				i++;	
+				i++;
 			if (!(tab[++j] = malloc_lst(shell, sizeof(t_dir))))
 				return (NULL);
 			while (str[++i] == ' ')
@@ -121,7 +121,6 @@ t_dir	**ft_split_redirection(t_shell *shell, char *str)
 			tab[j]->dir = redirection;
 			shell->split->d_quotes = 0;
 			shell->split->s_quotes = 0;
-			dprintf(1, "tab[%d]=%s et redir %d\n", j, tab[j]->file, redirection);
 		}
 	if (!(tab[++j] = malloc_lst(shell, sizeof(t_dir))))
 				return (NULL);

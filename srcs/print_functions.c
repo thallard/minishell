@@ -44,8 +44,8 @@ void	ft_print_tab_char(char **tab)
 
 	i = -1;
 	while (tab[++i])
-		dprintf(1, "tab[%d] = %s\n", i, tab[i]);
-	dprintf(1, "tab[%d] = %s\n", i, tab[i]);
+		dprintf(1, "tab[%d] = [%s]\n", i, tab[i]);
+	dprintf(1, "tab[%d] = [%s]\n", i, tab[i]);
 }
 
 void	ft_print_tab_dir(t_dir **dir)
