@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 13:46:24 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 14:51:40 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ char		*ft_get_env_value(t_shell *shell, char *txt, int *j, int i)
 	(void)i;
 	txt++;
 	k = 0;
-	while (txt[k] && txt[k] != ' ' && txt[k] != '\'' && txt[k] != '\"'
-			&& txt[k] != '/' && txt[k] != '$' && txt[k] != '_')
+	while (txt[k] && txt[k] != ' ' && txt[k] != '\'' && txt[k] != '\"' &&
+		txt[k] != '/' && txt[k] != '$' && txt[k] != '_' && txt[k] != '=')
 		k++;
 	tmp = ft_search_env_content(shell, txt, k);
 	//dprintf(1, "debug env = |%s| et limit %d\n", tmp, k);

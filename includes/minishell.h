@@ -213,6 +213,7 @@ char		**ft_split_minishell_args(char const *s, char c, t_shell *shell);
 t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell);
 char		**ft_split_args_quotes(t_shell *shell, char *str);
 
+
 /*
 **--------------------
 **		 str		**
