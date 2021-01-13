@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:33 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 08:37:24 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 11:40:49 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static char	*ft_exit_splt(char *str)
 
 int		is_redirection(char *str)
 {
-	if (str[0] == '>')
-		return (1);
-	else if (ft_strncmp(&str[0], ">>", 2) == 0)
+	if (str[0] == '>' && str[1] == '>')
 		return (2);
+	else if (str[0] == '>')
+		return (1);
 	else if (str[0] == '<')
 		return (-1);
 	return (0);
@@ -106,8 +106,10 @@ t_dir	**ft_split_redirection(t_shell *shell, char *str)
 	i = -1;
 	j = -1;
 	while (ft_strlen(str) >= ++i && str[i])
-		if ((redirection = is_redirection(&str[i]) != 0))
+		if ((redirection = is_redirection(&str[i]) )!= 0)
 		{
+			if (redirection == 2)
+				i++;	
 			if (!(tab[++j] = malloc_lst(shell, sizeof(t_dir))))
 				return (NULL);
 			while (str[++i] == ' ')
@@ -119,6 +121,7 @@ t_dir	**ft_split_redirection(t_shell *shell, char *str)
 			tab[j]->dir = redirection;
 			shell->split->d_quotes = 0;
 			shell->split->s_quotes = 0;
+			// dprintf(1, "tab[%d]=%s et redir %d\n", j, tab[j]->file, redirection);
 		}
 	if (!(tab[++j] = malloc_lst(shell, sizeof(t_dir))))
 				return (NULL);
