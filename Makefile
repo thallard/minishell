@@ -49,7 +49,7 @@ allc : all clean
 
 clean:
 	@$(RM) $(OBJS) 
-	#@$(MAKE) clean -C libft
+	@$(MAKE) clean -C libft
 
 fclean: 	clean
 	@$(RM) libft/libft.a
