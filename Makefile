@@ -22,9 +22,10 @@ SRCS	=	$(main)/minishell.c $(main)/redirection.c \
 			$(comm)/ft_exit.c \
 			srcs/print_functions.c # a supprimer
 
-ODIR=obj
+SRC_DIR	:= srcs/
+OBJ_DIR	:= obj/
 
-OBJS = $(SRCS:.c=.o)
+OBJS	= $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 NAME = minishell
 CC = clang
@@ -32,19 +33,20 @@ RM = rm -f
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 INC =	-I./includes -L./libft -lft
 
-.c.o:
-# $(ODIR)/%.o: %.c:
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(NAME):	libft $(OBJS)
+$(NAME): libft $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(INC) -o $(NAME) 
+	echo "$@ (exec) \033[32mcreated\033[0m"
+	echo "--------------------------------------------"
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c includes/minishell.h libft/includes/libft.h | $(OBJ_DIR)
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+	echo "$@ \033[32mcreated\033[0m"
 
 libft:
 	@$(MAKE) -C ./libft
 
 $(OBJS): includes/minishell.h libft/includes/libft.h
-
-$(OBJS_cd): includes/minishell.h libft/includes/libft.h
 
 all:	$(NAME)
 
@@ -60,49 +62,3 @@ fclean: 	clean
 re:		fclean all
 
 .PHONY: all clean fclean re libft
-
-
-# OBJECTS = objects/
-
-
-# # OBJS = $(SRCS:.c=.o)
-# # OBJS	:= $($(SRCS)%.c=$(OBJECTS)%.o)
-# OBJS		:= $(SRCS:%.c=%.o)
-# NAME = minishell
-# CC = gcc
-# RM = rm -f
-# CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
-# INC =	-I./includes
-# LIB =  -L./libft -lft
-
-# %.o: %.c includes/minishell.h
-# 	$(CC) $(CFLAGS) $(INC) -c $< -o $(addprefix $(OBJECTS),$(notdir $@))
-
-# # .c.o: $(OBJS)
-# # 	$(CC) $(CFLAGS) -c $< -o $(addprefix objects/,$(notdir $@))
-
-# $(NAME):	libft $(addprefix $(OBJECTS),$(notdir $(OBJS)))
-# 	$(CC) $(CFLAGS)  $(addprefix $(OBJECTS),$(notdir $(OBJS))) $(LIB) -o $(NAME)
-
-# libft:
-# 	@$(MAKE) -C ./libft
-
-
-# # $(OBJS):  includes/minishell.h libft/includes/libft.h 
-
-# SILENT:
-# all:	 $(NAME)
-
-# allc : all clean
-
-# clean:
-# 	@$(RM) $(OBJS)
-# 	@$(MAKE) clean -C libft
-
-# fclean: 	clean
-# 	@$(RM) $(NAME) env_file
-# 	@$(RM) libft/libft.a
-
-# re:		fclean all
-
-# .PHONY: all clean fclean re libft
