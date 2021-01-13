@@ -132,13 +132,15 @@ int		get_operand_arg(t_shell *shell, char **input, t_tree *op_node);
 /*
 ** tree_read.c
 */
-char	*is_exec_in_path(char *exec, char *folder_path);
 char	*find_exec(t_shell *shell, t_tree *node);
-char	**get_exec_args(t_shell *shell, char *exec, char *args, int is_pipe);
+int		read_tree(t_shell *shell);
+
+/*
+** node_exec.c
+*/
 int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
 int		ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
-int		read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int pipe_in);
-int		read_tree(t_shell *shell);
+
 
 /*
 ** redirection.c

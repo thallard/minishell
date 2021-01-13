@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 10:35:52 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 11:44:10 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void		ft_exit(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 	(void)tab_env;
 
 	// free_all_ptr(shell);			// A REMETTRE
-	// ft_lstfd_close_clear(&shell->lst_fd);
+	ft_lstfd_close_clear(&shell->lst_fd);
 	
 	// if (to_print == CHILD)
 	//	 ft_printf(1, "exit\n");
