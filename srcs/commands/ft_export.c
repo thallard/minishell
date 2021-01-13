@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 15:08:04 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 16:18:01 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,6 @@ t_env	*ft_prepare_lst_env(t_shell *shell, t_tree *node, char **tab, int i)
 		!(add_lst_to_free(shell, new_lst->content)))
 		return (NULL);
 	return (new_lst);
-}
-
-int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env)
-{
-	t_env	*begin;
-
-	begin = shell->var_env;
-	while (shell->var_env->next)
-	{
-		shell->var_env = shell->var_env->next;
-		if (ft_strncmp(shell->var_env->name, name, (ft_strlen(name))) == 0)
-		{
-			if (env->hidden == 1)
-			{
-				shell->var_env = begin;
-				return (SUCCESS);
-			}
-			shell->var_env->hidden = env->hidden;
-			free(shell->var_env->content);
-			shell->var_env->content = content;
-			shell->var_env = begin;
-			return (SUCCESS);
-		}
-	}
-	shell->var_env->next = env;
-	shell->var_env = begin;
-	return (FAILURE);
 }
 
 int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)

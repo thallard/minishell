@@ -12,6 +12,14 @@
 
 #include "../../includes/minishell.h"
 
+// static int	update_env_pwd(t_shell *shell)
+// {
+
+// (void)shell;
+
+// 	return (0);
+// }
+
 static int	get_correct_return(int res)
 {
 	if (res == -1)
@@ -103,8 +111,6 @@ static int	go_to_home(t_shell *shell)
 	path = NULL;
 	if ((get_var_env(shell, "HOME", &path) == -1) || !path)
 		return (-1);
-
-
 	res = chdir(path);
 	return (get_correct_return(res));
 }
@@ -112,11 +118,12 @@ static int	go_to_home(t_shell *shell)
 int		ft_cd(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 {
 	int		res;
+	char	*old_path;
+	char	*current_path;
 
-(void)tab_env;
 (void)to_print;
-
-	if (!exec_args[1])
+(void)tab_env;
+	if (!exec_args[1] || !ft_strncmp(exec_args[1], "~", 2))
 		res = go_to_home(shell);
 	else if (!ft_strncmp(exec_args[1], "..", 3))
 		res = go_to_upper_folder();
@@ -124,5 +131,15 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 		res = go_to_folder(exec_args[1]);
 	if (res == -1 && to_print == CHILD)		// PARENT ou CHILD
 		return (print_cd_error(shell, exec_args[1]));
+
+	get_var_env(shell, "PWD", &old_path);
+	if (!(old_path = ft_strdup(old_path)) || !add_lst_to_free(shell, old_path))
+		return (FAILURE);
+	if (!(current_path = ft_calloc(1, 500)) ||
+		!add_lst_to_free(shell, current_path))
+		return (FAILURE);
+	getcwd(current_path, 1000);	// a proteger ?
+	ft_if_env_exists(shell, "OLDPWD", old_path, shell->var_env); // pb possible avec lst des ptrs
+	ft_if_env_exists(shell, "PWD", current_path, shell->var_env);
 	return (SUCCESS);
 }
