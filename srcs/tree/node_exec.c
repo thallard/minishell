@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 15:08:18 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 16:15:03 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static int	ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_pri
 		return (ft_cd(shell, exec_args, shell->tab_env, to_print));
 	if (!ft_strncmp(exec_path, "pwd", 4))
 		return (ft_pwd(shell, exec_args, shell->tab_env, to_print));
-	// if (!ft_strncmp(exec_path, "export", 7))
-	//  	return (ft_export(shell, exec_args, shell->tab_env, to_print));
+	if (!ft_strncmp(exec_path, "export", 7))
+	 	return (ft_export(shell, exec_args, shell->tab_env, to_print));
 	if (!ft_strncmp(exec_path, "unset", 6))
 		return (ft_unset(shell, exec_args, shell->tab_env, to_print));
 	if (!ft_strncmp(exec_path, "env", 4))

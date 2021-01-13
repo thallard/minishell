@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 15:08:04 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 16:32:07 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../libft/includes/libft.h"
 
-t_env	*ft_prepare_lst_env(t_shell *shell, t_tree *node, char **tab, int i)
+t_env	*ft_prepare_lst_env(t_shell *shell, char **tab, int i)
 {
 	t_env	*new_lst;
 
-	(void)node;
 	new_lst = NULL;
 	if (!(new_lst = malloc_lst(shell, sizeof(t_env))) ||
 		!(add_lst_to_free(shell, new_lst)))
@@ -48,7 +47,7 @@ int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env)
 				return (SUCCESS);
 			}
 			shell->var_env->hidden = env->hidden;
-			free(shell->var_env->content);
+			// free(shell->var_env->content);
 			shell->var_env->content = content;
 			shell->var_env = begin;
 			return (SUCCESS);
@@ -88,50 +87,47 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 	return (SUCCESS);
 }
 
-int		ft_add_new_env(t_shell *shell, t_tree *node)
+int		ft_add_new_env(t_shell *shell, char **tab)
 {
 	int		i;
 	int		j;
 	t_env	*new_lst;
-	char	**tab;
-	char	**str;
-
 	// tab = ft_split_minishell_args(node->left->item, ' ', shell);
-	tab = node->args;
-	
-	i = -1;
+	//tab = node->args;
+	i = 0;
 	while (tab[++i])
 	{
-		str = ft_split_quotes(shell, shell->split, tab[i]);
-		if (!str)
-			return (-1);
-			new_lst = ft_prepare_lst_env(shell, node, str, 0);
+		//str = ft_split_quotes(shell, shell->split, tab[i]);
+			new_lst = ft_prepare_lst_env(shell, tab, 0);
 		j = -1;
-		while (str[0][++j] && str[0][j] != '=')
-			new_lst->name[j] = str[0][j];
-		if (str[0][j] == '=' && !str[0][j + 1])
+		while (tab[i][++j] && tab[i][j] != '=')
+			new_lst->name[j] = tab[i][j];
+		if (tab[i][j] == '=' && !tab[i][j + 1])
 			new_lst->hidden = 2;
-		else if (str[0][j] != '=' && !str[0][j])
+		else if (tab[i][j] != '=' && !tab[i][j])
 			new_lst->hidden = 1;
 		else
 			new_lst->hidden = 0;
 		new_lst->name[j++] = '\0';
-		if ((j + 2) <= ft_strlen(str[0]))
-			if (ft_strncmp(&str[0][j], "\"\"", 2) == 0 || ft_strncmp(&str[0][j], "\'\'", 2) == 0)
-				((char *)new_lst->content)[0] = '\0';
-		ft_filter_and_add(shell, new_lst, str[0], j);
+		if ((j + 2) <= ft_strlen(tab[i]))
+			if (ft_strncmp(&tab[i][j], "\"\"", 2) == 0 || ft_strncmp(&tab[i][j], "\'\'", 2) == 0)
+				((char *)new_lst->content)[i] = '\0';
+		ft_filter_and_add(shell, new_lst, tab[i], j);
 	}
 	return (SUCCESS);
 }
 
-int		ft_export(t_shell *shell, t_tree *node)
+int		ft_export(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 {
 	t_env	*sorted_env;
 
 	sorted_env = NULL;
-	if (node->left->args[1])
+	(void)tab_env;
+	(void)to_print;
+	//ft_print_tab_char(exec_args);
+	if (exec_args[1])
 	{
-		if (ft_add_new_env(shell, node))
+		if (ft_add_new_env(shell, exec_args))
 		{
 			shell->exit = 0;
 			return (SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 14:51:40 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 16:32:12 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,11 @@ char		*ft_get_env_value(t_shell *shell, char *txt, int *j, int i)
 	//dprintf(1, "debug env = |%s| et limit %d\n", tmp, k);
 	*j += k;
 	return (tmp);
+}
+
+int		ft_change_value_tab_env(t_shell *shell, char **tab_env, char *name)
+{
+	
+
+	return (0);
 }
