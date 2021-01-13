@@ -1,22 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/13 13:31:50 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/13 13:31:50 by bjacob           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-// char **tab_to_argvnew(char **tab)
-// {
-// 	char	**argvnew;
-// 	int		i;
-
-// 	i = 0;
-// 	while (tab[i])
-// 		i++;
-// 	argvnew = malloc(sizeof(char*) * (i - 1));
-// 	i = -1;
-// 	while (tab[++i + 1])
-// 		argvnew[i] = tab[i + 1];
-// 	argvnew[i] = NULL;
-// 	return (argvnew);
-// }
-
-int	init_shell(t_shell *shell)
+static int	init_shell(t_shell *shell)
 {
 	// if (shell->ptrs)			a corriger
 	// 	free_all_ptr(shell);
@@ -36,28 +32,6 @@ int	init_shell(t_shell *shell)
 	shell->std[1] = dup(STDOUT_FILENO);
 	shell->lst_fd = NULL;
 	return (SUCCESS);
-}
-
-int	ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_print)
-{
-	if (!ft_strncmp(exec_path, "echo", 5))
-		return (ft_echo(shell, exec_args, shell->tab_env, to_print));
-	if (!ft_strncmp(exec_path, "cd", 3))
-		return (ft_cd(shell, exec_args, shell->tab_env, to_print));
-	if (!ft_strncmp(exec_path, "pwd", 4))
-		return (ft_pwd(shell, exec_args, shell->tab_env, to_print));
-	// if (!ft_strncmp(exec_path, "export", 7))
-	//  	return (ft_export(shell, node));
-	if (!ft_strncmp(exec_path, "unset", 6))
-		return (ft_unset(shell, exec_args, shell->tab_env, to_print));
-	if (!ft_strncmp(exec_path, "env", 4))
-		return (ft_env(shell, exec_args, shell->tab_env, to_print));
-	if (!ft_strncmp(exec_path, "exit", 5))
-		ft_exit(shell, exec_args, shell->tab_env, to_print);
-	if (to_print == CHILD)
-		return (execve(exec_path, exec_args, shell->tab_env));
-	else
-		return (SUCCESS);
 }
 
 int		ft_apply_minishell(t_shell *shell, char *buf)

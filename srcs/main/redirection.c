@@ -6,13 +6,13 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:36:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 11:26:40 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 13:33:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_fd	*ft_lstfdnew(int fd)
+static t_fd	*ft_lstfdnew(int fd)
 {
 	t_fd	*elem;
 
@@ -23,7 +23,7 @@ t_fd	*ft_lstfdnew(int fd)
 	return (elem);
 }
 
-t_fd	*ft_lstfdlast(t_fd *lst)
+static t_fd	*ft_lstfdlast(t_fd *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -32,7 +32,7 @@ t_fd	*ft_lstfdlast(t_fd *lst)
 	return (lst);
 }
 
-t_fd	*ft_lstfdadd_back(t_fd **alst, int fd)
+static t_fd	*ft_lstfdadd_back(t_fd **alst, int fd)
 {
 	t_fd	*elem;
 	t_fd	*new;
@@ -49,7 +49,7 @@ t_fd	*ft_lstfdadd_back(t_fd **alst, int fd)
 	return (*alst);
 }
 
-void	ft_lstfd_close_clear(t_fd **lst)
+void		ft_lstfd_close_clear(t_fd **lst)
 {
 	t_fd	*elem;
 	t_fd	*next;
@@ -65,7 +65,7 @@ void	ft_lstfd_close_clear(t_fd **lst)
 	*lst = NULL;
 }
 
-int		manage_redirection(t_shell *shell, t_dir **exec_dir)
+int			manage_redirection(t_shell *shell, t_dir **exec_dir)
 {
 	int 	i;
 	int		fd;

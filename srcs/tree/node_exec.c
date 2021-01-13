@@ -6,11 +6,33 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 11:55:42 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 13:32:40 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_print)
+{
+	if (!ft_strncmp(exec_path, "echo", 5))
+		return (ft_echo(shell, exec_args, shell->tab_env, to_print));
+	if (!ft_strncmp(exec_path, "cd", 3))
+		return (ft_cd(shell, exec_args, shell->tab_env, to_print));
+	if (!ft_strncmp(exec_path, "pwd", 4))
+		return (ft_pwd(shell, exec_args, shell->tab_env, to_print));
+	// if (!ft_strncmp(exec_path, "export", 7))
+	//  	return (ft_export(shell, node));
+	if (!ft_strncmp(exec_path, "unset", 6))
+		return (ft_unset(shell, exec_args, shell->tab_env, to_print));
+	if (!ft_strncmp(exec_path, "env", 4))
+		return (ft_env(shell, exec_args, shell->tab_env, to_print));
+	if (!ft_strncmp(exec_path, "exit", 5))
+		ft_exit(shell, exec_args, shell->tab_env, to_print);
+	if (to_print == CHILD)
+		return (execve(exec_path, exec_args, shell->tab_env));
+	else
+		return (SUCCESS);
+}
 
 static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2], char *exec_path)
 {

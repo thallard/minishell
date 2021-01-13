@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 15:09:06 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 13:28:34 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 {
 	int		res;
 	char	*path;
-
-// dprintf(1, "builtin pwd\n");	////////////////////////
 
 	(void)shell;
 	(void)exec_args;

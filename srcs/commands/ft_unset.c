@@ -6,13 +6,13 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 16:42:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/12 11:57:59 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 13:31:16 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		ft_search_wrong_character(char *str)
+static int	ft_search_wrong_character(char *str)
 {
 	int		i;
 	int		alpha;
@@ -28,10 +28,8 @@ int		ft_search_wrong_character(char *str)
 	return (1);
 }
 
-// int		ft_unset(t_shell *shell, t_tree *node)
-int		ft_unset(t_shell *shell, char **exec_args, char **tab_env, int to_print)
+int			ft_unset(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 {
-	// char	**tab;
 	int		row;
 
 (void)tab_env;

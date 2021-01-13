@@ -6,11 +6,11 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:46:32 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/11 14:51:47 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 13:51:39 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 int		ft_strrfind(const char *s, int c)
 {
@@ -57,31 +57,30 @@ int		ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
+// char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2)
+// {
+// 	int		l1;
+// 	int		l2;
+// 	int		i;
+// 	int		j;
+// 	char	*str;
 
-char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2)
-{
-	int		l1;
-	int		l2;
-	int		i;
-	int		j;
-	char	*str;
-
-	if (!s1 || !s2)
-		return (NULL);
-	i = -1;
-	j = -1;
-	l1 = ft_strlen(s1);
-	l2 = ft_strlen(s2);
-	if (!(str = malloc(sizeof(char) * (l1 + l2 + 1))))
-		return (NULL);
-	while (++i < l1)
-		str[i] = s1[i];
-	while (++j < l2)
-		str[i + j] = s2[j];
-	str[i + j] = '\0';
-	if (f_s2)
-		free(s2);
-	if (f_s1)
-		free(s1);
-	return (str);
-}
+// 	if (!s1 || !s2)
+// 		return (NULL);
+// 	i = -1;
+// 	j = -1;
+// 	l1 = ft_strlen(s1);
+// 	l2 = ft_strlen(s2);
+// 	if (!(str = malloc(sizeof(char) * (l1 + l2 + 1))))
+// 		return (NULL);
+// 	while (++i < l1)
+// 		str[i] = s1[i];
+// 	while (++j < l2)
+// 		str[i + j] = s2[j];
+// 	str[i + j] = '\0';
+// 	if (f_s2)
+// 		free(s2);
+// 	if (f_s1)
+// 		free(s1);
+// 	return (str);
+// }
