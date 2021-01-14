@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 16:42:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 13:31:16 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 09:28:03 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	ft_search_wrong_character(char *str)
 	return (1);
 }
 
-int			ft_unset(t_shell *shell, char **exec_args, char **tab_env, int to_print)
+int			ft_unset(t_shell *shell, char **exec_args, char **tab_env)
 {
 	int		row;
 
@@ -46,7 +46,7 @@ int			ft_unset(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 		while (exec_args[++row])
 			if ((ft_search_wrong_character(exec_args[row])) == 1)
 				ft_env_remove_if(&shell->var_env, exec_args[row], &ft_strncmp);
-			else if (to_print == CHILD)
+			else
 				print_unset_error(shell, exec_args[row]);
 	}
 	shell->exit = 0;

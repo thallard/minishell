@@ -115,13 +115,12 @@ static int	go_to_home(t_shell *shell)
 	return (get_correct_return(res));
 }
 
-int		ft_cd(t_shell *shell, char **exec_args, char **tab_env, int to_print)
+int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 {
 	int		res;
 	char	*old_path;
 	char	*current_path;
 
-(void)to_print;
 (void)tab_env;
 	if (!exec_args[1] || !ft_strncmp(exec_args[1], "~", 2))
 		res = go_to_home(shell);
@@ -129,7 +128,7 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 		res = go_to_upper_folder();
 	else
 		res = go_to_folder(exec_args[1]);
-	if (res == -1 && to_print == CHILD)		// PARENT ou CHILD
+	if (res == -1)		// PARENT ou CHILD
 		return (print_cd_error(shell, exec_args[1]));
 
 	get_var_env(shell, "PWD", &old_path);

@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 16:49:24 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 10:37:28 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,3 +88,9 @@ int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env)
 	return (FAILURE);
 }
 
+// int		ft_change_value_tab_env(t_shell *shell, char **tab_env, char *name)
+// {
+	
+
+// 	return (0);
+// }

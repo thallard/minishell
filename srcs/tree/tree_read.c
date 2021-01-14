@@ -6,14 +6,13 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 12:01:12 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 09:34:08 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-static int	is_builtin(char *exec)
+int			is_builtin(char *exec)
 {
 	if (!ft_strncmp(exec, "echo", 5) ||
 		!ft_strncmp(exec, "cd", 3) ||

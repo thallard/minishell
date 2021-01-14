@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 15:00:39 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 09:27:04 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@
 // 	return (fd);
 // }
 
-int		ft_echo(t_shell *shell, char **exec_args, char **tab_env, int to_print)
+int		ft_echo(t_shell *shell, char **exec_args, char **tab_env)
 {
 	int		i;
 	int		remove_eol;
@@ -114,27 +114,25 @@ int		ft_echo(t_shell *shell, char **exec_args, char **tab_env, int to_print)
 
 // ft_print_tab_char(exec_args);
 
-	if (to_print == CHILD)
+
+	if (!exec_args[1])	// [1]
+		ft_printf(1, "\n");
+	else
 	{
-		if (!exec_args[1])	// [1]
-			ft_printf(1, "\n");
-		else
+		if (!strncmp(exec_args[1], "-n", 3))
+			remove_eol = 1;
+		while (exec_args[++i])
 		{
-			if (!strncmp(exec_args[1], "-n", 3))
-				remove_eol = 1;
-			while (exec_args[++i])
+			if (remove_eol != 1 || ft_strncmp(exec_args[i], "-n", 3))
 			{
-				if (remove_eol != 1 || ft_strncmp(exec_args[i], "-n", 3))
-				{
-					ft_printf(1, "%s", exec_args[i]);
-					if (exec_args[i + 1] && exec_args[i + 1][0] && exec_args[i + 1][0] != ' ' && exec_args[i][0])
-						ft_printf(1, " ");
-					remove_eol *= (-1);
-				}
+				ft_printf(1, "%s", exec_args[i]);
+				if (exec_args[i + 1] && exec_args[i + 1][0] && exec_args[i + 1][0] != ' ' && exec_args[i][0])
+					ft_printf(1, " ");
+				remove_eol *= (-1);
 			}
-			if (!remove_eol)
-					ft_printf(1, "\n");
 		}
+		if (!remove_eol)
+				ft_printf(1, "\n");
 	}
 	shell->exit = 0;
 	return (SUCCESS);
