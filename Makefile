@@ -6,7 +6,7 @@ comm = srcs/commands
 env = srcs/utils/environment
 str = srcs/utils/str
 
-SRCS	=	$(main)/minishell.c $(main)/redirection.c \
+SRCS	=	$(main)/ft_ctrl.c $(main)/minishell.c $(main)/redirection.c \
 			$(tree)/node_exec.c $(tree)/exec_builtin_execve.c $(tree)/tree_build.c $(tree)/tree_read.c \
 			$(utils)/print_return.c $(utils)/clear_objects.c \
 			$(str)/str_utils.c $(str)/str_utils_op_sep_space.c \

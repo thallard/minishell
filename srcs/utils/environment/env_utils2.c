@@ -6,23 +6,26 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 09:08:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 13:49:14 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 11:55:10 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	ft_swap_env(t_env *a, t_env *b)
+t_env	*ft_get_var_env(t_shell *shell, char *name)
 {
-	char *lastName;
+	t_env	*begin;
+	int		len;
 
-	lastName = a->name;
-	a->name = b->name;
-	b->name = lastName;
-
-	lastName = a->content;
-	a->content = b->content;
-	b->content = lastName;
+	len = ft_strlen(name);
+	begin = shell->var_env;
+	while (begin)
+	{
+		if (!ft_strncmp(begin->name, name, len))
+			return (begin);
+		begin = begin->next;
+	}
+	return (NULL);
 }
 
 void		ft_env_remove_if(t_env **begin_list, void *name_ref,
@@ -82,7 +85,7 @@ void		ft_sort_export_var(t_env *env)
 	while (ptr && ptr->next)
 		if (ft_strcmp(ptr->name, ptr->next->name) > 0)
 		{
-			ft_swap_env(ptr, ptr->next);
+			ft_swap_env_all(ptr, ptr->next);
 			ptr = env;
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 09:27:47 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 13:11:50 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env)
 	char	*path;
 
 // dprintf(shell->std[1], "p3\n");
+
+dprintf(1, "pwd0\n");
 
 	(void)shell;
 	(void)exec_args;

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 08:47:42 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 13:30:05 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,30 +42,29 @@ char		*ft_get_env_value(t_shell *shell, char *txt, int *j, int i)
 	return (tmp);
 }
 
-int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env)
+int		ft_if_env_exists(t_shell *shell, char *name, char *content)
 {
 	t_env	*begin;
 
 	begin = shell->var_env;
-	while (shell->var_env->next)
+	while (begin->next)
 	{
-		shell->var_env = shell->var_env->next;
-		if (ft_strncmp(shell->var_env->name, name, (ft_strlen(name))) == 0)
-		{
+		begin = begin->next;
+		if (ft_strncmp(begin->name, name, (ft_strlen(name))) == 0)
+		{			
 			if (env->hidden == 1)
 			{
-				shell->var_env = begin;
+				begin = shell->var_env;
 				return (SUCCESS);
 			}
-			shell->var_env->hidden = env->hidden;
+			begin->hidden = env->hidden;
 			// free(shell->var_env->content);
-			shell->var_env->content = content;
-			shell->var_env = begin;
+			begin->content = content;
+			begin = shell->var_env;
 			return (SUCCESS);
 		}
 	}
-	shell->var_env->next = env;
-	shell->var_env = begin;
+	begin->next = env;
 	return (FAILURE);
 }
 

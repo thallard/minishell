@@ -6,11 +6,33 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:22:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 13:45:17 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 11:54:59 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+void	ft_swap_env_all(t_env *a, t_env *b)
+{
+	char *lastName;
+
+	lastName = a->name;
+	a->name = b->name;
+	b->name = lastName;
+
+	lastName = a->content;
+	a->content = b->content;
+	b->content = lastName;
+}
+
+void	ft_swap_env_content(t_env *a, t_env *b)
+{
+	char *lastName;
+
+	lastName = a->content;
+	a->content = b->content;
+	b->content = lastName;
+}
 
 static char	*ft_fill_env_content(t_shell *shell, char *str)
 {

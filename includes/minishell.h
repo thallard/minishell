@@ -109,6 +109,12 @@ void	ft_exit(t_shell *shell, char **exec_args, char **tab_env);
 */
 
 /*
+** ft_ctrl.c
+*/
+void	ft_ctrl_c(int sign);
+void	ft_ctrl_back(int sign);
+
+/*
 ** minishell.c
 */
 
@@ -180,13 +186,15 @@ char	*ft_exit_split(char *str);
 /*
 ** env_fill.c
 */
+void	ft_swap_env_all(t_env *a, t_env *b);
+void	ft_swap_env_content(t_env *a, t_env *b);
 int		ft_fill_lst_env(t_shell *shell, char **envp);
 
 /*
 ** env_replace_value.c
 */
 char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
-int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env);
+int		ft_if_env_exists(t_shell *shell, char *name, char *content);
 
 /*
 ** env_utils.c
@@ -199,6 +207,7 @@ void	ft_remove_elem(t_env **ptr_back, t_env **ptr);
 /*
 ** env_utils2.c
 */
+t_env	*ft_get_var_env(t_shell *shell, char *name);
 void	ft_env_remove_if(t_env **begin_list, void *name_ref,
 		int (*cmp)());
 int		get_var_env(t_shell *shell, char *var_name, char **content);
