@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/01/14 14:11:37 by thallard         ###   ########lyon.fr   */
+=======
+/*   Updated: 2021/01/14 13:32:06 by bjacob           ###   ########lyon.fr   */
+>>>>>>> b6f4c029a2bc17d4f84e08b8d771d26dec14c1b5
 /*                                                                            */
 /* ************************************************************************** */
 

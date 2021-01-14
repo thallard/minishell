@@ -85,6 +85,15 @@ int main(int argc, char **argv, char **envp)
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))		// a voir
 		return (ft_apply_minishell(shell, argv[2]));
 	// ft_printf(1, "minishell-3000$ ");
+
+	// signal(SIGINT,SIG_DFL);
+	// signal(SIGINT,SIG_IGN);
+	// signal(SIGQUIT,SIG_IGN);
+
+	// signal(SIGINT, &ft_ctrl_c);
+	
+	// signal(SIGQUIT, &ft_ctrl_back);
+
 	while ((size = read(0, buf, 10000) > 0))
 		ft_apply_minishell(shell, buf);
 	// ft_exit(shell, PARENT);

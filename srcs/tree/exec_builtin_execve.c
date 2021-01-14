@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 09:32:49 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/14 09:34:39 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 11:32:51 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ int			exec_execve(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 	}
 	else
 	{
+		signal(SIGQUIT,SIG_IGN);
+
 		close(pipe_fd[shell->last_pipe][1]);
 		close(pipe_fd[1 - shell->last_pipe][0]);
 		exec_parent(shell, node, program);
