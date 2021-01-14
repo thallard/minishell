@@ -189,7 +189,7 @@ char	*ft_exit_split(char *str);
 void	ft_swap_env_all(t_env *a, t_env *b);
 void	ft_swap_env_content(t_env *a, t_env *b);
 int		ft_fill_lst_env(t_shell *shell, char **envp);
-t_env	*ft_prepare_lst_env(t_shell *shell, char *str);
+t_env	*ft_prepare_lst_env(t_shell *shell, char *content, char *name);
 
 /*
 ** env_replace_value.c

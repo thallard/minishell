@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/01/14 14:11:37 by thallard         ###   ########lyon.fr   */
-=======
-/*   Updated: 2021/01/14 13:32:06 by bjacob           ###   ########lyon.fr   */
->>>>>>> b6f4c029a2bc17d4f84e08b8d771d26dec14c1b5
+/*   Updated: 2021/01/14 14:42:57 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +51,9 @@ int		ft_change_value_tab_env(t_shell *shell, char **tab_env, char *name, char *c
 {
 	int		i;
 	int		size;
+	int		success;
+
+	success = 0;
 	i = -1;
 	(void)shell;
 	size = ft_strlen(name);
@@ -62,8 +61,14 @@ int		ft_change_value_tab_env(t_shell *shell, char **tab_env, char *name, char *c
 	name[size + 1] = '\0';
 	while (tab_env[++i])
 	{
-		if (ft_strncmp(tab_env[i], name, ft_strlen(name)) == 0)
+		if (ft_strncmp(tab_env[i], name, ft_strlen(name)) == 0 && !success++)
 			tab_env[i] = ft_strjoin(name, content);
+	}
+	if (success)
+	{
+		tab_env = malloc_lst(shell, sizeof(char *) * (i + 2));
+		tab_env[++i] = ft_strjoin(name, content);
+		tab_env[++i] = NULL;
 	}
 	return (1);
 }
@@ -71,8 +76,11 @@ int		ft_change_value_tab_env(t_shell *shell, char **tab_env, char *name, char *c
 int		ft_add_new_env_tab(t_shell *shell, char *name, char *content)
 {
 	t_env	*new;
-	(void)name;
-	new = ft_prepare_lst_env(shell, content);
+
+	new = ft_prepare_lst_env(shell, content, name);
+	new->name = ft_memmove(new->name, name, ft_strlen(name) + 1);
+	new->content = ft_memmove(new->content, content, ft_strlen(content) + 1);
+	new->hidden = 0;
 	ft_env_add_back(&shell->var_env, new);
 	return (SUCCESS);
 }
@@ -82,10 +90,12 @@ int		replace_env_content(t_shell *shell, char *name, char *content)
 	t_env	*begin;
 
 	begin = shell->var_env;
+	dprintf(1, "debug de la content =  %s\n", content);
 	while (begin)
 	{
 		if (ft_strncmp(begin->name, name, (ft_strlen(name))) == 0)
 		{
+			
 			begin->content = content;
 			if (!content)
 				begin->hidden = 1;
