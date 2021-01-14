@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 09:27:04 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 11:35:51 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ int		ft_echo(t_shell *shell, char **exec_args, char **tab_env)
 			if (remove_eol != 1 || ft_strncmp(exec_args[i], "-n", 3))
 			{
 				ft_printf(1, "%s", exec_args[i]);
-				if (exec_args[i + 1] && exec_args[i + 1][0] && exec_args[i + 1][0] != ' ' && exec_args[i][0])
-					ft_printf(1, " ");
+				// if (exec_args[i + 1])
+				// 	ft_printf(1, " ");
 				remove_eol *= (-1);
 			}
 		}

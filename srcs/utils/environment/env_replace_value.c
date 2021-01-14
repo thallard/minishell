@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 10:37:28 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 11:02:29 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ char		*ft_get_env_value(t_shell *shell, char *txt, int *j, int i)
 	(void)i;
 	txt++;
 	k = 0;
+	if (ft_isdigit(txt[0]))
+	{
+		*j += 1;
+		return (NULL);
+	}
 	while (txt[k] && txt[k] != ' ' && txt[k] != '\'' && txt[k] != '\"' &&
 		txt[k] != '/' && txt[k] != '$' && txt[k] != '_' && txt[k] != '=')
 		k++;
