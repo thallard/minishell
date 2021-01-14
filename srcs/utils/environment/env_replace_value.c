@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 11:02:29 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 14:11:37 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,38 +64,35 @@ int		ft_change_value_tab_env(t_shell *shell, char **tab_env, char *name, char *c
 	return (1);
 }
 
-int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env)
+int		ft_add_new_env_tab(t_shell *shell, char *name, char *content)
+{
+	t_env	*new;
+	(void)name;
+	new = ft_prepare_lst_env(shell, content);
+	ft_env_add_back(&shell->var_env, new);
+	return (SUCCESS);
+}
+
+int		replace_env_content(t_shell *shell, char *name, char *content)
 {
 	t_env	*begin;
 
 	begin = shell->var_env;
-	while (shell->var_env->next)
+	while (begin)
 	{
-		shell->var_env = shell->var_env->next;
-		if (ft_strncmp(shell->var_env->name, name, (ft_strlen(name))) == 0)
+		if (ft_strncmp(begin->name, name, (ft_strlen(name))) == 0)
 		{
-			if (env->hidden == 1)
-			{
-				shell->var_env = begin;
-				return (SUCCESS);
-			}
-			shell->var_env->hidden = env->hidden;
-			// free(shell->var_env->content);
-			shell->var_env->content = content;
-			shell->var_env = begin;
-			ft_change_value_tab_env(shell, shell->tab_env, env->name, env->content);
-			ft_print_tab_char(shell->tab_env);
+			begin->content = content;
+			if (!content)
+				begin->hidden = 1;
+			else
+				begin->hidden = 0;
+			// free(begin->content);
+			//ft_change_value_tab_env(shell, shell->tab_env, name, content);
 			return (SUCCESS);
 		}
+		begin = begin->next;
 	}
-	shell->var_env->next = env;
-	shell->var_env = begin;
+	ft_add_new_env_tab(shell, name, content);
 	return (FAILURE);
 }
-
-// int		ft_change_value_tab_env(t_shell *shell, char **tab_env, char *name)
-// {
-	
-
-// 	return (0);
-// }

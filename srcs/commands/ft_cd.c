@@ -138,7 +138,9 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 		!add_lst_to_free(shell, current_path))
 		return (FAILURE);
 	getcwd(current_path, 1000);	// a proteger ?
-	ft_if_env_exists(shell, "OLDPWD", old_path, shell->var_env); // pb possible avec lst des ptrs
-	ft_if_env_exists(shell, "PWD", current_path, shell->var_env);
+
+
+	replace_env_content(shell, "OLDPWD", old_path); // pb possible avec lst des ptrs
+	replace_env_content(shell, "PWD", current_path);
 	return (SUCCESS);
 }

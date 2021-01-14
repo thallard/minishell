@@ -181,12 +181,14 @@ char	*ft_exit_split(char *str);
 ** env_fill.c
 */
 int		ft_fill_lst_env(t_shell *shell, char **envp);
+t_env	*ft_prepare_lst_env(t_shell *shell, char *str);
 
 /*
 ** env_replace_value.c
 */
+int		ft_add_new_env_tab(t_shell *shell, char *name, char *content);
 char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
-int		ft_if_env_exists(t_shell *shell, char *name, char *content, t_env *env);
+int		replace_env_content(t_shell *shell, char *name, char *content);
 
 /*
 ** env_utils.c

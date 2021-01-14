@@ -6,14 +6,14 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 10:37:49 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 14:10:37 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../libft/includes/libft.h"
 
-t_env	*ft_prepare_lst_env(t_shell *shell, char **tab, int i)
+t_env	*ft_prepare_lst_env(t_shell *shell, char *str)
 {
 	t_env	*new_lst;
 
@@ -22,10 +22,10 @@ t_env	*ft_prepare_lst_env(t_shell *shell, char **tab, int i)
 		!(add_lst_to_free(shell, new_lst)))
 		return (NULL);
 	new_lst->next = NULL;
-	if (!(new_lst->name = malloc(sizeof(char) * (ft_strlen(tab[i]) + 100))) ||
+	if (!(new_lst->name = malloc(sizeof(char) * (ft_strlen(str) + 100))) ||
 		!(add_lst_to_free(shell, new_lst->name)))
 		return (NULL);
-	if (!(new_lst->content = malloc(sizeof(char) * (ft_strlen(tab[i]) + 100))) ||
+	if (!(new_lst->content = malloc(sizeof(char) * (ft_strlen(str) + 100))) ||
 		!(add_lst_to_free(shell, new_lst->content)))
 		return (NULL);
 	return (new_lst);
@@ -44,18 +44,18 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 				((char *)env->content)[k++] = str[j++];
 			((char *)env->content)[k] = '\0';
 			env->hidden = 0;
-			ft_if_env_exists(shell, env->name, env->content, env);
+			replace_env_content(shell, env->name, env->content);
 		}
 		else if (env->hidden != 2)
 		{
 			env->hidden = 1;
 			((char *)env->content)[k] = '\0';
-			ft_if_env_exists(shell, env->name, env->content, env);
+			replace_env_content(shell, env->name, env->content);
 		}
 		else if (env->hidden == 2)
 		{
 			((char *)env->content)[k] = '\0';
-			ft_if_env_exists(shell, env->name, env->content, env);
+			replace_env_content(shell, env->name, env->content);
 		}
 	return (SUCCESS);
 }
@@ -71,7 +71,7 @@ int		ft_add_new_env(t_shell *shell, char **tab)
 	while (tab[++i])
 	{
 		//str = ft_split_quotes(shell, shell->split, tab[i]);
-			new_lst = ft_prepare_lst_env(shell, tab, 0);
+		new_lst = ft_prepare_lst_env(shell, tab[i]);
 		j = -1;
 		while (tab[i][++j] && tab[i][j] != '=')
 			new_lst->name[j] = tab[i][j];
