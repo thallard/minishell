@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 11:44:10 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 09:27:31 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ static int	is_full_digit(char *arg)
 	return (0);
 }
 
-void		ft_exit(t_shell *shell, char **exec_args, char **tab_env, int to_print)
+void		ft_exit(t_shell *shell, char **exec_args, char **tab_env)
 {
-// dprintf(1, "builtin exit\n");		////////////////////////
-	(void)to_print;
 	(void)tab_env;
-
+	
 	// free_all_ptr(shell);			// A REMETTRE
 	ft_lstfd_close_clear(&shell->lst_fd);
 	

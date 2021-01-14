@@ -52,6 +52,7 @@ typedef struct		s_tree
 	struct s_tree	*right;
 	char			**args;
 	t_dir			**dir;
+	char			*exec_path;
 }					t_tree;
 
 typedef struct		s_env
@@ -93,13 +94,13 @@ typedef struct		s_shell
 /*
 ** Commands
 */
-int		ft_cd(t_shell *shell, char **exec_args, char **tab_env, int to_print);
-int		ft_echo(t_shell *shell, char **exec_args, char **tab_env, int to_print);
-int		ft_env(t_shell *shell, char **exec_args, char **tab_env, int to_print);
-int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env, int to_print);
-int		ft_unset(t_shell *shell, char **exec_args, char **tab_env, int to_print);
-int		ft_export(t_shell *shell, char **exec_args, char **tab_env, int to_print);
-void	ft_exit(t_shell *shell, char **exec_args, char **tab_env, int to_print);
+int		ft_cd(t_shell *shell, char **exec_args, char **tab_env);
+int		ft_echo(t_shell *shell, char **exec_args, char **tab_env);
+int		ft_env(t_shell *shell, char **exec_args, char **tab_env);
+int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env);
+int		ft_unset(t_shell *shell, char **exec_args, char **tab_env);
+int		ft_export(t_shell *shell, char **exec_args, char **tab_env);
+void	ft_exit(t_shell *shell, char **exec_args, char **tab_env);
 
 /*
 ****************************************************
@@ -125,6 +126,12 @@ int		manage_redirection(t_shell *shell, t_dir **exec_dir);
 */
 
 /*
+** exec_builtin_execve.c
+*/
+int		exec_builtin(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
+int		exec_execve(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
+
+/*
 ** node_exec.c
 */
 int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
@@ -139,6 +146,7 @@ int		create_main_tree(t_shell *shell, char *input);
 /*
 ** tree_read.c
 */
+int		is_builtin(char *exec);
 char	*find_exec(t_shell *shell, t_tree *node);
 int		read_tree(t_shell *shell);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/13 16:34:05 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 09:27:38 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,12 @@ int		ft_add_new_env(t_shell *shell, char **tab)
 	return (SUCCESS);
 }
 
-int		ft_export(t_shell *shell, char **exec_args, char **tab_env, int to_print)
+int		ft_export(t_shell *shell, char **exec_args, char **tab_env)
 {
 	t_env	*sorted_env;
 
 	sorted_env = NULL;
 	(void)tab_env;
-	(void)to_print;
 	//ft_print_tab_char(exec_args);
 	if (exec_args[1])
 	{
