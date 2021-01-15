@@ -56,9 +56,6 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 	int	len;
 
 	len = ft_bufferlen(buf, -1);	// a voir quel char
-
-// dprintf(1, "len = %d\n", len);
-
 	if (len != 0)
 	{
 		buf[ft_abs(len)] = 0;
@@ -74,8 +71,6 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 		//ft_printf(1, "minishell$ ");
 		ft_remove_eol(buf);
 		init_shell(shell);
-
-		// dprintf(1, "\ninput = |%s|\n", shell->buffer_std);
 		if (!ft_memchr(shell->buffer_std, -2, ft_strlen(shell->buffer_std)))
 		{
 			res = create_main_tree(shell, shell->buffer_std);

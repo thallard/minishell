@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/15 09:32:53 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 14:13:02 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	res = SUCCESS;
 	if (!(shell->op = strdup_and_inc_input(shell, input)))
 		return (FAILURE);
-	
 	if (!(tab = ft_split_args_quotes(shell, shell->op)))
 		return (FAILURE);
 	if (!(dir = ft_split_redirection(shell, shell->op)))
@@ -83,7 +82,7 @@ int		read_input(t_shell *shell, t_tree **t_current, char **input)
 {
 	skip_spaces(input);
 	if (!(**input))
-		return (EOL);
+		return (SUCCESS + 1);
 	if (is_separator(**input))
 	{
 		if (shell->last_node == OP)

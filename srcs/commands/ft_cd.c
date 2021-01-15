@@ -132,6 +132,8 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	char	*old_path;
 	char	*cur_path;
 
+// ft_print_tab_char(exec_args);
+
 	(void)tab_env;
 	if (!exec_args[1] || !ft_strncmp(exec_args[1], "~", 2))
 		res = go_to_home(shell);
