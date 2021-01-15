@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/15 10:38:15 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 11:49:23 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void		ft_exit(t_shell *shell, char **exec_args, char **tab_env)
 			shell->exit = 255;
 	}
 
-	ft_printf(shell->std[1], "exit\n");	// a enlever pour les tests ?
+	// ft_printf(shell->std[1], "exit\n");	// a enlever pour les tests ?
 	
 	exit(shell->exit);
 }
