@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 15:14:58 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 15:38:29 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 			((char *)env->content)[k] = '\0';
 			//dprintf(1, "j'entre ici2\n");
 			env->hidden = 0;
-			replace_env_content(shell, env->name, env->content);
+			replace_env_content(shell, env->name, env->content,  env->hidden);
 		}
 		else if (env->hidden != 2)
 		{
@@ -55,13 +55,13 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 			env->hidden = 1;
 			((char *)env->content)[k] = '\0';
 			
-			replace_env_content(shell, env->name, env->content);
+			replace_env_content(shell, env->name, env->content, env->hidden);
 		}
 		else if (env->hidden == 2)
 		{
 			((char *)env->content)[k] = '\0';
 			//	dprintf(1, "j'entre ici4\n");
-			replace_env_content(shell, env->name, env->content);
+			replace_env_content(shell, env->name, env->content, env->hidden);
 		}
 	return (SUCCESS);
 }
@@ -81,7 +81,6 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 		j = -1;
 		while (arg[i][++j] && arg[i][j] != '=')
 			new_lst->name[j] = arg[i][j];
-		dprintf(1, "debug du name = %s\n", &arg[i][j]);
 		if (arg[i][j] == '=' && !arg[i][j + 1])
 			new_lst->hidden = 2;
 		else if (arg[i][j] != '=' && !arg[i][j])

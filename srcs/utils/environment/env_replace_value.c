@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 14:42:57 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 15:37:51 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,28 +85,24 @@ int		ft_add_new_env_tab(t_shell *shell, char *name, char *content)
 	return (SUCCESS);
 }
 
-int		replace_env_content(t_shell *shell, char *name, char *content)
+int		replace_env_content(t_shell *shell, char *name, char *content, int hidden)
 {
 	t_env	*begin;
 
 	begin = shell->var_env;
-	dprintf(1, "debug de la content =  %s\n", content);
 	while (begin)
 	{
 		if (ft_strncmp(begin->name, name, (ft_strlen(name))) == 0)
 		{
-			
+			begin->hidden = hidden;
 			begin->content = content;
-			if (!content)
-				begin->hidden = 1;
-			else
-				begin->hidden = 0;
 			// free(begin->content);
-			//ft_change_value_tab_env(shell, shell->tab_env, name, content);
+			ft_change_value_tab_env(shell, shell->tab_env, name, content);
 			return (SUCCESS);
 		}
 		begin = begin->next;
 	}
 	ft_add_new_env_tab(shell, name, content);
+	ft_change_value_tab_env(shell, shell->tab_env, name, content);
 	return (FAILURE);
 }

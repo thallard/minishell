@@ -161,7 +161,7 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	getcwd(current_path, 1000);	// a proteger ?
 
 
-	replace_env_content(shell, "OLDPWD", old_path); // pb possible avec lst des ptrs
-	replace_env_content(shell, "PWD", current_path);
+	replace_env_content(shell, "OLDPWD", old_path, 0); // pb possible avec lst des ptrs
+	replace_env_content(shell, "PWD", current_path, 0);
 	return (SUCCESS);
 }

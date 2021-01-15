@@ -71,7 +71,7 @@ int main(int argc, char **argv, char **envp)
 	// init_shell(shell);
 	// ft_fill_lst_env(shell);
 	// int i;
-
+	// ft_print_tab_char(argv);
 	// i = -1;
 	// while (envp[++i])
 	// 	ft_printf(1, "ENV : %s\n", envp[i]);

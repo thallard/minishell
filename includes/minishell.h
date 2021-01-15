@@ -196,7 +196,7 @@ t_env	*ft_prepare_lst_env(t_shell *shell, char *content, char *name);
 */
 int		ft_add_new_env_tab(t_shell *shell, char *name, char *content);
 char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
-int		replace_env_content(t_shell *shell, char *name, char *content);
+int		replace_env_content(t_shell *shell, char *name, char *content, int hidden);
 
 /*
 ** env_utils.c
