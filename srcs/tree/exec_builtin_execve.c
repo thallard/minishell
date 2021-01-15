@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 09:32:49 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/15 12:01:42 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 13:07:50 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,5 @@ int			exec_execve(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 
 
 	}
-
-
 	return (SUCCESS);
 }
