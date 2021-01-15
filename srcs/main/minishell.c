@@ -56,6 +56,9 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 	int	len;
 
 	len = ft_bufferlen(buf, -1);	// a voir quel char
+
+// dprintf(1, "len = %d\n", len);
+
 	if (len != 0)
 	{
 		buf[ft_abs(len)] = 0;
@@ -71,13 +74,18 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 		//ft_printf(1, "minishell$ ");
 		ft_remove_eol(buf);
 		init_shell(shell);
-		res = create_main_tree(shell, shell->buffer_std);
-		if (res == DOUBLE_SEP)
-			ft_printf(1, "syntax error near unexpected token `%s'\n", shell->sep); // a ajuster
-		if (res >= 0)
+
+// dprintf(1, "\ninput = |%s|\n", shell->buffer_std);
+		if (!ft_memchr(shell->buffer_std, -2, ft_strlen(shell->buffer_std)))
 		{
-			// ft_print_tree(shell->root, 0); ////////////////////////
-			read_tree(shell);
+			res = create_main_tree(shell, shell->buffer_std);
+			if (res == DOUBLE_SEP)
+				ft_printf(1, "syntax error near unexpected token `%s'\n", shell->sep); // a ajuster
+			if (res >= 0)
+			{
+				// ft_print_tree(shell->root, 0); ////////////////////////
+				read_tree(shell);
+			}
 		}
 		shell->buffer_std = NULL;
 	}
@@ -111,10 +119,12 @@ int main(int argc, char **argv, char **envp)
 
 	// signal(SIGINT,SIG_DFL);
 	// signal(SIGINT,SIG_IGN);
+
 	signal(SIGQUIT,SIG_IGN);
 	signal(SIGINT, &ft_ctrl_c);
 	
 	ft_memset(buf, -1, 10000);		// a voir quel char
+
 	while ((size = read(0, buf, 10000) > 0) || shell->buffer_std)
 		ft_apply_minishell(shell, buf);
 	ft_exit(shell, ft_split_args_quotes(shell, "0"), shell->tab_env);
