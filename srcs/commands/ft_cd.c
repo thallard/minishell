@@ -149,10 +149,12 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	if (!(cur_path = ft_calloc(1, 500)) || !add_lst_to_free(shell, cur_path))
 		return (FAILURE);
 
-// dprintf(1, "cd2\n");
-
 	getcwd(cur_path, 1000);	// a proteger ?
 
+ft_print_tab_char(shell->tab_env);
+dprintf(1, "\n\n");
+
+dprintf(1, "old_o = %s\nnew_p = %s\n", old_path, cur_path);
 
 	replace_env_content(shell, "OLDPWD", old_path, 0); // pb possible avec lst des ptrs
 	replace_env_content(shell, "PWD", cur_path, 0);
