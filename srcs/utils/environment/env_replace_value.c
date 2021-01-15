@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/15 13:51:32 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 13:53:41 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,19 +100,12 @@ int		replace_env_content(t_shell *shell, char *name, char *content, int hidden)
 			begin->hidden = hidden;
 			begin->content = content;
 			// free(begin->content);
-			ft_change_value_tab_env(shell, &shell->tab_env, name, content);
-
-ft_print_tab_char(shell->tab_env);
-dprintf(1, "\n\n");
-			
+			ft_change_value_tab_env(shell, &shell->tab_env, name, content);		
 			return (SUCCESS);
 		}
 		begin = begin->next;
 	}
 	ft_add_new_env(shell, name, content);
 	ft_change_value_tab_env(shell, &shell->tab_env, name, content);
-ft_print_tab_char(shell->tab_env);
-dprintf(1, "\n\n");
-
 	return (FAILURE);
 }
