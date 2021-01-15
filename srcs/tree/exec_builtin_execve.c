@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_execve.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 09:32:49 by bjacob            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/01/15 11:59:29 by thallard         ###   ########lyon.fr   */
+=======
+/*   Updated: 2021/01/15 12:01:42 by bjacob           ###   ########lyon.fr   */
+>>>>>>> 72cc062103e2cc5bd5a848276da3c48df6c9d9c1
 /*                                                                            */
 /* ************************************************************************** */
 

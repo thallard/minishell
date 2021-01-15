@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 11:35:51 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 12:14:25 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,21 +114,22 @@ int		ft_echo(t_shell *shell, char **exec_args, char **tab_env)
 
 // ft_print_tab_char(exec_args);
 
-
 	if (!exec_args[1])	// [1]
 		ft_printf(1, "\n");
 	else
 	{
 		if (!strncmp(exec_args[1], "-n", 3))
-			remove_eol = 1;
+			remove_eol = ++i;
 		while (exec_args[++i])
 		{
-			if (remove_eol != 1 || ft_strncmp(exec_args[i], "-n", 3))
+			if (remove_eol != 1 || ft_strncmp(exec_args[i], " -n", 4))
 			{
-				ft_printf(1, "%s", exec_args[i]);
-				// if (exec_args[i + 1])
-				// 	ft_printf(1, " ");
-				remove_eol *= (-1);
+				if (i == 1 || !ft_strncmp(exec_args[i], " -n", 4) ||
+					remove_eol <= 0)
+					ft_printf(1, "%s", exec_args[i]);
+				else
+					ft_printf(1, "%s", exec_args[i] + 1);
+				remove_eol *= (-1) * remove_eol;
 			}
 		}
 		if (!remove_eol)
