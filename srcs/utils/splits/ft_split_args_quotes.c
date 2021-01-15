@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 18:52:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 17:02:04 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 14:12:42 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*ft_create_word_arg(t_shell *shell, t_split *s, char *str, int *iterator)
 		else
 			word[++j] = str[i];
 	word[++j] = '\0';
-	if (ft_strlen(word) == 1)
+	if (ft_strlen(word) == 0)
 		word[0] = '\0';
 	if (s->d_quotes % 2 != 0 || s->s_quotes % 2 != 0)
 		return (ft_exit_split("Error : need a quote to finish the line2.\n"));
