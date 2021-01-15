@@ -132,6 +132,8 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	char	*old_path;
 	char	*cur_path;
 
+// ft_print_tab_char(exec_args);
+
 	(void)tab_env;
 	if (!exec_args[1] || !ft_strncmp(exec_args[1], "~", 2))
 		res = go_to_home(shell);
@@ -152,5 +154,11 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	getcwd(cur_path, 1000);	// a proteger ?
 	replace_env_content(shell, "OLDPWD", old_path, 0); // pb possible avec lst des ptrs
 	replace_env_content(shell, "PWD", cur_path, 0);
+
+// ft_print_env_var(shell->var_env);
+// dprintf(1, "\n\n");
+
+// ft_print_tab_char(shell->tab_env);
+
 	return (SUCCESS);
 }

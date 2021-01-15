@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/14 09:34:08 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 14:54:39 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ char	*find_exec(t_shell *shell, t_tree *node)
 
 	paths = NULL;
 	
-	if (is_builtin(node->args[0]))
-		return (node->args[0]);
+	if (is_builtin(node->args->args[0]))
+		return (node->args->args[0]);
 	if (get_var_env(shell, "PATH", &paths) <= 0 ||
 		!(tab_paths = ft_split_minishell_args(paths, ':', shell)))
 		return (NULL);
 	i = 0;
 	while (tab_paths[i])
 	{
-		if ((exec_path = is_exec_in_path(node->args[0], tab_paths[i])))
+		if ((exec_path = is_exec_in_path(node->args->args[0], tab_paths[i])))
 		{
 			if (!add_lst_to_free(shell, exec_path))
 				return (NULL);
@@ -79,17 +79,17 @@ static int	read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int 
 	int	is_end;
 
 	is_end = 0;
-	if (!strncmp((*t_current)->args[0], "|", 2))
+	if (!strncmp((*t_current)->args->args[0], "|", 2))
 		pipe_in = PIPE_IN;
 		
 	*t_current = (*t_current)->right;
 	
-	if (!strncmp((*t_current)->args[0], ";", 2))
+	if (!strncmp((*t_current)->args->args[0], ";", 2))
 	{
 		res = ft_exec_and_pipe(shell, (*t_current)->left, pipe_fd, pipe_in); // a traiter
 		is_end = ((*t_current)->right != NULL);
 	}
-	else if (!strncmp((*t_current)->args[0], "|", 2))
+	else if (!strncmp((*t_current)->args->args[0], "|", 2))
 	{
 		if (pipe(pipe_fd[1 - shell->last_pipe]) == -1)
 			return (FAILURE);

@@ -6,13 +6,13 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/15 09:32:53 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 14:53:43 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static t_tree	*tree_create_node(t_shell *shell, char **args, t_dir **dir)
+static t_tree	*tree_create_node(t_shell *shell, t_args *args, t_dir **dir)
 {
 	t_tree	*node;
 
@@ -28,20 +28,19 @@ static t_tree	*tree_create_node(t_shell *shell, char **args, t_dir **dir)
 static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 {
 	int		res;
-	char	**tab;
+	t_args	*args;
 	t_dir	**dir;
 
 	res = SUCCESS;
 	if (!(shell->op = strdup_and_inc_input(shell, input)))
 		return (FAILURE);
-	
-	if (!(tab = ft_split_args_quotes(shell, shell->op)))
+	if (!(args = ft_split_args_quotes(shell, shell->op)))
 		return (FAILURE);
 	if (!(dir = ft_split_redirection(shell, shell->op)))
 	// if (!(dir = ft_split_minishell_dir(shell->op, ' ', shell)))
 		return (FAILURE);
 
-	if (!(t_current->right = tree_create_node(shell, tab, dir)))
+	if (!(t_current->right = tree_create_node(shell, args, dir)))
 		return (FAILURE);
 	// if (!(t_current->right->left = tree_create_node(shell, NULL, dir)))
 	// 	return (FAILURE);
@@ -83,7 +82,7 @@ int		read_input(t_shell *shell, t_tree **t_current, char **input)
 {
 	skip_spaces(input);
 	if (!(**input))
-		return (EOL);
+		return (SUCCESS + 1);
 	if (is_separator(**input))
 	{
 		if (shell->last_node == OP)

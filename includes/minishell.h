@@ -17,7 +17,6 @@
 
 # define SUCCESS 1
 # define FAILURE -1
-# define EOL 0
 
 # define OP 1
 # define SEP 2
@@ -34,7 +33,7 @@
 # define PARENT 1
 # define CHILD 0
 
-typedef struct		s_args
+typedef struct 		s_args
 {
 	char	**args;
 	int		*var;
@@ -56,7 +55,8 @@ typedef struct		s_tree
 {
 	struct s_tree	*left;
 	struct s_tree	*right;
-	char			**args;
+	t_args			*args;
+	// char			**args;
 	t_dir			**dir;
 	char			*exec_path;
 }					t_tree;
