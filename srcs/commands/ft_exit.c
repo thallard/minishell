@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/14 09:27:31 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 08:36:10 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,8 @@ void		ft_exit(t_shell *shell, char **exec_args, char **tab_env)
 	(void)tab_env;
 	
 	// free_all_ptr(shell);			// A REMETTRE
-	ft_lstfd_close_clear(&shell->lst_fd);
-	
-	// if (to_print == CHILD)
-	//	 ft_printf(1, "exit\n");
-
-// ft_print_tab_char(exec_args);
-
+	if (shell->lst_fd)
+		ft_lstfd_close_clear(&(shell->lst_fd));
 	if (exec_args[1])
 	{
 		if (exec_args[2])
@@ -44,12 +39,12 @@ void		ft_exit(t_shell *shell, char **exec_args, char **tab_env)
 		{
 			shell->exit = ft_atoi(exec_args[1]);
 			shell->exit = shell->exit % 256;
-// dprintf(shell->std[1], "exit s = %d\n", shell->exit); ///////////////
 		}
 		else
 			shell->exit = 255;
-
-// dprintf(1, "bool = %d\n", is_full_digit(exec_args[1]));
 	}
+
+	ft_printf(shell->std[1], "exit\n");	// a enlever pour les tests ?
+	
 	exit(shell->exit);
 }

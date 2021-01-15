@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 14:42:57 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 15:20:24 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int		replace_env_content(t_shell *shell, char *name, char *content)
 	t_env	*begin;
 
 	begin = shell->var_env;
-	dprintf(1, "debug de la content =  %s\n", content);
 	while (begin)
 	{
 		if (ft_strncmp(begin->name, name, (ft_strlen(name))) == 0)

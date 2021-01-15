@@ -84,6 +84,7 @@ typedef struct		s_shell
 	int				last_pipe;
 	int				std[2];
 	t_fd			*lst_fd;
+	char			*buffer_std;
 }					t_shell;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 09:32:49 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/14 11:32:51 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 10:21:57 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)
 	shell->exit /= 256;				// pourquoi ?
 	dup2(shell->std[0], STDIN_FILENO);	// pour les redirections
 	dup2(shell->std[1], STDOUT_FILENO);
+	signal(SIGQUIT,SIG_IGN);
 }
 
 int			exec_builtin(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
@@ -89,6 +90,9 @@ int			exec_execve(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 		return (FAILURE);	// a gerer
 	if (!program) // erreur a gerer si program = -1 ?
 	{
+		
+		signal(SIGQUIT,SIG_DFL);
+
 		if (is_pipe / 2 < 1)	// if !PIPE_IN
 			dup2(0, pipe_fd[1 - shell->last_pipe][0]);
 		if (is_pipe % 2 != PIPE_OUT)
@@ -97,11 +101,15 @@ int			exec_execve(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 	}
 	else
 	{
-		signal(SIGQUIT,SIG_IGN);
+		signal(SIGQUIT, &ft_ctrl_back);
 
 		close(pipe_fd[shell->last_pipe][1]);
 		close(pipe_fd[1 - shell->last_pipe][0]);
 		exec_parent(shell, node, program);
+
+
 	}
+
+
 	return (SUCCESS);
 }
