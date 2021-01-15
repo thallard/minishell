@@ -84,6 +84,7 @@ typedef struct		s_shell
 	int				last_pipe;
 	int				std[2];
 	t_fd			*lst_fd;
+	char			*buffer_std;
 }					t_shell;
 
 /*
@@ -101,6 +102,7 @@ int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_unset(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_export(t_shell *shell, char **exec_args, char **tab_env);
 void	ft_exit(t_shell *shell, char **exec_args, char **tab_env);
+void	ft_exit_status(t_shell *shell, int status);
 
 /*
 ****************************************************

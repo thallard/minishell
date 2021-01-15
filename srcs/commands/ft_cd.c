@@ -130,38 +130,31 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 {
 	int		res;
 	char	*old_path;
-	char	*current_path;
+	char	*cur_path;
 
-// dprintf(1, "cd0\n");
-
-(void)tab_env;
+	(void)tab_env;
 	if (!exec_args[1] || !ft_strncmp(exec_args[1], "~", 2))
 		res = go_to_home(shell);
 	else if (!ft_strncmp(exec_args[1], "..", 3))
 		res = go_to_upper_folder();
 	else if (!ft_strncmp(exec_args[1], "-", 2))
-		// res = go_to_old_pwd(shell);
 		return (go_to_old_pwd(shell));
 	else
 		res = go_to_folder(exec_args[1]);
 	if (res == -1)		// PARENT ou CHILD
 		return (print_cd_error(shell, exec_args[1]));
-
-// dprintf(1, "cd1\n");
-
 	get_var_env(shell, "PWD", &old_path);
 	if (!(old_path = ft_strdup(old_path)) || !add_lst_to_free(shell, old_path))
 		return (FAILURE);
-	if (!(current_path = ft_calloc(1, 500)) ||
-		!add_lst_to_free(shell, current_path))
+	if (!(cur_path = ft_calloc(1, 500)) || !add_lst_to_free(shell, cur_path))
 		return (FAILURE);
 
 // dprintf(1, "cd2\n");
 
-	getcwd(current_path, 1000);	// a proteger ?
+	getcwd(cur_path, 1000);	// a proteger ?
 
 
 	replace_env_content(shell, "OLDPWD", old_path, 0); // pb possible avec lst des ptrs
-	replace_env_content(shell, "PWD", current_path, 0);
+	replace_env_content(shell, "PWD", cur_path, 0);
 	return (SUCCESS);
 }

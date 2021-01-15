@@ -28,4 +28,5 @@ echo "$9USER" "'$USER=12$SOMETHING'"
 echo $PWD/file
 echo "$PWD/file"
 echo "text" "text$USER" ... "$USER"
-cd .. ; cd - ; pwd
+export TEST=1 ; export TEST1=2
+pwd ; cd .. ; cd .. ; cd -

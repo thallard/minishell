@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/14 10:37:32 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 15:40:37 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 		exec_builtin(shell, node, pipe_fd, is_pipe);
 	else if (exec_execve(shell, node, pipe_fd, is_pipe) == FAILURE)
 		return (FAILURE);
-
 	ft_lstfd_close_clear(&shell->lst_fd);	// a mettre ici ?
 	return (SUCCESS);								// valeur a confirmer
 }
