@@ -34,6 +34,12 @@
 # define PARENT 1
 # define CHILD 0
 
+typedef struct		s_args
+{
+	char	**args;
+	int		*var;
+}					t_args;
+
 typedef struct		s_fd
 {
 	struct s_fd		*next;
