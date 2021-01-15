@@ -6,7 +6,7 @@
 #    By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/13 20:16:23 by thallard          #+#    #+#              #
-#    Updated: 2021/01/14 10:24:26 by bjacob           ###   ########lyon.fr    #
+#    Updated: 2021/01/15 08:36:43 by bjacob           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,13 @@ cp ../minishell .
 correct=0
 i=1
 
-
 cat tests/echo_tests.txt | while read line
     do
         BASH_RESULT=$(echo $line "; exit" | bash 2>&-)
+        # BASH_RESULT=$(echo $line "; exit" | bash)
         BASH_EXIT=$?
         MINISHELL_RESULT=$(echo $line "; exit" | ./minishell 2>&-)
+        # MINISHELL_RESULT=$(echo $line "; exit" | ./minishell)
         MINISHELL_EXIT=$?
         if [ "$line" == "Echo part without -n flag" ]; then
             printf "${GREEN}$line\n\n" 
