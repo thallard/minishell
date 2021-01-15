@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/15 13:22:44 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 14:55:44 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 	dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO);
 	close(pipe_fd[shell->last_pipe][0]);
 	close(pipe_fd[1 - shell->last_pipe][1]);
-	if (ft_exec(shell, exec_path, node->args, CHILD) == -1)
+	if (ft_exec(shell, exec_path, node->args->args, CHILD) == -1)
 		exit(FAILURE);	// bonne valeur
 	exit(shell->exit);
 }
@@ -70,7 +70,7 @@ int			exec_builtin(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 	dup2(pipe_fd[shell->last_pipe][1], STDOUT_FILENO);
 	dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO);
 
-	if (ft_exec(shell, node->exec_path, node->args, CHILD) == -1)
+	if (ft_exec(shell, node->exec_path, node->args->args, CHILD) == -1)
 		exit(FAILURE);	// bonne valeur
 
 	close(pipe_fd[shell->last_pipe][1]);

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 09:08:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 11:55:10 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 14:49:46 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void		ft_env_remove_if(t_env **begin_list, void *name_ref,
 	}
 }
 
-int			get_var_env(t_shell *shell, char *var_name, char **content)
+int			get_var_env(t_shell *shell, char *var_name, char **content)	
 {
 	t_env	*begin;
 
