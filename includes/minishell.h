@@ -196,7 +196,7 @@ t_env	*ft_prepare_lst_env(t_shell *shell, char *content, char *name);
 /*
 ** env_replace_value.c
 */
-int		ft_add_new_env_tab(t_shell *shell, char *name, char *content);
+int		ft_add_new_env(t_shell *shell, char *name, char *content);
 char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
 int		replace_env_content(t_shell *shell, char *name, char *content, int hidden);
 
@@ -253,7 +253,7 @@ char	*strdup_and_inc_input(t_shell *shell, char **input);
 int		ft_strrfind(const char *s, int c);
 char	*ft_remove_eol(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
-
+char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2);
 
 
 /*
