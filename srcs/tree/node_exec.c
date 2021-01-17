@@ -6,20 +6,18 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 10:32:52 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 11:43:23 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*replace_str_part(t_shell *shell, char *str, char *part)
+static char	*replace_str_part(t_shell *shell, char *str, char *part, char *new_part)
 {
 	int 	i;
 	char	*res;
-	char	*new_part;
 
 	res = NULL;
-	get_var_env(shell, part + 1, &new_part);
 	if (!str || !part)
 		return (NULL);
 	i = 0;
@@ -40,31 +38,42 @@ static char	*replace_str_part(t_shell *shell, char *str, char *part)
 	return (res);
 }
 
-static char	*replace_var_val(t_shell *shell, char *str)
+static char	*replace_var_env_value(t_shell *shell, char *str, int *j, char *res)
 {
 	int		len;
+	char	*var;
+	char	*new_part;
+
+	len = 1;
+	if (!ft_isdigit(str[*j + 1]))
+		while (str[*j + len] != ' ' && str[*j + len]
+			&& str[*j + len] != '=' && str[*j + len] != '$')	// autre char a checker ?
+			len++;
+	else
+		len = 2;					
+	if (!(var = ft_strdup(str + *j)) || !add_lst_to_free(shell, var))
+		return (NULL);
+	var[len] = 0;
+	get_var_env(shell, var + 1, &new_part);
+	res = replace_str_part(shell, res, var, new_part);
+	*j += len;
+	return (res);
+}
+
+static char	*replace_all_var_env_values(t_shell *shell, char *str)
+{
 	int		j;
 	char	*res;
-	char	*var;
 
 	if (!(res = ft_strdup(str)) || !add_lst_to_free(shell, res))
 		return (NULL);
-	j = 0;
+	j = 0;	
 	while (str[j])
 	{
 		while (str[j] != '$' && str[j])
 			j++;
 		if (str[j])
-		{
-			len = 1;
-			while (str[j + len] != ' ' && str[j + len])	// autre char a checker ?
-				len++;
-			if (!(var = ft_strdup(str + j)) || !add_lst_to_free(shell, var))
-				return (NULL);
-			var[len] = 0;
-			res = replace_str_part(shell, res, var);
-			j += len;
-		}
+			res = replace_var_env_value(shell, str, &j, res);
 	}
 	return (res);
 }
@@ -77,7 +86,8 @@ static void	ft_match_var_env(t_shell *shell, t_tree *node)
 	while (node->args->args[++i])
 	{
 		if (node->args->var[i] == 1)
-			node->args->args[i] = replace_var_val(shell, node->args->args[i]);
+			node->args->args[i] = 
+			replace_all_var_env_values(shell, node->args->args[i]);
 	}
 }
 

@@ -1,22 +1,11 @@
+=== FIX SPLIT ARGS ===
+
+probleme sur "cd ''" --> on recupere une simple quote en arg
+echo "$USER=12$USER" --> on recupere une double quote devant
+echo "a" --> on garde les deux quotes --> echo ou fix a split ?
+
+dans l'ensemble on print les "" ou '' avec le echo
 
 
-
-=====   COMMANDS   =====
-
----   cd   ---
-DONE__Gestion du chemin absolu
-
-=====   TREE   =====
-
----   pipes   ---
-Parsing
-   - Recuperation des pipes dans l'arbre (avec ';' ?)
-Utilisation
-   - Gestion des input/output et fd
-Si input se termine par |
-   - attente sur l'entree standard ?
-
----   " " et ' '   ---
-Parsing
-   - Priorite avec les pipes et ';' ?
-   - Bonne gestion de la recuperation des parametres
+=== FIX echo ===
+echo 123$USER $9USER --> manque l'espace dans le resultat

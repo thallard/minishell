@@ -42,10 +42,12 @@ void	ft_print_tab_char(char **tab)
 {
 	int i;
 
+	dprintf(1, "----  tab ----\n");
 	i = -1;
 	while (tab[++i])
 		dprintf(1, "tab[%d] = [%s]\n", i, tab[i]);
 	dprintf(1, "tab[%d] = [%s]\n", i, tab[i]);
+	dprintf(1, "---------------\n");
 }
 
 void	ft_print_tab_dir(t_dir **dir)

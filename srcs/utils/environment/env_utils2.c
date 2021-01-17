@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 09:08:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/17 09:39:57 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 11:07:20 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@ int			get_var_env(t_shell *shell, char *var_name, char **content)
 	t_env	*begin;
 
 	*content = NULL;
+	if (var_name && ft_isdigit(var_name[0]) && !var_name[1])
+	{
+		if (!(*content = malloc_lst(shell, 1)))
+			return (-1);
+		(*content)[0] = 0;
+		return (1);
+	}
 	begin = shell->var_env;
 	while (begin)
 	{

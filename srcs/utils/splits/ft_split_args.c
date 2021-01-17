@@ -130,7 +130,7 @@ t_args		*ft_split_args(t_shell *shell, char *str)
 	args->args[++j] = NULL;
 	args->var[j] = -1;
 	// print_tab_args(node->arg);
-	return (args);
+	return (args);	// probleme sur "cd ''" --> on ne recupere qu'une simple quote en arg
 }
 
 
