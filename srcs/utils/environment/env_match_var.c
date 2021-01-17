@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 13:10:05 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 15:37:38 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*replace_var_env_value(t_shell *shell, char *str, int *j, char *res)
 	char	*new_part;
 
 	len = 1;
-	if (!ft_isdigit(str[*j + 1]))
+	if (!ft_isdigit(str[*j + 1]) && str[*j + 1] != '?')
 		while (str[*j + len] != ' ' && str[*j + len]
 			&& str[*j + len] != '=' && str[*j + len] != '$')	// autre char a checker ?
 			len++;

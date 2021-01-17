@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 15:02:39 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 15:53:34 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 		close(pipe_fd[1 - shell->last_pipe][1]) == -1)
 		print_error_and_exit(shell, "close", -1 * EBADF); // possible exit status
 	if (ft_exec(shell, exec_path, node->args->args) == -1)	// if execve == -1
-		shell->exit = EXIT_FAILURE;	// bonne valeur ?
-	exit(shell->exit);
+		;		// faire quelque chose ?
+		// shell->exit = EXIT_FAILURE;	// bonne valeur ?
+	// exit(shell->exit);
 }
 
 static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)
@@ -53,7 +54,9 @@ static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)
 
 	exec_path = node->exec_path;
 	waitpid(program, &(shell->exit), 0);
+	
 	shell->exit /= 256;				// pourquoi ?
+
 	if (dup2(shell->std[0], STDIN_FILENO) == -1 ||
 		dup2(shell->std[1], STDOUT_FILENO) == -1)
 		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status

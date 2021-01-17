@@ -12,3 +12,7 @@ echo 123$USER $9USER --> manque l'espace dans le resultat
 
 === tab_env ===
 shell->tab_env = malloc(100000) ? Pourquoi ?
+
+
+=== EXIT STATUS ===
+voir comment recuperer les bons exit status sur les fonctions type dup, close, pipe...

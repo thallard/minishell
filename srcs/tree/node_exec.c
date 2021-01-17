@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 15:06:42 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 15:53:23 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int			launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 		exec_builtin(shell, node, pipe_fd, is_pipe);
 	else
 		exec_execve(shell, node, pipe_fd, is_pipe);
+		
 	ft_lstfd_close_clear(&shell->lst_fd);	// a mettre ici ?
 
 // verifie-t-on le shell->exit du child apres exec_execve ?

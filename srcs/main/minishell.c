@@ -14,7 +14,7 @@
 
 static int	init_shell(t_shell *shell)
 {
-	shell->exit = 0;
+	// shell->exit = 0;
 	//shell->var_env = NULL;
 	// shell->tab_env = NULL;
 	// shell->ptrs = NULL;
@@ -107,6 +107,7 @@ int main(int argc, char **argv, char **envp)
 	shell->var_env = NULL;
 	shell->tab_env = NULL;
 	shell->buffer_std = NULL;
+	shell->exit = 0;
 	init_shell(shell);
 
 	ft_fill_lst_env(shell, envp);

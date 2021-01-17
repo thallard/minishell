@@ -189,13 +189,17 @@ void	ft_free_export_env(t_env **env);
 /*
 ** print_return.c
 */
+void	print_error_and_exit(t_shell *shell, char *cmd, int int_failure);
+int		print_error(t_shell *shell, char *cmd);
+char	*ft_exit_split(char *str);
+
+/*
+** print_return_2.c
+*/
 void	print_header(int fd);
 int		print_oldpwd_error(t_shell *shell, char *cmd);
 int		print_unset_error(t_shell *shell, char *cmd);
 int		ft_cmd_not_found(t_shell *shell, char *exec);
-void	print_error_and_exit(t_shell *shell, char *cmd, int int_failure);
-int		print_error(t_shell *shell, char *cmd);
-char	*ft_exit_split(char *str);
 
 /*
 **--------------------

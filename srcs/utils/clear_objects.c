@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:44:22 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 14:23:59 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 15:32:11 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*add_lst_to_free(t_shell *shell, void *ptr)
 	return (ptr);
 }
 
-void	*malloc_lst(t_shell *shell, int size) //penser a initialiser shell-ptrs
+void	*malloc_lst(t_shell *shell, int size)
 {
 	void	*ptr;
 

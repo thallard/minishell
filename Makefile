@@ -8,7 +8,7 @@ str = srcs/utils/str
 
 SRCS	=	$(main)/ft_ctrl.c $(main)/minishell.c $(main)/redirection.c \
 			$(tree)/node_exec.c $(tree)/exec_builtin_execve.c $(tree)/tree_build.c $(tree)/tree_read.c \
-			$(utils)/print_return.c $(utils)/clear_objects.c \
+			$(utils)/print_return.c $(utils)/print_return_2.c $(utils)/clear_objects.c \
 			$(str)/str_utils.c $(str)/str_utils_op_sep_space.c \
 			$(env)/env_utils.c $(env)/env_utils2.c $(env)/env_replace_value.c $(env)/env_match_var.c $(env)/env_fill.c \
 			$(splits)/ft_split_quotes.c $(splits)/split_minishell_dir.c $(splits)/split_exec_paths.c $(splits)/ft_split_dir.c \
