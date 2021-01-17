@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 15:38:29 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 14:17:19 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@ t_env	*ft_prepare_lst_env(t_shell *shell, char *content, char *name)
 		size = ft_strlen(content);
 	new_lst = NULL;
 	if (!(new_lst = malloc_lst(shell, sizeof(t_env))))
-		return (NULL);
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	new_lst->next = NULL;
-	if (!(new_lst->name = malloc(sizeof(char) * ft_strlen(name) + 100)) ||
-		!(add_lst_to_free(shell, new_lst->name)))
-		return (NULL);
+	if (!(new_lst->name = malloc_lst(shell, sizeof(char) * ft_strlen(name) + 100)))
+		ft_exit_failure(shell, F_MALLOC, new_lst->name);
 	if (!(new_lst->content = malloc_lst(shell, sizeof(char) * size + 100)))
-		return (NULL);
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	return (new_lst);
 }
 

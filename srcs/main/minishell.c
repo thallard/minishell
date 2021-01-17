@@ -14,9 +14,7 @@
 
 static int	init_shell(t_shell *shell)
 {
-	// if (shell->ptrs)			a corriger
-	// 	free_all_ptr(shell);
-	shell->exit = 0;		// bonne valeur ?
+	shell->exit = 0;
 	//shell->var_env = NULL;
 	// shell->tab_env = NULL;
 	// shell->ptrs = NULL;
@@ -28,8 +26,9 @@ static int	init_shell(t_shell *shell)
 	shell->op = NULL;
 	shell->sep = NULL;
 	shell->last_pipe = 1;
-	shell->std[0] = dup(STDIN_FILENO);
-	shell->std[1] = dup(STDOUT_FILENO);
+	if ((shell->std[0] = dup(STDIN_FILENO)) == -1 ||
+		(shell->std[1] = dup(STDOUT_FILENO)) == -1)
+		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 	shell->lst_fd = NULL;
 
 	shell->split->env = 0;
@@ -69,11 +68,11 @@ int		ft_apply_minishell(t_shell *shell, char *buf)
 		else
 			shell->buffer_std = ft_strdup(buf);
 		if (!shell->buffer_std || !(add_lst_to_free(shell, shell->buffer_std)))
-			return (ft_free_ptr(shell->buffer_std));	// a gerer
+			ft_exit_failure(shell, F_MALLOC, shell->buffer_std);
 	}
 	if (len > 0)
 	{
-		//ft_printf(1, "minishell$ ");
+		print_header(shell->std[1]);
 		ft_remove_eol(buf);
 		init_shell(shell);
 		if (!ft_memchr(shell->buffer_std, -2, ft_strlen(shell->buffer_std)))
@@ -99,9 +98,12 @@ int main(int argc, char **argv, char **envp)
 	char 	*buf;
 	t_shell	*shell;
 
-	shell = malloc(sizeof(t_shell));
-	shell->split = malloc(sizeof(t_split));
-	shell->ptrs = NULL; 
+	if (!(shell = malloc(sizeof(t_shell))))
+		ft_exit_failure(shell, F_MALLOC, NULL);
+	shell->lst_fd = NULL;	// utile ici ?
+	shell->ptrs = NULL;
+	if (!(shell->split = malloc_lst(shell, sizeof(t_split))))
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	shell->var_env = NULL;
 	shell->tab_env = NULL;
 	shell->buffer_std = NULL;
@@ -111,11 +113,11 @@ int main(int argc, char **argv, char **envp)
 
 	// ft_print_env_var(shell->var_env); ////
 	if (!(buf = ft_calloc(1, 10000)) || !add_lst_to_free(shell, buf))
-		return (FAILURE); // a ajouter a la liste // exit a gerer avec une erreur
+		ft_exit_failure(shell, F_MALLOC, buf);
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))		// a voir
 		return (ft_apply_minishell(shell, argv[2]));
 
-	// ft_printf(1, "minishell$ ");
+	print_header(shell->std[1]);
 
 	// signal(SIGINT,SIG_DFL);
 	// signal(SIGINT,SIG_IGN);
@@ -127,28 +129,6 @@ int main(int argc, char **argv, char **envp)
 
 	while ((size = read(0, buf, 10000) > 0) || shell->buffer_std)
 		ft_apply_minishell(shell, buf);
-	ft_exit(shell, ft_split_args_quotes(shell, "0"), shell->tab_env);
+	ft_exit_status(shell, 0);
 	return (SUCCESS);
 }
-
-
-/*
-int		ft_apply_minishell(t_shell *shell, char *buf)
-{
-	int	res;
-
-	//ft_printf(1, "minishell$ ");
-	ft_remove_eol(buf);
-	init_shell(shell);
-	res = create_main_tree(shell, buf);
-	if (res == DOUBLE_SEP)
-		ft_printf(1, "syntax error near unexpected token `%s'\n", shell->sep); // a ajuster
-	if (res >= 0)
-	{
-		// ft_print_tree(shell->root, 0); ////////////////////////
-		read_tree(shell);
-	}
-	ft_bzero(buf, ft_strlen(buf));
-	return (SUCCESS);
-}
-*/

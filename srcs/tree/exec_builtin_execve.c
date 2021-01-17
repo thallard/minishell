@@ -6,32 +6,29 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/15 14:55:44 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 15:02:39 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_exec(t_shell *shell, char *exec_path, char **exec_args, int to_print)
+static int	ft_exec(t_shell *shell, char *exec_path, char **exec_args)
 {
 	if (!ft_strncmp(exec_path, "echo", 5))
 		return (ft_echo(shell, exec_args, shell->tab_env));
 	if (!ft_strncmp(exec_path, "cd", 3))
-		return (ft_cd(shell, exec_args, shell->tab_env));
+		return (ft_cd(shell, exec_args, shell->tab_env));	// retour a gerer
 	if (!ft_strncmp(exec_path, "pwd", 4))
 		return (ft_pwd(shell, exec_args, shell->tab_env));
 	if (!ft_strncmp(exec_path, "export", 7))
 	 	return (ft_export(shell, exec_args, shell->tab_env));
-	if (!ft_strncmp(exec_path, "unset", 6))
+	if (!ft_strncmp(exec_path, "unset", 6))					// retour a gerer
 		return (ft_unset(shell, exec_args, shell->tab_env));
 	if (!ft_strncmp(exec_path, "env", 4))
 		return (ft_env(shell, exec_args, shell->tab_env));
 	if (!ft_strncmp(exec_path, "exit", 5))
 		ft_exit(shell, exec_args, shell->tab_env);
-	if (to_print == CHILD)
-		return (execve(exec_path, exec_args, shell->tab_env));
-	else
-		return (SUCCESS);
+	return (execve(exec_path, exec_args, shell->tab_env));
 }
 
 static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
@@ -39,12 +36,14 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 	char	*exec_path;
 
 	exec_path = node->exec_path;
-	dup2(pipe_fd[shell->last_pipe][1], STDOUT_FILENO);
-	dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO);
-	close(pipe_fd[shell->last_pipe][0]);
-	close(pipe_fd[1 - shell->last_pipe][1]);
-	if (ft_exec(shell, exec_path, node->args->args, CHILD) == -1)
-		exit(FAILURE);	// bonne valeur
+	if (dup2(pipe_fd[shell->last_pipe][1], STDOUT_FILENO) == -1 ||
+		dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO) == -1)
+		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+	if (close(pipe_fd[shell->last_pipe][0]) == -1 ||
+		close(pipe_fd[1 - shell->last_pipe][1]) == -1)
+		print_error_and_exit(shell, "close", -1 * EBADF); // possible exit status
+	if (ft_exec(shell, exec_path, node->args->args) == -1)	// if execve == -1
+		shell->exit = EXIT_FAILURE;	// bonne valeur ?
 	exit(shell->exit);
 }
 
@@ -55,30 +54,34 @@ static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)
 	exec_path = node->exec_path;
 	waitpid(program, &(shell->exit), 0);
 	shell->exit /= 256;				// pourquoi ?
-	dup2(shell->std[0], STDIN_FILENO);	// pour les redirections
-	dup2(shell->std[1], STDOUT_FILENO);
+	if (dup2(shell->std[0], STDIN_FILENO) == -1 ||
+		dup2(shell->std[1], STDOUT_FILENO) == -1)
+		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 	signal(SIGQUIT,SIG_IGN);
 }
 
 int			exec_builtin(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 {
-	if (is_pipe / 2 < 1)	// if !PIPE_IN
-		dup2(0, pipe_fd[1 - shell->last_pipe][0]);
-	if (is_pipe % 2 != PIPE_OUT)
-		dup2(1, pipe_fd[shell->last_pipe][1]);
+	if ((is_pipe / 2 < 1) &&
+		dup2(0, pipe_fd[1 - shell->last_pipe][0]) == -1)	// if !PIPE_IN
+		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+	if ((is_pipe % 2 != PIPE_OUT) &&
+		dup2(1, pipe_fd[shell->last_pipe][1]) == -1)
+		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+	if (dup2(pipe_fd[shell->last_pipe][1], STDOUT_FILENO) == -1 ||
+		dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO) == -1)
+		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 
-	dup2(pipe_fd[shell->last_pipe][1], STDOUT_FILENO);
-	dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO);
-
-	if (ft_exec(shell, node->exec_path, node->args->args, CHILD) == -1)
+	if (ft_exec(shell, node->exec_path, node->args->args) == -1)	// A CHECKER
 		exit(FAILURE);	// bonne valeur
 
-	close(pipe_fd[shell->last_pipe][1]);
-	close(pipe_fd[1 - shell->last_pipe][0]);
+	if (close(pipe_fd[shell->last_pipe][1]) == -1 ||
+		close(pipe_fd[1 - shell->last_pipe][0]) == -1)
+		print_error_and_exit(shell, "close", -1 * EBADF); // possible exit status
 	
-	dup2(shell->std[0], STDIN_FILENO);	// pour les redirections
-	dup2(shell->std[1], STDOUT_FILENO);
-
+	if (dup2(shell->std[0], STDIN_FILENO) == -1 ||
+		dup2(shell->std[1], STDOUT_FILENO) == -1)
+		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 	return (SUCCESS);
 }
 
@@ -87,27 +90,25 @@ int			exec_execve(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 	pid_t	program;
 
 	if ((program = fork()) == -1)
-		return (FAILURE);	// a gerer
+		ft_exit_failure(shell, F_FORK, NULL);
 	if (!program) // erreur a gerer si program = -1 ?
 	{
-		
 		signal(SIGQUIT,SIG_DFL);
-
-		if (is_pipe / 2 < 1)	// if !PIPE_IN
-			dup2(0, pipe_fd[1 - shell->last_pipe][0]);
-		if (is_pipe % 2 != PIPE_OUT)
-			dup2(1, pipe_fd[shell->last_pipe][1]);
+		if (is_pipe / 2 < 1 && dup2(0, pipe_fd[1 - shell->last_pipe][0]) == -1) // if !PIPE_IN
+			print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+		if (is_pipe % 2 != PIPE_OUT &&
+			dup2(1, pipe_fd[shell->last_pipe][1]) == -1)
+			print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 		exec_child(shell, node, pipe_fd);
 	}
 	else
 	{
 		signal(SIGQUIT, &ft_ctrl_back);
 
-		close(pipe_fd[shell->last_pipe][1]);
-		close(pipe_fd[1 - shell->last_pipe][0]);
+		if (close(pipe_fd[shell->last_pipe][1]) == -1 ||
+			close(pipe_fd[1 - shell->last_pipe][0]) == -1)
+			print_error_and_exit(shell, "close", -1 * EBADF); // possible exit status
 		exec_parent(shell, node, program);
-
-
 	}
 	return (SUCCESS);
 }

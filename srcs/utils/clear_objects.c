@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:44:22 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 09:03:32 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 14:23:59 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	*add_lst_to_free(t_shell *shell, void *ptr)
 		free(ptr);
 		return (NULL);
 	}
-	ft_lstadd_back(&shell->ptrs, elem);
+	if (!(shell->ptrs))
+		shell->ptrs = elem;
+	else
+		ft_lstadd_back(&shell->ptrs, elem);
 	return (ptr);
 }
 

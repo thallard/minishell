@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:22:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/14 11:54:59 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 15:12:29 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,9 @@ static char	*ft_fill_env_content(t_shell *shell, char *str)
 	char	*content;
 	int		i;
 
-	if (!(content = malloc(sizeof(char) * (ft_strlen(str) + 1))))
-		return (NULL);
-	if (!(add_lst_to_free(shell, content)))
-		return (NULL);
+	if (!(content = malloc(sizeof(char) * (ft_strlen(str) + 1))) ||
+		!(add_lst_to_free(shell, content)))
+		ft_exit_failure(shell, F_MALLOC, content);
 	i = -1;
 	while (str[++i])
 		content[i] = str[i];
@@ -54,15 +53,17 @@ static int	ft_fill_tab_env(t_shell *shell, char **envp)
 {
 	int	i;
 
-	i = -1;
-	while (envp[++i])
-		;
-	if (!(shell->tab_env = malloc(100000)))
-		return (FAILURE);
+	i = 0;
+	while (envp[i])
+		i++;
+	if (!(shell->tab_env = malloc(100000)) ||
+		!(add_lst_to_free(shell, shell->tab_env)))	// pourquoi 100 000 ?
+		ft_exit_failure(shell, F_MALLOC, shell->tab_env);
 	i = -1;
 	while (envp[++i])
 	{
-		shell->tab_env[i] = malloc_lst(shell, sizeof(char) * ft_strlen(envp[i]) + 100);
+		if (!(shell->tab_env[i] = malloc_lst(shell, ft_strlen(envp[i]) + 100)))
+			ft_exit_failure(shell, F_MALLOC, NULL);
 		shell->tab_env[i] = envp[i];
 	}
 	shell->tab_env[i] = NULL;
@@ -86,22 +87,22 @@ int			ft_fill_lst_env(t_shell *shell, char **envp)
 	int		j;
 	t_env	*new_lst;
 
-	if ((ft_fill_tab_env(shell, envp) < 0))
-		return (FAILURE);
+	ft_fill_tab_env(shell, envp);
 	shell->var_env = NULL;
 	i = -1;
 	while (shell->tab_env[++i])
 	{
 		ft_bzero(str, ft_strlen(str));
 		j = -1;
-		new_lst = malloc_lst(shell, sizeof(t_env));
+		if (!(new_lst = malloc_lst(shell, sizeof(t_env))))
+			ft_exit_failure(shell, F_MALLOC, NULL);
 		new_lst->next = NULL;
 		while (shell->tab_env[i][++j] && shell->tab_env[i][j] != '=')
 			str[j] = shell->tab_env[i][j];
 		str[j] = '\0';
 		if (!(new_lst->name = ft_strdup(str)) ||
 			!(add_lst_to_free(shell, new_lst->name)))
-			return (FAILURE);
+			ft_exit_failure(shell, F_MALLOC, new_lst->name);
 		new_lst->content = ft_fill_env_content(shell, &shell->tab_env[i][j + 1]);
 		if (new_lst->content)
 			new_lst->hidden = 0;

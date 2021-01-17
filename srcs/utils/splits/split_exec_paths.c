@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_minishell_args.c                             :+:      :+:    :+:   */
+/*   split_exec_paths.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:15:21 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/12 19:20:08 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 13:28:51 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	*ft_malloc_ptr(t_shell *shell, int *i, const char *str, char c)
 
 	len = get_word_len(str, *i, c);
 	if (!(ptr = malloc_lst(shell, sizeof(char) * (len + 1))))
-		return (NULL);
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	j = -1;
 	while (++j < len)
 		ptr[j] = str[*i + j];
@@ -91,8 +91,7 @@ static int	sep_str_in_tab(t_shell *shell, const char *str, char c, char ***str_t
 		{
 			if (get_word_len(str, i, c) >= 0)
 			{
-				if (!(ptr = ft_malloc_ptr(shell, &i, str, c)))
-					return (0);
+				ptr = ft_malloc_ptr(shell, &i, str, c);
 				new_w = 0;
 				(*str_tab)[i_words++] = ptr;
 			}
@@ -102,11 +101,10 @@ static int	sep_str_in_tab(t_shell *shell, const char *str, char c, char ***str_t
 		else if (str[i++] == c)
 			new_w = 1;
 	}
-	(*str_tab)[i_words] = NULL;
-	return (1);
+	return (i_words);
 }
 
-char		**ft_split_minishell_args(char const *s, char c, t_shell *shell)
+char		**ft_split_exec_paths(char const *s, char c, t_shell *shell)
 {
 	char	**str_tab;
 	int		nb_w;
@@ -120,13 +118,13 @@ char		**ft_split_minishell_args(char const *s, char c, t_shell *shell)
 	if (nb_w == 0)
 	{
 		if (!(str_tab = malloc_lst(shell, sizeof(char*))))
-			return (NULL);
+			ft_exit_failure(shell, F_MALLOC, NULL);
 		str_tab[0] = 0;
 		return (str_tab);
 	}
 	if (!(str_tab = malloc_lst(shell, sizeof(char*) * (nb_w + 1))))
-		return (NULL);
-	if (!sep_str_in_tab(shell, s, c, &str_tab))
-		return (NULL);
+		ft_exit_failure(shell, F_MALLOC, NULL);
+	nb_w = sep_str_in_tab(shell, s, c, &str_tab);
+	str_tab[nb_w] = NULL;
 	return (str_tab);
 }

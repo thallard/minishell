@@ -9,3 +9,6 @@ dans l'ensemble on print les "" ou '' avec le echo
 
 === FIX echo ===
 echo 123$USER $9USER --> manque l'espace dans le resultat
+
+=== tab_env ===
+shell->tab_env = malloc(100000) ? Pourquoi ?

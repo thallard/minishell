@@ -26,12 +26,19 @@
 
 # define DOUBLE_SEP -2
 
+# define F_MALLOC 12
+# define NO_EXEC_PATH 4
+# define F_FORK 10
+
 # define PIPE_OUT 1
 # define PIPE_IN 2
 # define PIPE_STDIN 5
 
 # define PARENT 1
 # define CHILD 0
+
+
+# define PRINT_HEADER 0
 
 typedef struct 		s_args
 {
@@ -110,6 +117,7 @@ int		ft_unset(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_export(t_shell *shell, char **exec_args, char **tab_env);
 void	ft_exit(t_shell *shell, char **exec_args, char **tab_env);
 void	ft_exit_status(t_shell *shell, int status);
+void	ft_exit_failure(t_shell *shell, int int_failure, void *ptr);
 
 /*
 ****************************************************
@@ -162,7 +170,6 @@ int		create_main_tree(t_shell *shell, char *input);
 ** tree_read.c
 */
 int		is_builtin(char *exec);
-char	*find_exec(t_shell *shell, t_tree *node);
 int		read_tree(t_shell *shell);
 
 /*
@@ -182,9 +189,12 @@ void	ft_free_export_env(t_env **env);
 /*
 ** print_return.c
 */
+void	print_header(int fd);
+int		print_oldpwd_error(t_shell *shell, char *cmd);
 int		print_unset_error(t_shell *shell, char *cmd);
 int		ft_cmd_not_found(t_shell *shell, char *exec);
-int		print_cd_error(t_shell *shell, char *cmd);
+void	print_error_and_exit(t_shell *shell, char *cmd, int int_failure);
+int		print_error(t_shell *shell, char *cmd);
 char	*ft_exit_split(char *str);
 
 /*
@@ -199,6 +209,11 @@ void	ft_swap_env_all(t_env *a, t_env *b);
 void	ft_swap_env_content(t_env *a, t_env *b);
 int		ft_fill_lst_env(t_shell *shell, char **envp);
 t_env	*ft_prepare_lst_env(t_shell *shell, char *content, char *name);
+
+/*
+** env_match_var.c
+*/
+void	ft_match_var_env(t_shell *shell, t_tree *node);
 
 /*
 ** env_replace_value.c
@@ -236,12 +251,12 @@ t_env	*ft_clone_export_env(t_env *lst);
 char		**ft_split_quotes(t_shell *shell, t_split *s, char *str);
 char		*ft_create_word(t_shell *shell, t_split *s, char *str, int *iterator);
 t_dir		**ft_split_redirection(t_shell *shell, char *str);
-char		**ft_split_minishell_args(char const *s, char c, t_shell *shell);
 t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell);
 char		**ft_split_args_quotes(t_shell *shell, char *str);
 
 t_args		*ft_split_args(t_shell *shell, char *str);
 
+char		**ft_split_exec_paths(char const *s, char c, t_shell *shell);
 
 
 /*

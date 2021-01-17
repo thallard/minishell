@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/15 11:49:23 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 14:56:30 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,3 +68,38 @@ void		ft_exit_status(t_shell *shell, int status)
 		exit(EXIT_FAILURE);
 	ft_exit(shell, exec_args, shell->tab_env);
 }
+
+void		ft_exit_failure(t_shell *shell, int int_failure, void *ptr)
+{
+	ft_free_ptr(ptr);
+	if (!shell)
+		exit(12);
+
+	if (shell->lst_fd)
+		ft_lstfd_close_clear(&(shell->lst_fd));
+	// free_all_ptr(shell);			// A REMETTRE
+	
+	if (int_failure < 0)
+		shell->exit = ft_abs(int_failure);
+	if (int_failure == F_MALLOC)
+	{
+		shell->exit = F_MALLOC;
+		ft_printf(2, "A malloc has failed\n");
+	}
+	if (int_failure == F_FORK)
+	{
+		shell->exit = F_FORK;
+		ft_printf(2, "No child processes\n");
+	}
+	else if (int_failure == NO_EXEC_PATH)
+	{
+		shell->exit = 1;
+		ft_printf(2, "Exec_path variable not found\n");
+	}
+	else if (int_failure > 0)
+		ft_printf(2, "An error has occured\n");
+	
+	exit(shell->exit);
+}
+
+// ft_exit_failure(shell, F_MALLOC, NULL);

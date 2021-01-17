@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:26:03 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/15 09:32:44 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 13:10:19 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*strdup_and_inc_input(t_shell *shell, char **input)
 			len++;
 	}
 	if (!(op = malloc_lst(shell, len + 1)))
-		return (NULL);
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	i = 0;
 	while (i < len)
 		op[i++] = *((*input)++);

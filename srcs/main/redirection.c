@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:36:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 13:33:52 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 14:27:49 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,21 @@ static t_fd	*ft_lstfdlast(t_fd *lst)
 	return (lst);
 }
 
-static t_fd	*ft_lstfdadd_back(t_fd **alst, int fd)
+static t_fd	*ft_lstfdadd_back(t_shell *shell, int fd)
 {
 	t_fd	*elem;
 	t_fd	*new;
 
 	if (!(new = ft_lstfdnew(fd)))
-		return (NULL);
-	if (!(*alst))
-		*alst = new;
+		ft_exit_failure(shell, F_MALLOC, NULL);
+	if (!shell->lst_fd)
+		shell->lst_fd = new;
 	else
 	{
-		elem = ft_lstfdlast(*alst);
+		elem = ft_lstfdlast(shell->lst_fd);
 		elem->next = new;
 	}
-	return (*alst);
+	return (shell->lst_fd);
 }
 
 void		ft_lstfd_close_clear(t_fd **lst)
@@ -72,24 +72,23 @@ int			manage_redirection(t_shell *shell, t_dir **exec_dir)
 
 	i = -1;
 	while (exec_dir[++i]->file)
-	{
-// dprintf(shell->std[1], "file = %s, dir = %d\n", exec_dir[i]->file, exec_dir[i]->dir);		
-		
+	{		
 		if (exec_dir[i]->dir >= 0)
 		{
 			if ((exec_dir[i]->dir == 1 && (fd = open(exec_dir[i]->file,
 				O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1) ||
 				(exec_dir[i]->dir == 2 && (fd = open(exec_dir[i]->file,
 				O_APPEND | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1))
-				return (FAILURE);
-			if (!(ft_lstfdadd_back(&(shell->lst_fd), fd)) || dup2(fd, 1) == -1)
-				return (FAILURE);
+				print_error_and_exit(shell, "fd", -1 * EMFILE); // possible exit status
+			if (!(ft_lstfdadd_back(shell, fd)) || dup2(fd, 1) == -1)
+				print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 		}
 		if (exec_dir[i]->dir == -1)
 		{
 			if ((fd = open(exec_dir[i]->file, O_RDONLY, 0666)) == -1)
-				return (FAILURE);	// a gerer avec errno
-			dup2(fd, STDIN_FILENO);
+				print_error_and_exit(shell, "fd", -1 * EMFILE); // possible exit status
+			if (dup2(fd, STDIN_FILENO) == -1)
+				print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 		}
 	}
 	return (SUCCESS);

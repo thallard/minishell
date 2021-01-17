@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 16:42:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/14 09:28:03 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 14:36:37 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int			ft_unset(t_shell *shell, char **exec_args, char **tab_env)
 			if ((ft_search_wrong_character(exec_args[row])) == 1)
 				ft_env_remove_if(&shell->var_env, exec_args[row], &ft_strncmp);
 			else
-				print_unset_error(shell, exec_args[row]);
+				print_unset_error(shell, exec_args[row]);	// return ou non ?
 	}
 	shell->exit = 0;
 	return (SUCCESS);
