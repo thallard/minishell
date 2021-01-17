@@ -68,7 +68,7 @@ static char		*create_args(t_shell *shell, t_split *s, char *str, int *iterator)
 
 	j = -1;
 	i = -1;
-	if (!(word = malloc_lst(shell, sizeof(char) * (ft_strlen(str) + 1000))))
+	if (!(word = malloc_lst(shell, sizeof(char) * (ft_strlen(str) + 1000))))	// Pourquoi + 1000 ?
 		return (NULL);
 	while (str[++i] && str[i] != '>' && str[i] != '<')
 		if (str[i] == ' ' && (s->d_quotes % 2 == 0 && s->s_quotes % 2 == 0) && i != 0)
@@ -94,18 +94,19 @@ static char		*create_args(t_shell *shell, t_split *s, char *str, int *iterator)
 	return (word);
 }
 
-t_args		*ft_split_args(t_shell *s, char *str, t_tree *node)
+t_args		*ft_split_args(t_shell *shell, char *str)
 {
 	int		i;
 	int		j;
+	t_args	*args;
 
 	j = -1;
 	i = -1;
-	if (!(node->args = malloc_lst(s, sizeof(t_args))))
+	if (!(args = malloc_lst(shell, sizeof(t_args))))
 		return (NULL);
-	if (!(node->args->args = malloc_lst(s, sizeof(char *) * 10)))
+	if (!(args->args = malloc_lst(shell, sizeof(char *) * 10)))
 		return (NULL);
-	if (!(node->args->var = malloc_lst(s, sizeof(int *) * 10)))
+	if (!(args->var = malloc_lst(shell, sizeof(int *) * 10)))
 		return (NULL);
 	// ft_printf(1,"entree = %s\n", str);
 	while (ft_strlen(str) >= ++i && str[i])
@@ -113,18 +114,58 @@ t_args		*ft_split_args(t_shell *s, char *str, t_tree *node)
 		if (str[i] == ' ')
 			i++;
 		else if (str[i] == '\"')
-			node->args->args[++j] = create_argd(s, s->split, &str[i], &i);
+			args->args[++j] = create_argd(shell, shell->split, &str[i], &i);
 		else if (str[i] == '\'')
-			node->args->args[++j] = create_simple(s, &str[i], &i);
+			args->args[++j] = create_simple(shell, &str[i], &i);
 		else
-			node->args->args[++j] = create_args(s, s->split, &str[i], &i);
-		node->args->var[j] = 0;
-		if (s->split->env)
-			node->args->var[j] = 1;
-		s->split->env = 0;
+			args->args[++j] = create_args(shell, shell->split, &str[i], &i);
+		args->var[j] = 0;
+		// if (s->split->env)	// ou split et env sont-elles est-elle initialisees ?
+		// 	args->var[j] = 1;
+		// s->split->env =
+		if (shell->split->env)	// ou split et env sont-elles est-elle initialisees ?
+			args->var[j] = 1;
+		shell->split->env = 0;
 	}
-	node->args->args[++j] = NULL;
-	node->args->var[j] = -1;
+	args->args[++j] = NULL;
+	args->var[j] = -1;
 	// print_tab_args(node->arg);
-	return (node->args);
+	return (args);
 }
+
+
+// t_args		*ft_split_args(t_shell *s, char *str, t_tree *node)
+// {
+// 	int		i;
+// 	int		j;
+// 	t_args	*args;
+
+// 	j = -1;
+// 	i = -1;
+// 	if (!(node->args = malloc_lst(s, sizeof(t_args))))
+// 		return (NULL);
+// 	if (!(node->args->args = malloc_lst(s, sizeof(char *) * 10)))
+// 		return (NULL);
+// 	if (!(node->args->var = malloc_lst(s, sizeof(int *) * 10)))
+// 		return (NULL);
+// 	// ft_printf(1,"entree = %s\n", str);
+// 	while (ft_strlen(str) >= ++i && str[i])
+// 	{
+// 		if (str[i] == ' ')
+// 			i++;
+// 		else if (str[i] == '\"')
+// 			node->args->args[++j] = create_argd(s, s->split, &str[i], &i);
+// 		else if (str[i] == '\'')
+// 			node->args->args[++j] = create_simple(s, &str[i], &i);
+// 		else
+// 			node->args->args[++j] = create_args(s, s->split, &str[i], &i);
+// 		node->args->var[j] = 0;
+// 		if (s->split->env)
+// 			node->args->var[j] = 1;
+// 		s->split->env = 0;
+// 	}
+// 	node->args->args[++j] = NULL;
+// 	node->args->var[j] = -1;
+// 	// print_tab_args(node->arg);
+// 	return (node->args);
+// }

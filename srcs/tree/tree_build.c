@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/15 14:53:43 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 09:16:09 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	res = SUCCESS;
 	if (!(shell->op = strdup_and_inc_input(shell, input)))
 		return (FAILURE);
-	if (!(args = ft_split_args_quotes(shell, shell->op)))
+	if (!(args = ft_split_args(shell, shell->op)))
 		return (FAILURE);
 	if (!(dir = ft_split_redirection(shell, shell->op)))
 	// if (!(dir = ft_split_minishell_dir(shell->op, ' ', shell)))
@@ -42,35 +42,47 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 
 	if (!(t_current->right = tree_create_node(shell, args, dir)))
 		return (FAILURE);
-	// if (!(t_current->right->left = tree_create_node(shell, NULL, dir)))
-	// 	return (FAILURE);
 
-	// if (is_operand(shell->op))
-	// {
-	// 	if (!(t_current->right->left = get_next_arg_echo(shell, input, 2)))
-	// 		return (FAILURE);
-	// 	// res = get_operand_arg(shell, input, t_current->right);
-	// }
-	// else 
-	// if (!(t_current->right->left = get_next_arg_echo(shell, input, 2)))
-	// 	return (FAILURE);
 	str_to_separator(input);
 	shell->last_node = OP;
 	return (res);
 }
 
+// static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
+// {
+// 	int		res;
+// 	t_args	*args;
+// 	t_dir	**dir;
+
+// 	res = SUCCESS;
+// 	if (!(shell->op = strdup_and_inc_input(shell, input)))
+// 		return (FAILURE);
+// 	if (!(args = ft_split_args_quotes(shell, shell->op)))
+// 		return (FAILURE);
+// 	if (!(dir = ft_split_redirection(shell, shell->op)))
+// 	// if (!(dir = ft_split_minishell_dir(shell->op, ' ', shell)))
+// 		return (FAILURE);
+
+// 	if (!(t_current->right = tree_create_node(shell, args, dir)))
+// 		return (FAILURE);
+
+// 	str_to_separator(input);
+// 	shell->last_node = OP;
+// 	return (res);
+// }
+
 static int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 {
 	t_tree	*op_node;
-	char	**tab;
+	t_args	*args;
 
 	op_node = (*t_current)->right;
 	shell->sep = strdup_and_inc_input(shell, input);
 
-	if (!(tab = ft_split_minishell_args(shell->sep, ' ', shell)))
+	if (!(args = ft_split_args(shell, shell->sep)))
 		return (FAILURE);
 
-	if (!((*t_current)->right = tree_create_node(shell, tab, NULL)))
+	if (!((*t_current)->right = tree_create_node(shell, args, NULL)))
 		return (FAILURE);
 	*t_current = (*t_current)->right;
 	(*t_current)->left = op_node;
@@ -98,9 +110,9 @@ int		create_main_tree(t_shell *shell, char *input)
 {
 	int		is_end;
 	t_tree	*t_current;
-	char	**root;
+	t_args	*root;
 
-	if (!(root = ft_split_minishell_args("ROOT", ' ', shell)))
+	if (!(root = ft_split_args(shell, "ROOT")))
 		return (FAILURE);
 	if (!(shell->root = tree_create_node(shell, root, NULL)))
 		return (FAILURE);

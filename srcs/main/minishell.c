@@ -31,6 +31,11 @@ static int	init_shell(t_shell *shell)
 	shell->std[0] = dup(STDIN_FILENO);
 	shell->std[1] = dup(STDOUT_FILENO);
 	shell->lst_fd = NULL;
+
+	shell->split->env = 0;
+	shell->split->d_quotes = 0;
+	shell->split->s_quotes = 0;
+
 	return (SUCCESS);
 }
 

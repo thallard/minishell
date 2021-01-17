@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_args_quotes.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 18:52:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/15 14:12:42 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 15:03:26 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char	**ft_split_args_quotes(t_shell *shell, char *str)
 	int		j;
 	char	**res;
 
-	if (!(res = malloc_lst(shell, sizeof(char *) * 40)))
+	if (!(res = malloc_lst(shell, sizeof(char *) * 40)))	// pas tres clean
 		return (NULL);
 	i = 0;
 	j = -1;

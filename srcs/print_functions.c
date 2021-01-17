@@ -19,7 +19,7 @@ void	ft_print_tree(t_tree *node, int nb)
 	else
 	{
 		print_nb_char(nb, ' ');
-		ft_print_tab_char(node->args);
+		ft_print_tab_char(node->args->args);
 
 		print_nb_char(nb, '-');
 		ft_printf(1, "\n");

@@ -6,26 +6,78 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/15 14:56:24 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/17 10:32:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+static char	*replace_str_part(t_shell *shell, char *str, char *part)
+{
+	int 	i;
+	char	*res;
+	char	*new_part;
+
+	res = NULL;
+	get_var_env(shell, part + 1, &new_part);
+	if (!str || !part)
+		return (NULL);
+	i = 0;
+	while (str[i] && ft_strncmp(str + i, part, ft_strlen(part)))
+		i++;
+	if (str[i])
+	{
+		str[i] = 0;
+		if (!new_part)
+			return (str);
+		if (!(res = ft_strjoin(str, new_part)) || !add_lst_to_free(shell, res))
+			return (NULL);
+		i += ft_strlen(part);
+		if (str[i] && (!(res = ft_strjoin(res, str + i)) ||
+			!add_lst_to_free(shell, res)))
+			return (NULL);
+	}
+	return (res);
+}
+
+static char	*replace_var_val(t_shell *shell, char *str)
+{
+	int		len;
+	int		j;
+	char	*res;
+	char	*var;
+
+	if (!(res = ft_strdup(str)) || !add_lst_to_free(shell, res))
+		return (NULL);
+	j = 0;
+	while (str[j])
+	{
+		while (str[j] != '$' && str[j])
+			j++;
+		if (str[j])
+		{
+			len = 1;
+			while (str[j + len] != ' ' && str[j + len])	// autre char a checker ?
+				len++;
+			if (!(var = ft_strdup(str + j)) || !add_lst_to_free(shell, var))
+				return (NULL);
+			var[len] = 0;
+			res = replace_str_part(shell, res, var);
+			j += len;
+		}
+	}
+	return (res);
+}
+
 static void	ft_match_var_env(t_shell *shell, t_tree *node)
 {
 	int		i;
-	char	*content;
 
 	i = -1;
-	content = NULL;
 	while (node->args->args[++i])
 	{
 		if (node->args->var[i] == 1)
-		{
-			get_var_env(shell, node->args->args[i], &content);
-			node->args->args[i] = content;
-		}
+			node->args->args[i] = replace_var_val(shell, node->args->args[i]);
 	}
 }
 

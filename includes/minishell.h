@@ -71,8 +71,9 @@ typedef struct		s_env
 
 typedef struct		s_split
 {
-	int		s_quotes;
-	int		d_quotes;
+	int				d_quotes;
+	int				s_quotes;
+	int				env;
 }					t_split;
 
 typedef struct		s_shell
@@ -238,6 +239,9 @@ t_dir		**ft_split_redirection(t_shell *shell, char *str);
 char		**ft_split_minishell_args(char const *s, char c, t_shell *shell);
 t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell);
 char		**ft_split_args_quotes(t_shell *shell, char *str);
+
+t_args		*ft_split_args(t_shell *shell, char *str);
+
 
 
 /*
