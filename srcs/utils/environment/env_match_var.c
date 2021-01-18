@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_match_var.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 13:54:30 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 16:40:17 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static char	*replace_str_part(t_shell *shell, char *str, char *part, char *new_p
 
 	res = NULL;
 	i = 0;
-	// dprintf(1, "debug part = %s et str = %s et %s\n", part, str + i, new_part);
 	while (str[i] && ft_strncmp(str + i, part, ft_strlen(part)))
 		i++;
 	if (str[i])

@@ -6,11 +6,17 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:45:02 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 13:16:01 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 16:32:37 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	print_header(int fd)
+{
+	if (PRINT_HEADER)
+		ft_printf(fd, "minishell$ ");
+}
 
 int		print_error(t_shell *shell, char *cmd)
 {

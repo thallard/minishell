@@ -66,8 +66,9 @@ static void	ft_launch_tree(t_shell *shell)
 	if (!ft_memchr(shell->buffer_std, -2, ft_strlen(shell->buffer_std)))
 	{
 		res = create_main_tree(shell, shell->buffer_std);
-		if (res == DOUBLE_SEP)
-			ft_printf(1, "syntax error near unexpected token `%s'\n", shell->sep); // a ajuster
+		if (res == DOUBLE_SEP_V || res == DOUBLE_SEP_DV ||
+			res == DOUBLE_SEP_P || res == DOUBLE_SEP_DP)
+			print_sep_error(shell, res); // a ajuster
 		if (res >= 0)
 		{
 			// ft_print_tree(shell->root, 0); ////////////////////////

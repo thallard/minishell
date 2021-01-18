@@ -24,7 +24,10 @@
 # define NOT_ENOUGH_ARG 3
 # define TOO_MANY_ARG 4
 
-# define DOUBLE_SEP -2
+# define DOUBLE_SEP_V -2
+# define DOUBLE_SEP_DV -3
+# define DOUBLE_SEP_P -4
+# define DOUBLE_SEP_DP -5
 
 # define F_MALLOC 12
 # define NO_EXEC_PATH 4
@@ -189,6 +192,7 @@ void	ft_lstfd_close_clear(t_fd **lst);
 /*
 ** print_return.c
 */
+void	print_header(int fd);
 void	print_error_and_exit(t_shell *shell, char *cmd, int int_failure);
 int		print_error(t_shell *shell, char *cmd);
 void	ft_exit_split(t_shell *shell, char *str);
@@ -196,10 +200,11 @@ void	ft_exit_split(t_shell *shell, char *str);
 /*
 ** print_return_2.c
 */
-void	print_header(int fd);
 int		print_oldpwd_error(t_shell *shell, char *cmd);
 int		print_unset_error(t_shell *shell, char *cmd);
 int		ft_cmd_not_found(t_shell *shell, char *exec);
+int		find_sep_error(char *str);
+int		print_sep_error(t_shell *shell, int err);
 
 /*
 **--------------------
