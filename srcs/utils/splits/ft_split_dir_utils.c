@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 14:07:51 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/18 14:35:52 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 17:20:47 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_dir	*ft_add_redirection(t_shell *shell, char *str, int *i, int *j)
 	{
 		if (redirection == 2)
 			i++;
-		if (!(tab_j = malloc_lst(shell, sizeof(t_dir))) && (++(*j) < 0))
+		if (!(tab_j = malloc_lst(shell, sizeof(t_dir))) || (++(*j) < 0))
 			ft_exit_failure(shell, F_MALLOC, NULL);		
 		while (str[++(*i)] == ' ')
 			;

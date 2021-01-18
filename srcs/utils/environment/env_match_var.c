@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 16:40:17 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 17:32:54 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,23 @@ static char	*replace_str_part(t_shell *shell, char *str, char *part, char *new_p
 	int 	i;
 	char	*res;
 
+// dprintf(1, "str = |%s|\npart = |%s|\nnew_part = |%s|\n", str, part, new_part);
+
 	res = NULL;
 	i = 0;
 	while (str[i] && ft_strncmp(str + i, part, ft_strlen(part)))
 		i++;
+
+// dprintf(1, "str + i = |%s|\n\n", str + i);
+
 	if (str[i])
 	{
 		str[i] = 0;
-		if (!new_part)
-			return (str);
-		if (!(res = ft_strjoin(str, new_part)) || !add_lst_to_free(shell, res))
+		if (!new_part &&
+		(!(res = ft_strjoin(str, "")) || !add_lst_to_free(shell, res)))
+			ft_exit_failure(shell, F_MALLOC, res);
+		if (new_part &&
+			(!(res = ft_strjoin(str, new_part)) || !add_lst_to_free(shell, res)))
 			ft_exit_failure(shell, F_MALLOC, res);
 		i += ft_strlen(part);
 		if (str[i] && (!(res = ft_strjoin(res, str + i)) ||
