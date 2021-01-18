@@ -119,7 +119,7 @@ int main(int argc, char **argv, char **envp)
 	signal(SIGQUIT,SIG_IGN);
 	signal(SIGINT, &ft_ctrl_c);
 	ft_memset(buf, -1, 100);
-	while (read(1, buf, 100) > 0 || shell->buffer_std) // 100 ou 10000
+	while (read(0, buf, 100) > 0 || shell->buffer_std) // 100 ou 10000
 		ft_apply_minishell(shell, buf);
 	ft_exit_failure(shell, 0, NULL);
 	return (SUCCESS);
