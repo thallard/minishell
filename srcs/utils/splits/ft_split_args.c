@@ -1,11 +1,11 @@
 #include "../../../includes/minishell.h"
 
-// void	print_tab_args(t_args *tab)
-// {
-// 	int i = -1;
-// 	while (tab->args[++i])
-// 		ft_printf(1, "args[%d] = %s | var[%d] = %d\n", i, tab->args[i], i, tab->var[i]);
-// }
+void	print_tab_args(t_args *tab)
+{
+	int i = -1;
+	while (tab->args[++i])
+		ft_printf(1, "args[%d] = %s | var[%d] = %d\n", i, tab->args[i], i, tab->var[i]);
+}
 
 char	*create_simple(t_shell *shell, char *str, int *iterator)
 {
@@ -15,15 +15,16 @@ char	*create_simple(t_shell *shell, char *str, int *iterator)
 
 	j = -1;
 	i = -1;
+	// ft_printf(1,"entree simple = %s\n", str);
 	if (!(word = malloc_lst(shell, sizeof(char) * (ft_strlen(str) + 1000))))
 		return (NULL);
 	while (str[++i])
-		if (str[i] == '\'' && ++shell->split->s_quotes == 2)
+		if (str[i] == '\'' && ++shell->split->s_quotes >= 2)
 			break ;
 		else
 			word[++j] = str[i];
 	word[++j] = '\0';
-	if (shell->split->s_quotes == 1)
+	if (shell->split->s_quotes % 2 == 1)
 		return (ft_exit_split("Error : need a quote to finish the line.\n"));
 	shell->split->d_quotes = 0;
 	shell->split->s_quotes = 0;
@@ -40,10 +41,11 @@ char	*create_argd(t_shell *shell, t_split *s, char *str, int *iterator)
 
 	j = -1;
 	i = -1;
+	// ft_printf(1,"entree double = %s\n", str);
 	if (!(word = malloc_lst(shell, sizeof(char) * (ft_strlen(str) + 1000))))
 		return (NULL);
-	while (str[++i] && str[i] != '<' && str[i] != '>')
-		if (str[i] == '\"' && ++s->d_quotes == 2 && (word[++j] = str[i]))
+	while (str[++i])
+		if (str[i] == '\"' && shell->split->d_quotes++)
 			break ;
 		else if (ft_strncmp(&str[i], "\\\"", 2) == 0)
 			word[++j] = str[++i];
@@ -52,7 +54,7 @@ char	*create_argd(t_shell *shell, t_split *s, char *str, int *iterator)
 		else
 			word[++j] = str[i];
 	word[++j] = '\0';
-	*iterator += i + 1;
+	*iterator += i;
 	if (str[i] != '\"')
 		return (ft_exit_split("Error : need a double quote to finish the line.\n"));
 	s->d_quotes = 0;
@@ -60,34 +62,43 @@ char	*create_argd(t_shell *shell, t_split *s, char *str, int *iterator)
 	return (word);
 }
 
-static char		*create_args(t_shell *shell, t_split *s, char *str, int *iterator)
+static char		*create_args(t_shell *shell, char *str, int *iterator, int *env)
 {
 	char	*word;
 	int		i;
 	int		j;
+	int		k;
 
+	k = -1;
 	j = -1;
 	i = -1;
-	if (!(word = malloc_lst(shell, sizeof(char) * (ft_strlen(str) + 1000))))	// Pourquoi + 1000 ?
+	ft_printf(1,"entree arg = %s\n", str);
+	if (!(word = malloc_lst(shell, sizeof(char) * (ft_strlen(str) + 1000))))
 		return (NULL);
-	while (str[++i] && str[i] != '>' && str[i] != '<')
-		if (str[i] == ' ' && (s->d_quotes % 2 == 0 && s->s_quotes % 2 == 0) && i != 0)
+	
+	while (str[++i])
+		if (str[i] == ' ' && (shell->split->d_quotes == 0 && shell->split->s_quotes == 0) && i != 0)
 			break ;
 		else if (str[i] == '\'')
 			word[++j] = str[i];
-		else if (str[i] == '\"' && s->d_quotes++ >=0)
+		else if (str[i] == '\"')
+			 shell->split->d_quotes++;
+		else if (str[i] == '$' && str[i + 1])
+		{
+			env[++k] = ft_fill_split_env(&str[i]);
 			word[++j] = str[i];
-		else if (str[i] == '$' && str[i + 1] && s->env++ >= 0)
-			word[++j] = str[i];
+		}
 		else
 			word[++j] = str[i];
 	word[++j] = '\0';
+	if (k == -1)
+		env = NULL;
+	else
+		env[++k] = -1;
 	if (ft_strlen(word) == 0)
 		word[0] = '\0';
-	if (s->d_quotes % 2 != 0 || s->s_quotes % 2 != 0)
-		return (ft_exit_split("Error : need a quote to finish the line2.\n"));
-	if (str[i] == '>' || str[i] == '<')
-		i--;
+	if (shell->split->d_quotes % 2 != 0)
+		return (ft_exit_split("Error : need a quote to finish the line1.\n"));
 	shell->split->d_quotes = 0;
 	shell->split->s_quotes = 0;
 	*iterator += i;
@@ -111,26 +122,54 @@ t_args		*ft_split_args(t_shell *shell, char *str)
 	// ft_printf(1,"entree = %s\n", str);
 	while (ft_strlen(str) >= ++i && str[i])
 	{
+		shell->split->d_quotes = 0;
+		shell->split->s_quotes = 0;
 		if (str[i] == ' ')
-			i++;
-		else if (str[i] == '\"')
-			args->args[++j] = create_argd(shell, shell->split, &str[i], &i);
-		else if (str[i] == '\'')
-			args->args[++j] = create_simple(shell, &str[i], &i);
+			continue ;
+		else if ((str[i] == '>' || str[i] == '<') && i++ > -10)
+		{
+			if (str[i] == '>')
+				i++;
+			while (str[i] && str[i] == ' ')
+				i++;
+			while (str[i] && str[i] != ' ' && str[i] != '>' && str[i] != '<')
+				i++;
+		}
+		else if (str[i] == '\"' && !shell->split->d_quotes++)
+		{
+			
+			if (i - 1 >= 0 && str[i - 1] == ' ' && j != 0 && i != ft_strlen(str) - 1)
+			{
+				str[i] = ' ';
+				args->args[++j] = create_argd(shell, shell->split, &str[i], &i);
+			}
+			else
+			{
+				args->args[++j] = create_argd(shell, shell->split, &str[++i], &i);
+			}
+		}
+			
+		else if (str[i] == '\'' && !shell->split->s_quotes++)
+			args->args[++j] = create_simple(shell, &str[++i], &i);
 		else
-			args->args[++j] = create_args(shell, shell->split, &str[i], &i);
-		args->var[j] = 0;
-		// if (s->split->env)	// ou split et env sont-elles est-elle initialisees ?
-		// 	args->var[j] = 1;
-		// s->split->env =
-		if (shell->split->env)	// ou split et env sont-elles est-elle initialisees ?
-			args->var[j] = 1;
-		shell->split->env = 0;
+		{
+			
+			args->var[++j] = malloc_lst(shell, sizeof(int *)
+			* ft_get_nb_env(shell, str));
+			if (i - 1 >= 0 && str[i - 1] == ' ' && j != 0 && i != ft_strlen(str) - 1)
+			{
+				str[i - 1] = ' ';
+				args->args[j] = create_args(shell, &str[--i], &i, &args->var[j]);
+			}
+			else
+				args->args[j] = create_args(shell, &str[i], &i, &args->var[j]);
+		}
 	}
 	args->args[++j] = NULL;
-	args->var[j] = -1;
-	// print_tab_args(node->arg);
-	return (args);	// probleme sur "cd ''" --> on ne recupere qu'une simple quote en arg
+	args->var[j][0] = -1;
+	print_tab_args(args);
+	return (args);
+	
 }
 
 

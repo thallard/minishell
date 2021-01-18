@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_args_quotes.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 18:52:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/15 15:03:26 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 09:38:31 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_create_word_arg(t_shell *shell, t_split *s, char *str, int *iterator)
 			break ;
 		else if (str[i] == '\'')
 			word[++j] = str[i];
-		else if (str[i] == '\"')
+		else if (str[i] == '\"' && str[i++])
 			s->d_quotes++;
 		else if (str[i] == '$' && str[i + 1])
 			if (!(env = ft_get_env_value(shell, &str[i], &i, j)))

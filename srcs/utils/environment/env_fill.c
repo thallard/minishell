@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_fill.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:22:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 15:12:29 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 08:16:05 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ static int	ft_fill_tab_env(t_shell *shell, char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	if (!(shell->tab_env = malloc(100000)) ||
-		!(add_lst_to_free(shell, shell->tab_env)))	// pourquoi 100 000 ?
+	if (!(shell->tab_env = malloc_lst(shell, sizeof(char *) * (i + 2))))// pourquoi 100 000 ?
 		ft_exit_failure(shell, F_MALLOC, shell->tab_env);
 	i = -1;
 	while (envp[++i])

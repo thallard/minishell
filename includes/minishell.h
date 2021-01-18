@@ -43,7 +43,7 @@
 typedef struct 		s_args
 {
 	char	**args;
-	int		*var;
+	int		**var;
 }					t_args;
 
 typedef struct		s_fd
@@ -218,6 +218,7 @@ t_env	*ft_prepare_lst_env(t_shell *shell, char *content, char *name);
 ** env_match_var.c
 */
 void	ft_match_var_env(t_shell *shell, t_tree *node);
+int		ft_lst_env_size(t_env *env);
 
 /*
 ** env_replace_value.c
@@ -259,6 +260,8 @@ t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell);
 char		**ft_split_args_quotes(t_shell *shell, char *str);
 
 t_args		*ft_split_args(t_shell *shell, char *str);
+int			ft_get_nb_env(t_shell *shell, char *str);
+int			ft_fill_split_env(char *str);
 
 char		**ft_split_exec_paths(char const *s, char c, t_shell *shell);
 
