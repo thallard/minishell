@@ -56,6 +56,7 @@ static int	go_to_upper_folder(void)
 	else
 		upper_path = current_path;
 	res = chdir(upper_path);
+	
 	if (current_path != upper_path)
 		ft_free_ptr(upper_path);
 	ft_free_ptr(current_path);
@@ -72,6 +73,7 @@ static int	go_to_folder(t_shell *shell, char *folder)
 	int		res;
 
 	current_path = NULL;
+		dprintf(1, "debug du resfold er = %s\n", folder);
 	if (folder[0] == '/')
 	{
 		if (!(path = ft_strdup(folder)))
@@ -87,7 +89,9 @@ static int	go_to_folder(t_shell *shell, char *folder)
 		else if (!(path = build_path(shell, current_path, folder)))
 			return (-1);
 	}
+	dprintf(1, "debug du res path = %s\n", current_path);
 	res = chdir(path);
+	dprintf(1, "debug du res path = %s\n", path);
 	ft_free_ptr(current_path);
 	ft_free_ptr(path);
 	return (get_correct_return(res));

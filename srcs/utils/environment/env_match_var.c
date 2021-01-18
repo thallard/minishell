@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_match_var.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 15:37:38 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 11:30:47 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ static char	*replace_var_env_value(t_shell *shell, char *str, int *j, char *res)
 	len = 1;
 	if (!ft_isdigit(str[*j + 1]) && str[*j + 1] != '?')
 		while (str[*j + len] != ' ' && str[*j + len]
-			&& str[*j + len] != '=' && str[*j + len] != '$')	// autre char a checker ?
+			&& str[*j + len] != '=' && str[*j + len] != '$'
+			&& str[*j + len] != '/' && str[*j + len] != '\''
+			&& str[*j + len] != ';' && str[*j + len] != '\"')	// autre char a checker ?
 			len++;
 	else
-		len = 2;					
+		len = 2;
 	if (!(var = ft_strdup(str + *j)) || !add_lst_to_free(shell, var))
 		ft_exit_failure(shell, F_MALLOC, var);	
 	var[len] = 0;
