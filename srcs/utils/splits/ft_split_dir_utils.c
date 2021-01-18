@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 14:07:51 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/18 14:34:48 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 14:35:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		ft_add_dir_error(t_shell *shell, char *str_bis)
 	return (j);
 }
 
-static t_dir	*ft_add_redirection(t_shell *shell, char *str, int *i, int *j)
+t_dir	*ft_add_redirection(t_shell *shell, char *str, int *i, int *j)
 {
 	int redirection;
 	t_dir	*tab_j;
