@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 15:37:38 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 11:51:08 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,20 @@ static char	*replace_str_part(t_shell *shell, char *str, char *part, char *new_p
 	return (res);
 }
 
-static char	*replace_var_env_value(t_shell *shell, char *str, int *j, char *res)
+static int	replace_var_env_value(t_shell *shell, char *str, int var_len, char **res)
 {
-	int		len;
 	char	*var;
 	char	*new_part;
 
-	len = 1;
-	if (!ft_isdigit(str[*j + 1]) && str[*j + 1] != '?')
-		while (str[*j + len] != ' ' && str[*j + len]
-			&& str[*j + len] != '=' && str[*j + len] != '$')	// autre char a checker ?
-			len++;
-	else
-		len = 2;					
-	if (!(var = ft_strdup(str + *j)) || !add_lst_to_free(shell, var))
-		ft_exit_failure(shell, F_MALLOC, var);	
-	var[len] = 0;
+	if (!(var = ft_strdup(str)) || !add_lst_to_free(shell, var))
+		ft_exit_failure(shell, F_MALLOC, var);
+	var[var_len + 1] = 0;
 	get_var_env(shell, var + 1, &new_part);
-	res = replace_str_part(shell, res, var, new_part);
-	*j += len;
-	return (res);
+	*res = replace_str_part(shell, *res, var, new_part);
+	return (var_len + 1);
 }
 
-static char	*replace_all_var_env_values(t_shell *shell, char *str)
+static char	*replace_all_var_env_values(t_shell *shell, char *str, int *tab)
 {
 	int		j;
 	char	*res;
@@ -71,7 +62,13 @@ static char	*replace_all_var_env_values(t_shell *shell, char *str)
 		while (str[j] != '$' && str[j])
 			j++;
 		if (str[j])
-			res = replace_var_env_value(shell, str, &j, res);
+		{
+			if (*tab > 0)
+				j += replace_var_env_value(shell, str + j, *tab, &res);	// len a donner
+			else
+				j++;
+			tab++;
+		}
 	}
 	return (res);
 }
@@ -83,8 +80,8 @@ void		ft_match_var_env(t_shell *shell, t_tree *node)
 	i = -1;
 	while (node->args->args[++i])
 	{
-		if (node->args->var[i] == 1)
+		if (node->args->var[i])
 			node->args->args[i] = 
-			replace_all_var_env_values(shell, node->args->args[i]);
+			replace_all_var_env_values(shell, node->args->args[i], node->args->var[i]));
 	}
 }

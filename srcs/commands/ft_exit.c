@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 14:56:30 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 08:30:12 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void		ft_exit_status(t_shell *shell, int status)
 void		ft_exit_failure(t_shell *shell, int int_failure, void *ptr)
 {
 	ft_free_ptr(ptr);
+	
 	if (!shell)
 		exit(12);
 
