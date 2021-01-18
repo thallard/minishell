@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 15:53:34 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 12:38:38 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)
 	shell->exit /= 256;				// pourquoi ?
 
 	if (dup2(shell->std[0], STDIN_FILENO) == -1 ||
-		dup2(shell->std[1], STDOUT_FILENO) == -1)
+		dup2(shell->std[1], STDOUT_FILENO) == -1 ||
+		dup2(shell->std[2], STDERR_FILENO) == -1)
 		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 	signal(SIGQUIT,SIG_IGN);
 }
@@ -83,7 +84,8 @@ int			exec_builtin(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 		print_error_and_exit(shell, "close", -1 * EBADF); // possible exit status
 	
 	if (dup2(shell->std[0], STDIN_FILENO) == -1 ||
-		dup2(shell->std[1], STDOUT_FILENO) == -1)
+		dup2(shell->std[1], STDOUT_FILENO) == -1 ||
+		dup2(shell->std[2], STDERR_FILENO) == -1)
 		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 	return (SUCCESS);
 }

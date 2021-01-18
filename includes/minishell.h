@@ -96,9 +96,10 @@ typedef struct		s_shell
 	char			*sep;
 	t_split			*split;
 	int				last_pipe;
-	int				std[2];
+	int				std[3];
 	t_fd			*lst_fd;
 	char			*buffer_std;
+	char			*dir_err;
 }					t_shell;
 
 /*
@@ -116,7 +117,6 @@ int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_unset(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_export(t_shell *shell, char **exec_args, char **tab_env);
 void	ft_exit(t_shell *shell, char **exec_args, char **tab_env);
-void	ft_exit_status(t_shell *shell, int status);
 void	ft_exit_failure(t_shell *shell, int int_failure, void *ptr);
 
 /*
@@ -138,8 +138,7 @@ void	ft_ctrl_back(int sign);
 /*
 ** redirection.c
 */
-void	ft_lstfd_close_clear(t_fd **lst);
-int		manage_redirection(t_shell *shell, t_dir **exec_dir);
+void	manage_redirection(t_shell *shell, t_dir **exec_dir);
 
 
 /*
@@ -185,13 +184,14 @@ void	*add_lst_to_free(t_shell *shell, void *ptr);
 void	*malloc_lst(t_shell *shell, int size);
 int		free_all_ptr(t_shell *shell);
 void	ft_free_export_env(t_env **env);
+void	ft_lstfd_close_clear(t_fd **lst);
 
 /*
 ** print_return.c
 */
 void	print_error_and_exit(t_shell *shell, char *cmd, int int_failure);
 int		print_error(t_shell *shell, char *cmd);
-char	*ft_exit_split(char *str);
+void	ft_exit_split(t_shell *shell, char *str);
 
 /*
 ** print_return_2.c

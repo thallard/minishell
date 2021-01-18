@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:44:22 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 15:32:11 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 12:35:23 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,20 @@ void	ft_free_export_env(t_env **env)
 		elem = next;
 	}
 	*env = NULL;
+}
+
+void		ft_lstfd_close_clear(t_fd **lst)
+{
+	t_fd	*elem;
+	t_fd	*next;
+
+	elem = *lst;
+	while (elem)
+	{
+		next = elem->next;
+		close(elem->fd);
+		free(elem);
+		elem = next;
+	}
+	*lst = NULL;
 }
