@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 13:30:29 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/18 13:55:47 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 14:03:06 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*create_simple(t_shell *shell, char *str, int *iterator)
 			word[++j] = str[i];
 	word[++j] = '\0';
 	if (shell->split->s_quotes % 2 == 1)
-		return (ft_exit_split("Error : need a quote to finish the line.\n"));
+		ft_exit_split(shell, "Error : need a quote to finish the line.\n");
 	shell->split->d_quotes = 0;
 	shell->split->s_quotes = 0;
 	*iterator += i + 1;
@@ -73,7 +73,7 @@ char	*create_argd(t_shell *shell, char *str, int *iterator, int *env)
 	word[++j] = '\0';
 	*iterator += i;
 	if (str[i] != '\"')
-		return (ft_exit_split("Error : need a double quote to finish the line.\n"));
+		ft_exit_split(shell, "Error : need a double quote to finish the line.\n");
 	shell->split->d_quotes = 0;
 	shell->split->s_quotes = 0;
 	return (word);
@@ -118,7 +118,7 @@ static char		*create_args(t_shell *shell, char *str, int *iterator, int *env)
 	if (ft_strlen(word) == 0)
 		word[0] = '\0';
 	if (shell->split->d_quotes % 2 != 0)
-		return (ft_exit_split("Error : need a quote to finish the line1.\n"));
+		ft_exit_split(shell, "Error : need a quote to finish the line1.\n");
 	shell->split->d_quotes = 0;
 	shell->split->s_quotes = 0;
 	*iterator += i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_dir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:33 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/18 13:57:21 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 14:06:36 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,6 @@ char		*ft_create_word_double_dir(t_shell *shell, char *str, int *iterator)
 	return (word);
 }
 
-static int	ft_add_dir_error(t_shell *shell, char *str_bis)
-{
-	int j;
-
-	j = 0;
-	if (str_bis[1] == '\"')
-		shell->dir_err = ft_create_word_double_dir(shell, str_bis + 1, &j);
-	if (str_bis[1] == '\'')
-		shell->dir_err = ft_create_word_simple_dir(shell, str_bis + 1, &j);
-	else
-		shell->dir_err = ft_create_word_dir(shell, shell->split,
-											str_bis + 1, &j);
-	return (j);
-}
 
 char	*ft_create_word_dir(t_shell *shell, t_split *s, char *str, int *iterator)
 {
@@ -125,13 +111,27 @@ char	*ft_create_word_dir(t_shell *shell, t_split *s, char *str, int *iterator)
 	return (word);
 }
 
-static int	ft_add_redirection(t_shell *shell, char *str, int *i, int *j)
+static int	ft_add_dir_error(t_shell *shell, char *str_bis)
+{
+	int j;
+
+	j = 0;
+	if (str_bis[1] == '\"')
+		shell->dir_err = ft_create_word_double_dir(shell, str_bis + 1, &j);
+	// if (str_bis[1] == '\'')
+	// 	shell->dir_err = ft_create_word_simple_dir(shell, str_bis + 1, &j);
+	else
+		shell->dir_err = ft_create_word_dir(shell, shell->split, str_bis + 1, &j);
+	return (j);
+}
+
+static t_dir	*ft_add_redirection(t_shell *shell, char *str, int *i, int *j)
 {
 	int redirection;
 	t_dir	*tab_j;
 
 	tab_j = NULL;
-	redirection = is_redirection(str, i);
+	redirection = is_redirection(str, *i);
 	if (redirection == 3)
 		i += ft_add_dir_error(shell, str + *i);
 	else
@@ -146,8 +146,8 @@ static int	ft_add_redirection(t_shell *shell, char *str, int *i, int *j)
 			tab_j->file = ft_create_word_dir(shell, shell->split, &str[*i], i);
 		else if (str[*i] == '\"' && !shell->split->d_quotes++)
 			tab_j->file = ft_create_word_double_dir(shell, &str[++(*i)], i);
-		else
-			tab_j->file = ft_create_word_simple_dir(shell, &str[++(*i)], i);	// fonction a ajouter
+		// else
+		// 	tab_j->file = ft_create_word_simple_dir(shell, &str[++(*i)], i);	// fonction a ajouter
 		tab_j->dir = redirection;
 	}
 	return (tab_j);
