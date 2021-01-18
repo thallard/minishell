@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:05:42 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/18 13:38:20 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 14:25:42 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,4 @@ int		ft_fill_split_env(char *str)
 		;
 	return (i);
 }
+
