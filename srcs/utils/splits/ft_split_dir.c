@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_dir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:33 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/18 14:06:36 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 14:27:55 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-// static char	*ft_exit_splt(char *str)	// deja definie ailleurs, non ?
-// {
-// 	ft_printf(1, "%s", str);
-// 	return (NULL);
-// }
 
 static int	ft_skip_quotes(t_shell *shell, char *str_bis)
 {
@@ -138,8 +132,8 @@ static t_dir	*ft_add_redirection(t_shell *shell, char *str, int *i, int *j)
 	{
 		if (redirection == 2)
 			i++;
-		if (!(tab_j = malloc_lst(shell, sizeof(t_dir))) && (++(*j) >= 0))
-			ft_exit_failure(shell, F_MALLOC, NULL);
+		if (!(tab_j = malloc_lst(shell, sizeof(t_dir))) && (++(*j) < 0))
+			ft_exit_failure(shell, F_MALLOC, NULL);		
 		while (str[++(*i)] == ' ')
 			;
 		if (str[*i] != '\'' && str[*i] != '\"')
@@ -162,7 +156,7 @@ t_dir	**ft_split_redirection(t_shell *shell, char *str)
 	t_dir	*tab_temp;
 
 	if (!(tab = malloc_lst(shell, sizeof(t_dir *) * 40)))
-		return (NULL);
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	i = -1;
 	j = -1;
 	while (ft_strlen(str) >= ++i && str[i])
@@ -170,8 +164,8 @@ t_dir	**ft_split_redirection(t_shell *shell, char *str)
 		if (str[i] == '\"' || str[i] == '\'')
 			i += ft_skip_quotes(shell, str + i);
 		else if ((redirection = is_redirection(str, i)) != 0 &&
-			!(tab_temp = ft_add_redirection(shell, str, &i, &j)))
-			tab[j] = tab_temp;
+			(tab_temp = ft_add_redirection(shell, str, &i, &j)))
+				tab[j] = tab_temp;
 		shell->split->d_quotes = 0;
 		shell->split->s_quotes = 0;	// toujours remettre a zero ou juste si redirection ?
 	}
@@ -182,50 +176,48 @@ t_dir	**ft_split_redirection(t_shell *shell, char *str)
 }
 
 
-/*
-t_dir	**ft_split_redirection(t_shell *shell, char *str)
-{
-	t_dir **tab;
-	int		i;
-	int		j;
-	int		redirection;
 
-	if (!(tab = malloc_lst(shell, sizeof(t_dir *) * 40)))
-		return (NULL);
-	i = -1;
-	j = -1;
-	while (ft_strlen(str) >= ++i && str[i])
-	{
-		if (str[i] == '\"' || str[i] == '\'')
-			i += ft_skip_quotes(shell, str + i);
-		else if ((redirection = is_redirection(str, i))!= 0)
-		{
-			ft_add_redirection(shell, str, &i, &j);
-			// if (redirection == 3)
-			// 	i += ft_add_dir_error(shell, str + i);
-			// else
-			// {
-			// 	if (redirection == 2)
-			// 		i++;
-			// 	if (!(tab[++j] = malloc_lst(shell, sizeof(t_dir))))
-			// 		return (NULL);		// a gerer
-			// 	while (str[++i] == ' ')
-			// 		;
-			// 	if (str[i] != '\'' && str[i] != '\"')
-			// 		tab[j]->file = ft_create_word_dir(shell, shell->split, &str[i], &i);
-			// 	else if (str[i] == '\"' && !shell->split->d_quotes++)
-			// 		tab[j]->file = ft_create_word_double_dir(shell, &str[++i], &i);
-			// 	else
-			// 		tab[j]->file = ft_create_word_simple_dir(shell, &str[++i], &i);	// fonction a ajouter
-			// 	tab[j]->dir = redirection;
-			// }
-			shell->split->d_quotes = 0;
-			shell->split->s_quotes = 0;
-		}
-	}
-	if (!(tab[++j] = malloc_lst(shell, sizeof(t_dir))))
-		return (NULL);		// a gerer
-	(tab[j])->file = NULL;
-	return (tab);
-}
-*/
+// t_dir	**ft_split_redirection(t_shell *shell, char *str)
+// {
+// 	t_dir **tab;
+// 	int		i;
+// 	int		j;
+// 	int		redirection;
+
+// 	if (!(tab = malloc_lst(shell, sizeof(t_dir *) * 40)))
+// 		return (NULL);
+// 	i = -1;
+// 	j = -1;
+// 	while (ft_strlen(str) >= ++i && str[i])
+// 	{
+// 		if (str[i] == '\"' || str[i] == '\'')
+// 			i += ft_skip_quotes(shell, str + i);
+// 		else if ((redirection = is_redirection(str, i))!= 0)
+// 		{
+// 			if (redirection == 3)
+// 				i += ft_add_dir_error(shell, str + i);
+// 			else
+// 			{
+// 				if (redirection == 2)
+// 					i++;
+// 				if (!(tab[++j] = malloc_lst(shell, sizeof(t_dir))))
+// 					return (NULL);		// a gerer
+// 				while (str[++i] == ' ')
+// 					;
+// 				if (str[i] != '\'' && str[i] != '\"')
+// 					tab[j]->file = ft_create_word_dir(shell, shell->split, &str[i], &i);
+// 				else if (str[i] == '\"' && !shell->split->d_quotes++)
+// 					tab[j]->file = ft_create_word_double_dir(shell, &str[++i], &i);
+// 				else
+// 					tab[j]->file = ft_create_word_simple_dir(shell, &str[++i], &i);	// fonction a ajouter
+// 				tab[j]->dir = redirection;
+// 			}
+// 			shell->split->d_quotes = 0;
+// 			shell->split->s_quotes = 0;
+// 		}
+// 	}
+// 	if (!(tab[++j] = malloc_lst(shell, sizeof(t_dir))))
+// 		return (NULL);		// a gerer
+// 	(tab[j])->file = NULL;
+// 	return (tab);
+// }
