@@ -258,13 +258,21 @@ char		*ft_create_word(t_shell *shell, t_split *s, char *str, int *iterator);
 t_dir		**ft_split_redirection(t_shell *shell, char *str);
 t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell);
 char		**ft_split_args_quotes(t_shell *shell, char *str);
-
-t_args		*ft_split_args(t_shell *shell, char *str);
-int			ft_get_nb_env(t_shell *shell, char *str);
-int			ft_fill_split_env(char *str);
-
 char		**ft_split_exec_paths(char const *s, char c, t_shell *shell);
+t_args		*ft_split_args(t_shell *shell, char *str);
 
+
+/*
+** Utils for splits
+*/
+int			ft_get_nb_env(t_shell *shell, char *str);
+char		*ft_create_word_simple_dir(t_shell *shell, char *str, int *iterator);
+char		*ft_create_word_double_dir(t_shell *shell, char *str, int *iterator);
+char		*ft_create_word_dir(t_shell *shell, t_split *s, char *str, int *iterator);
+int			is_redirection(char *str, int i);
+int			ft_fill_split_env(char *str);
+int			ft_add_dir_error(t_shell *shell, char *str_bis);
+t_dir		*ft_add_redirection(t_shell *shell, char *str, int *i, int *j);
 
 /*
 **--------------------
