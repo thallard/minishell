@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 11:53:35 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 13:54:30 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static char	*replace_str_part(t_shell *shell, char *str, char *part, char *new_p
 
 	res = NULL;
 	i = 0;
+	// dprintf(1, "debug part = %s et str = %s et %s\n", part, str + i, new_part);
 	while (str[i] && ft_strncmp(str + i, part, ft_strlen(part)))
 		i++;
 	if (str[i])
@@ -56,19 +57,21 @@ static char	*replace_all_var_env_values(t_shell *shell, char *str, int *tab)
 
 	if (!(res = ft_strdup(str)) || !add_lst_to_free(shell, res))
 		ft_exit_failure(shell, F_MALLOC, res);	
-	j = 0;	
-	while (str[j])
+	j = 0;
+	while (ft_strlen(str) >= j && str[j])
 	{
-		while (str[j] != '$' && str[j])
+		while (str[j] && str[j] != '$')
 			j++;
 		if (str[j])
 		{
+			
 			if (*tab > 0)
 				j += replace_var_env_value(shell, str + j, *tab, &res);	// len a donner
 			else
 				j++;
 			tab++;
 		}
+		
 	}
 	return (res);
 }
@@ -80,8 +83,8 @@ void		ft_match_var_env(t_shell *shell, t_tree *node)
 	i = -1;
 	while (node->args->args[++i])
 	{
-		if (node->args->var[i])
+		if (node->args->var[i] && node->args->args[i])
 			node->args->args[i] = 
-			replace_all_var_env_values(shell, node->args->args[i], node->args->var[i]));
+			replace_all_var_env_values(shell, node->args->args[i], node->args->var[i]);
 	}
 }
