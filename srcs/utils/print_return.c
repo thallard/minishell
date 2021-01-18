@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:45:02 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 15:31:02 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 13:16:01 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	print_error_and_exit(t_shell *shell, char *cmd, int int_failure)
 	ft_exit_failure(shell, int_failure, NULL);
 }
 
-char	*ft_exit_split(char *str)	// doit-il exit le programme ?
+void	ft_exit_split(t_shell *shell, char *str)	// doit-il exit le programme ?
 {
 	ft_printf(1, "%s", str);
-	return (NULL);
+	ft_exit_failure(shell, -1, NULL);
 }

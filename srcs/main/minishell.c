@@ -30,12 +30,14 @@ static void	init_shell(t_shell *shell, int begin)
 	shell->sep = NULL;
 	shell->last_pipe = 1;
 	if ((shell->std[0] = dup(STDIN_FILENO)) == -1 ||
-		(shell->std[1] = dup(STDOUT_FILENO)) == -1)
+		(shell->std[1] = dup(STDOUT_FILENO)) == -1 ||
+		(shell->std[2] = dup(STDERR_FILENO)) == -1)
 		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 	shell->lst_fd = NULL;
 	shell->split->env = 0;
 	shell->split->d_quotes = 0;
 	shell->split->s_quotes = 0;
+	shell->dir_err = NULL;
 }
 
 static int	ft_bufferlen(char *str, char c)
@@ -119,6 +121,6 @@ int main(int argc, char **argv, char **envp)
 	ft_memset(buf, -1, 100);
 	while (read(1, buf, 100) > 0 || shell->buffer_std) // 100 ou 10000
 		ft_apply_minishell(shell, buf);
-	ft_exit_status(shell, 0);
+	ft_exit_failure(shell, 0, NULL);
 	return (SUCCESS);
 }

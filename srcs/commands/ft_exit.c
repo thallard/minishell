@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 08:30:12 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 13:16:07 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,6 @@ void		ft_exit(t_shell *shell, char **exec_args, char **tab_env)
 	// ft_printf(shell->std[1], "exit\n");	// a enlever pour les tests ?
 	
 	exit(shell->exit);
-}
-
-void		ft_exit_status(t_shell *shell, int status)
-{
-	char	**exec_args;
-	char	*str_status;
-	char	*args;
-
-	if (!(str_status = ft_itoa(status)))
-		exit(EXIT_FAILURE);
-	if (!(args = ft_strjoin("exit ", str_status)))
-	{
-		free(str_status);
-		exit(EXIT_FAILURE);
-	}
-	exec_args = ft_split_args_quotes(shell, args);
-	free(str_status);
-	free(args);
-	if (!exec_args)
-		exit(EXIT_FAILURE);
-	ft_exit(shell, exec_args, shell->tab_env);
 }
 
 void		ft_exit_failure(t_shell *shell, int int_failure, void *ptr)
