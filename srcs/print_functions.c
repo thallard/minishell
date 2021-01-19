@@ -38,6 +38,30 @@ void	ft_print_tree(t_tree *node, int nb)
 	}
 }
 
+
+void	print_lst(t_var_status *lst)
+{
+	while (lst)
+	{
+		dprintf(1, "len = %d\n", lst->len);
+		lst = lst->next;
+	}
+}
+
+void	ft_print_node(t_tree *node)
+{
+	int	i;
+
+	i = -1;
+	while (node->args->args[++i])
+	{
+		dprintf(1, "tab[%d] = [%s]\n", i, node->args->args[i]);
+		print_lst(node->args->var[i]);
+	}
+	dprintf(1, "tab[%d] = [%s]\n", i, node->args->args[i]);
+	dprintf(1, "---------------\n");
+}
+
 void	ft_print_tab_char(char **tab)
 {
 	int i;
@@ -58,4 +82,17 @@ void	ft_print_tab_dir(t_dir **dir)
 	while (dir[++i]->dir)
 		dprintf(1, "i = %d, file = %s, dir = %d\n", i, dir[i]->file, dir[i]->dir);
 	dprintf(1, "i = %d, file = %s, dir = %d\n", i, dir[i]->file, dir[i]->dir);
+}
+
+
+void	ft_print_lst_var(char **tab)
+{
+	int i;
+
+	dprintf(1, "----  tab ----\n");
+	i = -1;
+	while (tab[++i])
+		dprintf(1, "tab[%d] = [%s]\n", i, tab[i]);
+	dprintf(1, "tab[%d] = [%s]\n", i, tab[i]);
+	dprintf(1, "---------------\n");
 }

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:36:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 12:46:03 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 10:39:48 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_fd	*ft_lstfdnew(int fd)
 	t_fd	*elem;
 
 	if (!(elem = malloc(sizeof(t_fd))))
-		return (NULL);
+		return (NULL);	//	a securiser
 	elem->fd = fd;
 	elem->next = NULL;
 	return (elem);

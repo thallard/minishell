@@ -7,6 +7,10 @@ echo "a" --> on garde les deux quotes --> echo ou fix a split ? <-- FIXED
 dans l'ensemble on print les "" ou '' avec le echo <-- FIXED
 
 
+NEW : remplissage de la longueur des var env
+	--> $12USER --> len = 1 (juste le $1)
+
+
 === FIX echo ===
 echo 123$USER $9USER --> manque l'espace dans le resultat
 

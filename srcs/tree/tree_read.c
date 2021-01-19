@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 15:53:15 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 16:39:49 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static int	read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int 
 	*t_current = (*t_current)->right;
 	if (!strncmp((*t_current)->args->args[0], ";", 2))
 	{
-		res = ft_exec_and_pipe(shell, (*t_current)->left, pipe_fd, pipe_in); // a traiter
+		if ((*t_current)->left)
+			res = ft_exec_and_pipe(shell, (*t_current)->left, pipe_fd, pipe_in); // a traiter
 		is_end = ((*t_current)->right != NULL);
 	}
 	else if (!strncmp((*t_current)->args->args[0], "|", 2))

@@ -24,7 +24,10 @@
 # define NOT_ENOUGH_ARG 3
 # define TOO_MANY_ARG 4
 
-# define DOUBLE_SEP -2
+# define DOUBLE_SEP_V -2
+# define DOUBLE_SEP_DV -3
+# define DOUBLE_SEP_P -4
+# define DOUBLE_SEP_DP -5
 
 # define F_MALLOC 12
 # define NO_EXEC_PATH 4
@@ -40,10 +43,22 @@
 
 # define PRINT_HEADER 0
 
+// typedef struct 		s_args
+// {
+// 	char	**args;
+// 	int		**var;
+// }					t_args;
+
+typedef struct		s_var_status
+{
+	struct s_var_status		*next;
+	int				len;
+}					t_var_status;
+
 typedef struct 		s_args
 {
-	char	**args;
-	int		**var;
+	char			**args;
+	t_var_status	**var;
 }					t_args;
 
 typedef struct		s_fd
@@ -101,6 +116,11 @@ typedef struct		s_shell
 	char			*buffer_std;
 	char			*dir_err;
 }					t_shell;
+
+
+
+t_args	*split_arguments(t_shell *shell, char *str);
+t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args, int len, int ind);
 
 /*
 ****************************************************
@@ -189,6 +209,7 @@ void	ft_lstfd_close_clear(t_fd **lst);
 /*
 ** print_return.c
 */
+void	print_header(int fd);
 void	print_error_and_exit(t_shell *shell, char *cmd, int int_failure);
 int		print_error(t_shell *shell, char *cmd);
 void	ft_exit_split(t_shell *shell, char *str);
@@ -196,10 +217,11 @@ void	ft_exit_split(t_shell *shell, char *str);
 /*
 ** print_return_2.c
 */
-void	print_header(int fd);
 int		print_oldpwd_error(t_shell *shell, char *cmd);
 int		print_unset_error(t_shell *shell, char *cmd);
 int		ft_cmd_not_found(t_shell *shell, char *exec);
+int		find_sep_error(char *str);
+int		print_sep_error(t_shell *shell, int err);
 
 /*
 **--------------------
@@ -308,6 +330,8 @@ char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2);
 void	ft_print_tree(t_tree *node, int nb); // a supprimer
 void	ft_print_tab_char(char **tab);
 void	ft_print_tab_dir(t_dir **dir);
+void	ft_print_node(t_tree *node);
+
 
 
 #endif
