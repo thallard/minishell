@@ -43,10 +43,22 @@
 
 # define PRINT_HEADER 0
 
+// typedef struct 		s_args
+// {
+// 	char	**args;
+// 	int		**var;
+// }					t_args;
+
+typedef struct		s_var_status
+{
+	struct s_var_status		*next;
+	int				len;
+}					t_var_status;
+
 typedef struct 		s_args
 {
-	char	**args;
-	int		**var;
+	char			**args;
+	t_var_status	**var;
 }					t_args;
 
 typedef struct		s_fd
@@ -104,6 +116,11 @@ typedef struct		s_shell
 	char			*buffer_std;
 	char			*dir_err;
 }					t_shell;
+
+
+
+t_args	*split_arguments(t_shell *shell, char *str);
+t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args, int len, int ind);
 
 /*
 ****************************************************
@@ -313,6 +330,8 @@ char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2);
 void	ft_print_tree(t_tree *node, int nb); // a supprimer
 void	ft_print_tab_char(char **tab);
 void	ft_print_tab_dir(t_dir **dir);
+void	ft_print_node(t_tree *node);
+
 
 
 #endif

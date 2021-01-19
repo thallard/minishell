@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 16:40:53 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 11:11:29 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 
 	res = SUCCESS;
 	shell->op = strdup_and_inc_input(shell, input);
-	if (!(args = ft_split_args(shell, shell->op)))
-		ft_exit_failure(shell, F_MALLOC, NULL);		
+	// if (!(args = ft_split_args(shell, shell->op)))
+	// 	ft_exit_failure(shell, F_MALLOC, NULL);
+	args = split_arguments(shell, shell->op);
+
 	if (!(dir = ft_split_redirection(shell, shell->op)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 
@@ -53,8 +55,11 @@ static int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 
 	op_node = (*t_current)->right;
 	shell->sep = strdup_and_inc_input(shell, input);
-	if (!(args = ft_split_args(shell, shell->sep)))
-		ft_exit_failure(shell, F_MALLOC, NULL);
+
+	// if (!(args = ft_split_args(shell, shell->sep)))
+	// 	ft_exit_failure(shell, F_MALLOC, NULL);
+	args = split_arguments(shell, shell->sep);
+
 	if (!((*t_current)->right = tree_create_node(shell, args, NULL)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	*t_current = (*t_current)->right;
@@ -92,8 +97,11 @@ int		create_main_tree(t_shell *shell, char *input)
 	t_tree	*t_current;
 	t_args	*root;
 
-	if (!(root = ft_split_args(shell, "ROOT")))
-		ft_exit_failure(shell, F_MALLOC, NULL);
+	// if (!(root = ft_split_args(shell, "ROOT")))
+	// 	ft_exit_failure(shell, F_MALLOC, NULL);
+
+	root = split_arguments(shell, "ROOT");
+
 	if (!(shell->root = tree_create_node(shell, root, NULL)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	t_current = shell->root;

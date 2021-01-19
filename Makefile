@@ -2,6 +2,7 @@ main = srcs/main
 tree = srcs/tree
 utils = srcs/utils
 splits = srcs/utils/splits
+split = srcs/utils/split
 comm = srcs/commands
 env = srcs/utils/environment
 str = srcs/utils/str
@@ -12,7 +13,8 @@ SRCS	=	$(main)/ft_ctrl.c $(main)/minishell.c $(main)/redirection.c \
 			$(str)/str_utils.c $(str)/str_utils_op_sep_space.c \
 			$(env)/env_utils.c $(env)/env_utils2.c $(env)/env_replace_value.c $(env)/env_match_var.c $(env)/env_fill.c \
 			$(splits)/ft_split_quotes.c $(splits)/split_minishell_dir.c $(splits)/split_exec_paths.c $(splits)/ft_split_dir.c \
-			$(splits)/ft_split_args_quotes.c $(splits)/ft_split_args.c $(splits)/ft_split_args_utils.c $(splits)/ft_split_dir_utils.c \
+			$(splits)/ft_split_dir_utils.c \
+			$(split)/split_arguments.c $(split)/split_arguments_utils.c \
 			$(comm)/ft_cd.c \
 			$(comm)/ft_pwd.c \
 			$(comm)/ft_echo.c \
@@ -20,7 +22,9 @@ SRCS	=	$(main)/ft_ctrl.c $(main)/minishell.c $(main)/redirection.c \
 			$(comm)/ft_export.c \
 			$(comm)/ft_unset.c \
 			$(comm)/ft_exit.c \
-			srcs/print_functions.c # a supprimer
+			srcs/print_functions.c
+			# $(splits)/ft_split_args_quotes.c $(splits)/ft_split_args.c $(splits)/ft_split_args_utils.c
+
 
 SRC_DIR	:= srcs/
 OBJ_DIR	:= obj/

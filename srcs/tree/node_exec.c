@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 16:40:01 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 12:52:09 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ static char	*find_exec(t_shell *shell, t_tree *node)
 
 int			launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 {	
+
+// ft_print_tab_char(node->args->args);
+// ft_print_node(node);
+
+
 	ft_match_var_env(shell, node);
 	if (!(node->exec_path = find_exec(shell, node)))
 		return (ft_cmd_not_found(shell, node->args->args[0]));	// valeur de retour a confirmer

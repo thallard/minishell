@@ -63,7 +63,8 @@ static void	ft_launch_tree(t_shell *shell)
 	print_header(shell->std[1]);
 	// ft_remove_eol(buf);
 	init_shell(shell, 0);
-	if (!ft_memchr(shell->buffer_std, -2, ft_strlen(shell->buffer_std)))
+	// if (!ft_memchr(shell->buffer_std, -1, ft_strlen(shell->buffer_std)))
+	if (ft_strlen(shell->buffer_std) > 0)
 	{
 		res = create_main_tree(shell, shell->buffer_std);
 		if (res == DOUBLE_SEP_V || res == DOUBLE_SEP_DV ||
