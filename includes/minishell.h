@@ -66,6 +66,7 @@ typedef struct		s_dir
 {
 	int				dir;
 	char			*file;
+	t_var_status	*var;
 }					t_dir;
 
 typedef struct		s_tree
@@ -74,7 +75,7 @@ typedef struct		s_tree
 	struct s_tree	*right;
 	t_args			*args;
 	// char			**args;
-	t_dir			**dir;
+	t_dir			*dir;
 	char			*exec_path;
 }					t_tree;
 
@@ -149,7 +150,7 @@ void	ft_ctrl_back(int sign);
 /*
 ** redirection.c
 */
-void	manage_redirection(t_shell *shell, t_dir **exec_dir);
+void		manage_redirection(t_shell *shell, t_dir *exec_dir);
 
 
 /*
@@ -309,6 +310,14 @@ void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind);
 t_args		*split_arguments(t_shell *shell, char *str);
 
 
+
+int	skip_arg(t_shell *shell, char **str);
+void	create_new_dir(t_shell *shell, char **str, t_dir *dir, int *ind);
+t_dir	*split_redirection(t_shell *shell, char *str);
+t_var_status	*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
+				int len, int ind);
+
+
 /*
 **--------------------
 **		 str		**
@@ -342,7 +351,7 @@ char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2);
 */
 void	ft_print_tree(t_tree *node, int nb); // a supprimer
 void	ft_print_tab_char(char **tab);
-void	ft_print_tab_dir(t_dir **dir);
+void	ft_print_tab_dir(t_dir *dir);
 void	ft_print_node(t_tree *node);
 
 
