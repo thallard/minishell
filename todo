@@ -1,10 +1,10 @@
 === FIX SPLIT ARGS ===
 
-probleme sur "cd ''" --> on recupere une simple quote en arg
-echo "$USER=12$USER" --> on recupere une double quote devant
-echo "a" --> on garde les deux quotes --> echo ou fix a split ?
+probleme sur "cd ''" --> on recupere une simple quote en arg <-- FIXED
+echo "$USER=12$USER" --> on recupere une double quote devant <-- FIXED
+echo "a" --> on garde les deux quotes --> echo ou fix a split ? <-- FIXED
 
-dans l'ensemble on print les "" ou '' avec le echo
+dans l'ensemble on print les "" ou '' avec le echo <-- FIXED
 
 
 NEW : remplissage de la longueur des var env
@@ -15,7 +15,7 @@ NEW : remplissage de la longueur des var env
 echo 123$USER $9USER --> manque l'espace dans le resultat
 
 === tab_env ===
-shell->tab_env = malloc(100000) ? Pourquoi ?
+shell->tab_env = malloc(100000) ? Pourquoi ? <-- FIXED
 
 
 === EXIT STATUS ===

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/19 13:55:17 by bjacob           ###   ########lyon.fr   */
+/*   Created: 2021/01/19 14:10:09 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/19 14:10:11 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ int		ft_echo(t_shell *shell, char **exec_args, int *tab_null)
 	i = 0;
 	remove_eol = 0;
 
-// ft_print_tab_char(exec_args);
-
+//  ft_print_tab_char(exec_args);
+// 	dprintf(1, "[%s]\n", exec_args[2]);
 	if (!exec_args[1])	// [1]
 		ft_printf(1, "\n");
 	else

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:33 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/18 17:21:02 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 14:10:59 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char		*ft_create_word_double_dir(t_shell *shell, char *str, int *iterator)
 	char	*word;
 	int		i;
 	int		j;
-	char	*env;
+	// char	*env;
 
 	j = -1;
 	i = -1;
@@ -54,19 +54,19 @@ char		*ft_create_word_double_dir(t_shell *shell, char *str, int *iterator)
 	while (str[++i] && str[i] != ' ' && str[i] != '>' && str[i] != '<')
 		if (str[i] == '\"')
 			break ;
-		else if (str[i] == '$' && str[i + 1])
-			if (!(env = ft_get_env_value(shell, &str[i], &i, j)))
-				continue ;
-			else
-				while (*env)
-					word[++j] = *env++;
+		// else if (str[i] == '$' && str[i + 1])
+		// 	if (!(env = ft_get_env_value(shell, &str[i], &i, j)))
+		// 		continue ;
+		// 	else
+		// 		while (*env)
+		// 			word[++j] = *env++;
 		else if (ft_strncmp(&str[i], "\\\"", 2) == 0)
 			word[++j] = str[++i];
 		else
 			word[++j] = str[i];
 	word[++j] = '\0';
 	if (str[i] != '\"')
-		ft_exit_split(shell, "Error : need a quote to finish the line.\n");
+		ft_exit_split(shell, "Error : need a quote to finish the line32213.\n");
 	*iterator += i + 1;
 	return (word);
 }
@@ -77,7 +77,7 @@ char	*ft_create_word_dir(t_shell *shell, t_split *s, char *str, int *iterator)
 	char	*word;
 	int		i;
 	int		j;
-	char	*env;
+	// char	*env;
 
 	j = -1;
 	i = -1;
@@ -90,12 +90,12 @@ char	*ft_create_word_dir(t_shell *shell, t_split *s, char *str, int *iterator)
 			word[++j] = str[i];
 		else if (str[i] == '\"')
 			s->d_quotes++;
-		else if (str[i] == '$' && str[i + 1])
-			if (!(env = ft_get_env_value(shell, &str[i], &i, j)))
-				continue ;
-			else
-				while (*env)
-					word[++j] = *env++;
+		// else if (str[i] == '$' && str[i + 1])
+		// 	if (!(env = ft_get_env_value(shell, &str[i], &i, j)))
+		// 		continue ;
+		// 	else
+		// 		while (*env)
+		// 			word[++j] = *env++;
 		else
 			word[++j] = str[i];
 	word[++j] = '\0';
@@ -112,7 +112,6 @@ t_dir	**ft_split_redirection(t_shell *shell, char *str)
 	int		j;
 	int		redirection;
 	t_dir	*tab_temp;
-
 	if (!(tab = malloc_lst(shell, sizeof(t_dir *) * 40)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	i = -1;
