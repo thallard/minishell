@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/15 13:29:40 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 16:33:27 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ int		ft_echo(t_shell *shell, char **exec_args, char **tab_env)
 	i = 0;
 	remove_eol = 0;
 
-// ft_print_tab_char(exec_args);
-
+//  ft_print_tab_char(exec_args);
+// 	dprintf(1, "[%s]\n", exec_args[2]);
 	if (!exec_args[1])	// [1]
 		ft_printf(1, "\n");
 	else
