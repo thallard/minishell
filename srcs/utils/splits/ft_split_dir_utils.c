@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_dir_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 14:07:51 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/18 17:20:47 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 13:42:36 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ t_dir	*ft_add_redirection(t_shell *shell, char *str, int *i, int *j)
 	else
 	{
 		if (redirection == 2)
-			i++;
+			(*i)++;
 		if (!(tab_j = malloc_lst(shell, sizeof(t_dir))) || (++(*j) < 0))
-			ft_exit_failure(shell, F_MALLOC, NULL);		
+			ft_exit_failure(shell, F_MALLOC, NULL);
 		while (str[++(*i)] == ' ')
 			;
+		
 		if (str[*i] != '\'' && str[*i] != '\"')
 			tab_j->file = ft_create_word_dir(shell, shell->split, &str[*i], i);
 		else if (str[*i] == '\"' && !shell->split->d_quotes++)
