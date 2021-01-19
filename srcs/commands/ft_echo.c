@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 13:32:57 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/19 11:59:10 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 13:55:17 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,11 @@
 // 	return (fd);
 // }
 
-int		ft_echo(t_shell *shell, char **exec_args, char **tab_env)
+int		ft_echo(t_shell *shell, char **exec_args, int *tab_null)
 {
 	int		i;
 	int		remove_eol;
 
-	(void)tab_env;
 	i = 0;
 	remove_eol = 0;
 
@@ -124,7 +123,8 @@ int		ft_echo(t_shell *shell, char **exec_args, char **tab_env)
 		{
 			if (remove_eol != 1 || ft_strncmp(exec_args[i], " -n", 4))
 			{
-				if (remove_eol != 1 && i > 1)
+				if (remove_eol != 1 && i > 1 && exec_args[i - 1]
+					&& tab_null[i])
 					ft_printf(1, " ");
 				ft_printf(1, "%s", exec_args[i]);
 				// if (i == 1 || !ft_strncmp(exec_args[i], " -n", 4) ||

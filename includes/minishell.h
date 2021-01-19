@@ -43,12 +43,6 @@
 
 # define PRINT_HEADER 0
 
-// typedef struct 		s_args
-// {
-// 	char	**args;
-// 	int		**var;
-// }					t_args;
-
 typedef struct		s_var_status
 {
 	struct s_var_status		*next;
@@ -58,6 +52,7 @@ typedef struct		s_var_status
 typedef struct 		s_args
 {
 	char			**args;
+	int				*null;
 	t_var_status	**var;
 }					t_args;
 
@@ -115,12 +110,8 @@ typedef struct		s_shell
 	t_fd			*lst_fd;
 	char			*buffer_std;
 	char			*dir_err;
+	t_var_status	*lst_var_len;
 }					t_shell;
-
-
-
-t_args	*split_arguments(t_shell *shell, char *str);
-t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args, int len, int ind);
 
 /*
 ****************************************************
@@ -131,7 +122,7 @@ t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args, int len, int ind);
 ** Commands
 */
 int		ft_cd(t_shell *shell, char **exec_args, char **tab_env);
-int		ft_echo(t_shell *shell, char **exec_args, char **tab_env);
+int		ft_echo(t_shell *shell, char **exec_args, int *tab_null);
 int		ft_env(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_unset(t_shell *shell, char **exec_args, char **tab_env);
@@ -295,6 +286,28 @@ int			is_redirection(char *str, int i);
 int			ft_fill_split_env(char *str);
 int			ft_add_dir_error(t_shell *shell, char *str_bis);
 t_dir		*ft_add_redirection(t_shell *shell, char *str, int *i, int *j);
+
+/*
+** split_args_utils_lst.c
+*/
+t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args, int len, int ind);
+
+/*
+** split_args_utils_skip.c
+*/
+int			is_redir_quotes_char(char c);
+int			skip_redir(t_shell *shell, char **str);
+
+/*
+** split_args_utils_.c
+*/
+void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind);
+
+/*
+** split_args.c
+*/
+t_args		*split_arguments(t_shell *shell, char *str);
+
 
 /*
 **--------------------
