@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/17 14:34:59 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 16:53:00 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,33 @@ int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env)
 {
 	int		res;
 	char	*path;
+	// int		useless;
 
 	(void)shell;
 	(void)exec_args;
 	(void)tab_env;
 	res = SUCCESS;
+	// path_double = NULL;
 	if (!(path = ft_calloc(1, 500)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
-	getcwd(path, 500);
-	res = ft_printf(STDOUT_FILENO, "%s\n", path);	// \n a conserver ?	
-	free(path);
+	
+	if (get_var_env(shell, "PWD", &path) && ft_strncmp(path, "//", 2) == 0)
+	{
+		res = ft_printf(STDOUT_FILENO, "%s\n", path);
+	}
+	else
+	{
+		getcwd(path, 500);
+		res = ft_printf(STDOUT_FILENO, "%s\n", path);
+	}
+	
+	// else
+	// {
+		
+	// }
+		
+		// \n a conserver ?	
+	// free(path);
 	shell->exit = 0;
 	return (res);
 }
