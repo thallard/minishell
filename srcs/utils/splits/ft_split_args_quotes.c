@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 18:52:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/18 14:03:26 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 15:19:46 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_create_word_double_arg(t_shell *shell, char *str, int *iterator)
 	word[++j] = '\0';
 	*iterator += i + 1;
 	if (str[i] != '\"')
-		ft_exit_split(shell, "Error : need adouble quote to finish the line.\n");
+		ft_exit_split(shell, "Error : need adouble quote to finish the line312.\n");
 	shell->split->d_quotes = 0;
 	shell->split->s_quotes = 0;
 	
@@ -78,7 +78,7 @@ char	*ft_create_word_arg(t_shell *shell, t_split *s, char *str, int *iterator)
 	if (ft_strlen(word) == 0)
 		word[0] = '\0';
 	if (s->d_quotes % 2 != 0 || s->s_quotes % 2 != 0)
-		ft_exit_split(shell, "Error : need a quote to finish the line.\n");
+		ft_exit_split(shell, "Error : need a quote to finish the line213.\n");
 	if (str[i] == '>' || str[i] == '<')
 		i--;
 	shell->split->d_quotes = 0;
@@ -104,7 +104,7 @@ char	*ft_create_word_simple_arg(t_shell *shell, char *str, int *iterator)
 			word[++j] = str[i];
 	word[++j] = '\0';
 	if (shell->split->s_quotes == 1)
-		ft_exit_split(shell, "Error : need a quote to finish the line.\n");
+		ft_exit_split(shell, "Error : need a quote to finish the line112.\n");
 	shell->split->d_quotes = 0;
 	shell->split->s_quotes = 0;
 	*iterator += i + 1;

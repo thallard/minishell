@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_build.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 13:08:41 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 15:29:04 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 		
 	if (!(args = ft_split_args(shell, shell->op)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
-
 // ft_print_tab_char(args->args);
 		
 	if (!(dir = ft_split_redirection(shell, shell->op)))
