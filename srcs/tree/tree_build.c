@@ -6,11 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/01/18 15:29:04 by thallard         ###   ########lyon.fr   */
-=======
-/*   Updated: 2021/01/19 11:11:29 by bjacob           ###   ########lyon.fr   */
->>>>>>> 3810581038883db8ba939482122a8ec0901309e3
+/*   Updated: 2021/01/19 13:01:45 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +37,6 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	// 	ft_exit_failure(shell, F_MALLOC, NULL);
 	args = split_arguments(shell, shell->op);
 
-<<<<<<< HEAD
-// dprintf(1, "shell->op = |%s|\n", shell->op);	///////
-
-		
-	if (!(args = ft_split_args(shell, shell->op)))
-		ft_exit_failure(shell, F_MALLOC, NULL);
-// ft_print_tab_char(args->args);
-		
-=======
->>>>>>> 3810581038883db8ba939482122a8ec0901309e3
 	if (!(dir = ft_split_redirection(shell, shell->op)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 

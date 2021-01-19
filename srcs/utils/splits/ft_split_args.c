@@ -6,26 +6,26 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 13:30:29 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/18 16:42:00 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 13:00:45 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	print_tab_args(t_args *tab)
-{
-	int i = -1;
-	int	j = -1;
-	dprintf(1, "debug entree print tab = %s\n", tab->args[0]);
-	while (tab->args[++i])
-	{
-		j = -1;
-		dprintf(1, "valeur de tab[%d] = [%s]\n", i, tab->args[i]);
-			while (tab->var[i][++j] > 0)
-		dprintf(1, "args[%d] = %s | var[%d] = %d\n", i, tab->args[i], i, tab->var[i][j]);
-	}
+// void	print_tab_args(t_args *tab)
+// {
+// 	int i = -1;
+// 	int	j = -1;
+// 	dprintf(1, "debug entree print tab = %s\n", tab->args[0]);
+// 	while (tab->args[++i])
+// 	{
+// 		j = -1;
+// 		dprintf(1, "valeur de tab[%d] = [%s]\n", i, tab->args[i]);
+// 			while (tab->var[i][++j] > 0)
+// 		dprintf(1, "args[%d] = %s | var[%d] = %d\n", i, tab->args[i], i, tab->var[i][j]);
+// 	}
 	
-}
+// }
 
 char	*create_simple(t_shell *shell, char *str, int *iterator)
 {
