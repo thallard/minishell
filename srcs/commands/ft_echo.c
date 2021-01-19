@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:10:09 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 16:15:30 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 16:20:28 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ static	int	is_remove_eol_flag(char *str)
 	return (1);
 }
 
+static void	print_echo_arg(int *remove_eol, int *print_space, char *arg,
+							int var_status)
+{
+	if (*print_space && var_status)
+		ft_printf(1, " ");
+	ft_printf(1, "%s", arg);
+	*print_space = 1;
+	*remove_eol *= (-1) * *remove_eol;
+}
+
 int		ft_echo(t_shell *shell, char **exec_args, int *tab_null)
 {
 	int		i;
@@ -35,7 +45,7 @@ int		ft_echo(t_shell *shell, char **exec_args, int *tab_null)
 	i = 0;
 	remove_eol = 0;
 	print_space = 0;
-	if (!exec_args[1])	// [1]
+	if (!exec_args[1])
 		ft_printf(1, "\n");
 	else
 	{
@@ -43,14 +53,8 @@ int		ft_echo(t_shell *shell, char **exec_args, int *tab_null)
 			remove_eol = ++i;
 		while (exec_args[++i])
 			if (remove_eol != 1 || !is_remove_eol_flag(exec_args[i]))
-			{
-				// if (remove_eol != 1 && i > 1 && tab_null[i - 1] && tab_null[i])
-				if (print_space && tab_null[i])
-					ft_printf(1, " ");
-				ft_printf(1, "%s", exec_args[i]);
-				print_space = 1;
-				remove_eol *= (-1) * remove_eol;
-			}
+				print_echo_arg(&remove_eol, &print_space, exec_args[i],
+								tab_null[i]);
 		if (!remove_eol)
 				ft_printf(1, "\n");
 	}
