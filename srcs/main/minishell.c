@@ -38,6 +38,7 @@ static void	init_shell(t_shell *shell, int begin)
 	shell->split->d_quotes = 0;
 	shell->split->s_quotes = 0;
 	shell->dir_err = NULL;
+	shell->lst_var_len = NULL;
 }
 
 static int	ft_bufferlen(char *str, char c)

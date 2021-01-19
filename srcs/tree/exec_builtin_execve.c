@@ -6,16 +6,21 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 12:38:38 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 13:57:38 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_exec(t_shell *shell, char *exec_path, char **exec_args)
+static int	ft_exec(t_shell *shell, char *exec_path, t_tree *node)
 {
+	char	**exec_args;
+	int		*tab_null;
+
+	exec_args = node->args->args;
+	tab_null = node->args->null;
 	if (!ft_strncmp(exec_path, "echo", 5))
-		return (ft_echo(shell, exec_args, shell->tab_env));
+		return (ft_echo(shell, exec_args, tab_null));
 	if (!ft_strncmp(exec_path, "cd", 3))
 		return (ft_cd(shell, exec_args, shell->tab_env));	// retour a gerer
 	if (!ft_strncmp(exec_path, "pwd", 4))
@@ -42,7 +47,7 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 	if (close(pipe_fd[shell->last_pipe][0]) == -1 ||
 		close(pipe_fd[1 - shell->last_pipe][1]) == -1)
 		print_error_and_exit(shell, "close", -1 * EBADF); // possible exit status
-	if (ft_exec(shell, exec_path, node->args->args) == -1)	// if execve == -1
+	if (ft_exec(shell, exec_path, node) == -1)	// if execve == -1
 		;		// faire quelque chose ?
 		// shell->exit = EXIT_FAILURE;	// bonne valeur ?
 	// exit(shell->exit);
@@ -76,7 +81,7 @@ int			exec_builtin(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 		dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO) == -1)
 		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 
-	if (ft_exec(shell, node->exec_path, node->args->args) == -1)	// A CHECKER
+	if (ft_exec(shell, node->exec_path, node) == -1)	// A CHECKER
 		exit(FAILURE);	// bonne valeur
 
 	if (close(pipe_fd[shell->last_pipe][1]) == -1 ||

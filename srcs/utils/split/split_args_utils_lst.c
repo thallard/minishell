@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_arguments_utils.c                            :+:      :+:    :+:   */
+/*   split_args_utils_lst.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 10:35:15 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 12:51:13 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 14:02:16 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ t_var_status	*ft_lstvarlast(t_var_status *lst)
 	return (lst);
 }
 
-t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args, int len, int ind)
+t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args,
+				int len, int ind)
 {
 	t_var_status	*elem;
 	t_var_status	*new;
