@@ -73,7 +73,6 @@ static int	go_to_folder(t_shell *shell, char *folder)
 	int		res;
 
 	current_path = NULL;
-		// dprintf(1, "debug du resfold er = %s\n", folder);
 	if (folder[0] == '/')
 	{
 		if (!(path = ft_strdup(folder)))
@@ -89,9 +88,7 @@ static int	go_to_folder(t_shell *shell, char *folder)
 		else if (!(path = build_path(shell, current_path, folder)))
 			return (-1);
 	}
-	// dprintf(1, "debug du res path = %s\n", current_path);
 	res = chdir(path);
-	// dprintf(1, "debug du res path = %s\n", path);
 	ft_free_ptr(current_path);
 	ft_free_ptr(path);
 	return (get_correct_return(res));
@@ -134,8 +131,7 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	char	*old_path;
 	char	*cur_path;
 
-// ft_print_tab_char(exec_args);
-
+	// ft_print_tab_char(exec_args);
 	(void)tab_env;
 	if (!exec_args[1] || !ft_strncmp(exec_args[1], "~", 2))
 		res = go_to_home(shell);
@@ -153,7 +149,15 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	if (!(cur_path = ft_calloc(1, 500)) || !add_lst_to_free(shell, cur_path))
 		ft_exit_failure(shell, F_MALLOC, cur_path);
 
-	getcwd(cur_path, 1000);	// a proteger ?
+	// a proteger ?
+
+	if (ft_strlen(exec_args[1]) >= 2 && 
+		ft_strncmp(exec_args[1], "//", 2) == 0 && exec_args[1][2] != '/')
+		cur_path = exec_args[1];
+	else
+		getcwd(cur_path, 1000);
+	
+	// dprintf(1, "sortie de current path = %s\n", cur_path);
 	replace_env_content(shell, "OLDPWD", old_path, 0); // pb possible avec lst des ptrs
 	replace_env_content(shell, "PWD", cur_path, 0);
 
