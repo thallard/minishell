@@ -6,11 +6,26 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 13:53:50 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 16:00:58 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+static char	*get_new_part(t_shell *shell, char *part)
+{
+	char	*new_part;
+
+	if (ft_isdigit(part[1]) && ((!(new_part = ft_strdup(""))) ||
+								!add_lst_to_free(shell, new_part)))
+			ft_exit_failure(shell, F_MALLOC, new_part);
+	else if (part[1] == '?' && ((!(new_part = ft_itoa(shell->exit))) ||
+								!add_lst_to_free(shell, new_part)))
+			ft_exit_failure(shell, F_MALLOC, new_part);	
+	else
+		get_var_env(shell, part + 1, &new_part);
+	return (new_part);	
+}
 
 static char	*replace_str_part(t_shell *shell, char *str, char *part, int *j)
 {
@@ -18,13 +33,10 @@ static char	*replace_str_part(t_shell *shell, char *str, char *part, int *j)
 	char	*res;
 	char	*new_part;
 
-	if (ft_isdigit(part[1]) && ((!(new_part = ft_strdup(""))) ||
-								!add_lst_to_free(shell, new_part)))
-			ft_exit_failure(shell, F_MALLOC, new_part);
-	else
-		get_var_env(shell, part + 1, &new_part);
-	res = NULL;
 	i = *j;
+	res = NULL;
+	if ((new_part = get_new_part(shell, part)))
+		*j += ft_strlen(new_part);
 	while (str[i] && ft_strncmp(str + i, part, ft_strlen(part)))
 		i++;
 	if (str[i])
@@ -41,8 +53,6 @@ static char	*replace_str_part(t_shell *shell, char *str, char *part, int *j)
 			!add_lst_to_free(shell, res)))
 			ft_exit_failure(shell, F_MALLOC, res);
 	}
-	if (new_part)
-		*j += ft_strlen(new_part);
 	return (res);
 }
 
