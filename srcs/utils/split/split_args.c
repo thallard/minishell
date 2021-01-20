@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 08:40:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 14:05:51 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 08:36:33 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	add_new_arg(t_shell *shell, t_args *args, char **str, int *ind)
 {
-	if (**str == '<' || **str == '>')
+	if (**str == '<' || **str == '>' ||
+		(**str == '2' &&  (*str)[1] == '>' && (*str)++))
 		skip_redir(shell, str);
 	else
 		create_new_arg(shell, str, args, ind);

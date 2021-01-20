@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:04:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 17:00:23 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 09:02:45 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	add_var_env_status_simple_quote(t_shell *shell, char *part, t_args *
 	}
 }
 
-static char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int ind)
+char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int ind)
 {
 	char	*arg_part;
 	int		i;
@@ -78,11 +78,12 @@ static char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args
 		arg_part[i++] = *((*str)++);
 	}
 	arg_part[i] = 0;
-	add_var_env_status_normal(shell, arg_part, args, ind);
+	if (args)
+		add_var_env_status_normal(shell, arg_part, args, ind);
 	return (arg_part);
 }
 
-static char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args, int ind)
+char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args, int ind)
 {
 	char	*arg_part;
 	int		i;
@@ -106,11 +107,12 @@ static char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args
 	}
 	arg_part[i] = 0;
 	(*str)++;
-	add_var_env_status_normal(shell, arg_part, args, ind);
+	if (args)
+		add_var_env_status_normal(shell, arg_part, args, ind);
 	return (arg_part);
 }
 
-static char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind)
+char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind)
 {
 	char	*arg_part;
 	int		i;
@@ -128,7 +130,8 @@ static char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args
 		arg_part[i++] = *((*str)++);
 	arg_part[i] = 0;
 	(*str)++;
-	add_var_env_status_simple_quote(shell, arg_part, args, ind);
+	if (args)
+		add_var_env_status_simple_quote(shell, arg_part, args, ind);
 	return (arg_part);
 }
 

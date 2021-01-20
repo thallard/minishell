@@ -261,37 +261,16 @@ t_env	*ft_clone_export_env(t_env *lst);
 
 /*
 **--------------------
-**		splits		**
+**		split		**
 **--------------------
 */
-/*
-** All splits 
-*/
-char		**ft_split_quotes(t_shell *shell, t_split *s, char *str);
-char		*ft_create_word(t_shell *shell, t_split *s, char *str, int *iterator);
-t_dir		**ft_split_redirection(t_shell *shell, char *str);
-t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell);
-char		**ft_split_args_quotes(t_shell *shell, char *str);
-char		**ft_split_exec_paths(char const *s, char c, t_shell *shell);
-t_args		*ft_split_args(t_shell *shell, char *str);
-
-
-/*
-** Utils for splits
-*/
-int			ft_get_nb_env(t_shell *shell, char *str);
-char		*ft_create_word_simple_dir(t_shell *shell, char *str, int *iterator);
-char		*ft_create_word_double_dir(t_shell *shell, char *str, int *iterator);
-char		*ft_create_word_dir(t_shell *shell, t_split *s, char *str, int *iterator);
-int			is_redirection(char *str, int i);
-int			ft_fill_split_env(char *str);
-int			ft_add_dir_error(t_shell *shell, char *str_bis);
-t_dir		*ft_add_redirection(t_shell *shell, char *str, int *i, int *j);
 
 /*
 ** split_args_utils_lst.c
 */
 t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args, int len, int ind);
+t_var_status	*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
+				int len, int ind);
 
 /*
 ** split_args_utils_skip.c
@@ -302,6 +281,9 @@ int			skip_redir(t_shell *shell, char **str);
 /*
 ** split_args_utils_.c
 */
+char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int ind);
+char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args, int ind);
+char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind);
 void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind);
 
 /*
@@ -309,13 +291,25 @@ void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind);
 */
 t_args		*split_arguments(t_shell *shell, char *str);
 
-
-
+/*
+** split_dir_utils_skip.c
+*/
 int	skip_arg(t_shell *shell, char **str);
+
+/*
+** split_dir_utils_skip.c
+*/
 void	create_new_dir(t_shell *shell, char **str, t_dir *dir, int *ind);
+
+/*
+** split_dir.c
+*/
 t_dir	*split_redirection(t_shell *shell, char *str);
-t_var_status	*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
-				int len, int ind);
+
+/*
+** split_exec_paths.c
+*/
+char		**ft_split_exec_paths(char const *s, char c, t_shell *shell);
 
 
 /*

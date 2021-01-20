@@ -6,13 +6,13 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 10:35:15 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 17:35:57 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 09:10:19 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-t_var_status	*ft_lstvarnew(int len)
+static t_var_status	*ft_lstvarnew(int len)
 {
 	t_var_status	*elem;
 
@@ -23,7 +23,7 @@ t_var_status	*ft_lstvarnew(int len)
 	return (elem);
 }
 
-t_var_status	*ft_lstvarlast(t_var_status *lst)
+static t_var_status	*ft_lstvarlast(t_var_status *lst)
 {
 	if (!lst)
 		return (NULL);
