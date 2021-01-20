@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/20 12:46:01 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 16:58:49 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,25 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 	int		add;
 	t_env	*new_lst;
 
-
 	i = 0;
 	while (arg[++i])
 	{
 		add = 0;
 		new_lst = ft_prepare_lst_env(shell, arg[i], arg[i]);
 		j = -1;
-		if (ft_isdigit(arg[i][0]))
+		if (ft_isdigit(arg[i][0]) || arg[i][0] == '-' || arg[i][0] == '=')
 			return (FAILURE);
-		while ((arg[i][++j] && ft_isalnum(arg[i][j]) && arg[i][j] != '=') || arg[i][j] == '+')
-			new_lst->name[j] = arg[i][j];
+		while (arg[i][++j] && arg[i][j] != '=' && arg[i][j] != '+')
+		{
+			if (arg[i][j] != '\'' && arg[i][j] != '\"' && arg[i][j] != ' '
+				&& arg[i][j] != '\'' && arg[i][j] != '&' &&
+				arg[i][j] != '|' && arg[i][j] != ';')
+				new_lst->name[j] = arg[i][j];
+			else
+				return (FAILURE);
+		}
+			
+	
 		if (arg[i][j])
 			if (arg[i][j] != '=' || (!ft_isalnum(arg[i][j - 1]) && arg[i][j - 1] != '+' && arg[i][j]))
 				return (FAILURE);

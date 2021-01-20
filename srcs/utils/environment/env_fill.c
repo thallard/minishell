@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:22:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 08:16:05 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 16:08:16 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ static int	ft_fill_tab_env(t_shell *shell, char **envp)
 		shell->tab_env[i] = envp[i];
 	}
 	shell->tab_env[i] = NULL;
+	if (!ft_get_var_env(shell, "OLDPWD"))
+		replace_env_content(shell, "OLDPWD", "", 0);
 // 	if (stat("env_file", &fd_status) == -1)
 // 		return (FAILURE);
 
