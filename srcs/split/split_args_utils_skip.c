@@ -6,11 +6,11 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 13:59:16 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 14:07:19 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 09:39:08 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_redir_quotes_char(char c)
 {
@@ -19,7 +19,7 @@ int	is_redir_quotes_char(char c)
 	return (0);
 }
 
-static int	skip_quotes(t_shell *shell, char **str)
+int	skip_quotes(t_shell *shell, char **str)
 {
 	char	c;
 
@@ -52,4 +52,16 @@ int	skip_redir(t_shell *shell, char **str)
 		(*str)++;
 	skip_char_redir(shell, str);
 	return (1);
+}
+
+int	skip_arg(t_shell *shell, char **str)
+{
+	while (!is_redir_quotes_char(**str))
+		(*str)++;
+	if (!(**str) || **str == ' ' || **str == '<' || **str == '>')
+		return (1);
+	skip_quotes(shell, str);
+	(*str)++;
+	skip_arg(shell, str);
+	return (0);
 }

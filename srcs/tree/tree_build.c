@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 17:12:31 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 10:07:13 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,14 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	t_args	*args;
 	t_dir	*dir;
 
+// dprintf(1, "\n input = [%s]\n", *input);
+
 	res = SUCCESS;
 	shell->op = strdup_and_inc_input(shell, input);
+
+// dprintf(1, "\n shell->op = [%s]\n\n", shell->op);
+
+
 	// if (!(args = ft_split_args(shell, shell->op)))
 	// 	ft_exit_failure(shell, F_MALLOC, NULL);
 	args = split_arguments(shell, shell->op);	// a proteger
@@ -40,7 +46,8 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	// if (!(dir = ft_split_redirection(shell, shell->op)))
 	// 	ft_exit_failure(shell, F_MALLOC, NULL);
 
-	dir = split_redirection(shell, shell->op);	// a proteger
+	if (!(dir = split_redirection(shell, shell->op)))	// a proteger
+		return (CHAR_DIR_ERR);
 
 	if (!(t_current->right = tree_create_node(shell, args, dir)))
 		ft_exit_failure(shell, F_MALLOC, NULL);

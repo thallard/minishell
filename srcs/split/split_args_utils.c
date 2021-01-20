@@ -6,11 +6,11 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:04:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 09:02:45 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 10:02:36 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static void	add_var_env_status_normal(t_shell *shell, char *part, t_args *args, int ind)
 {
@@ -133,26 +133,4 @@ char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args,
 	if (args)
 		add_var_env_status_simple_quote(shell, arg_part, args, ind);
 	return (arg_part);
-}
-
-void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind)
-{
-	char	*arg_part;
-
-	if (!(args->args[*ind] = malloc_lst(shell, 1)))
-		ft_exit_failure(shell, F_MALLOC, NULL);
-	args->args[*ind][0] = 0;
-	while (**str && **str != ' ' && **str != '<' && **str != '>')
-	{
-		if (**str != '\'' && **str != '\"')
-			arg_part = create_new_arg_part_normal(shell, str, args, *ind);
-		else if (**str == '\"')
-			arg_part = create_new_arg_part_double_quote(shell, str, args, *ind);
-		else
-			arg_part = create_new_arg_part_simple_quote(shell, str, args, *ind);
-		if (!(args->args[*ind] = ft_strjoin(args->args[*ind], arg_part)) ||
-			!add_lst_to_free(shell, args->args[*ind]))
-			ft_exit_failure(shell, F_MALLOC, args->args[*ind]);
-	}
-	(*ind)++;
 }

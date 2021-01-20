@@ -1,7 +1,7 @@
 main = srcs/main
 tree = srcs/tree
 utils = srcs/utils
-split = srcs/utils/split
+split = srcs/split
 comm = srcs/commands
 env = srcs/utils/environment
 str = srcs/utils/str
@@ -12,7 +12,7 @@ SRCS	=	$(main)/ft_ctrl.c $(main)/minishell.c $(main)/redirection.c \
 			$(str)/str_utils.c $(str)/str_utils_op_sep_space.c \
 			$(env)/env_utils.c $(env)/env_utils2.c $(env)/env_replace_value.c $(env)/env_match_var.c $(env)/env_fill.c \
 			$(split)/split_args.c $(split)/split_args_utils.c $(split)/split_args_utils_lst.c $(split)/split_args_utils_skip.c \
-			$(split)/split_dir.c $(split)/split_dir_utils.c $(split)/split_dir_utils_skip.c \
+			$(split)/split_dir.c $(split)/split_dir_utils.c \
 			$(split)/split_exec_paths.c \
 			$(comm)/ft_cd.c \
 			$(comm)/ft_pwd.c \

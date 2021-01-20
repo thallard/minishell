@@ -6,11 +6,11 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 08:40:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 09:07:23 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 10:11:38 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static int	is_redirection(char **str)
 {
@@ -70,6 +70,9 @@ static int	add_new_dir(t_shell *shell, t_dir *dir, char **str, int *ind)
 		dir[*ind].dir = is_redirection(str);		
 		while (**str == ' ')
 			(*str)++;
+		if (**str == '<' || **str == '>'|| **str == ';' || **str == '|'
+			|| !**str)
+			return (-1);
 		if (dir[*ind].dir == 3)
 			shell->dir_err = create_new_word(shell, str);
 		else
@@ -103,14 +106,21 @@ t_dir	*split_redirection(t_shell *shell, char *str)
 {
 	t_dir	*dir;
 	int		ind;
+	int		err;
 
-	if (!str)
-		return (NULL);
+	// if (!str)
+	// 	return (NULL);
 	dir = init_dir(shell, str);
 	while (*str == ' ')
 		str++;
 	ind = 0;
-	while (*str)
-		add_new_dir(shell, dir, &str, &ind);
+	err = 0;
+	while (*str && !err)
+		err = add_new_dir(shell, dir, &str, &ind);
+	if (err == -1)
+	{
+		shell->char_dir_error = *str;
+		return (NULL);
+	}
 	return (dir);
 }

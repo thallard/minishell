@@ -28,6 +28,7 @@
 # define DOUBLE_SEP_DV -3
 # define DOUBLE_SEP_P -4
 # define DOUBLE_SEP_DP -5
+# define CHAR_DIR_ERR -6
 
 # define F_MALLOC 12
 # define NO_EXEC_PATH 4
@@ -111,6 +112,7 @@ typedef struct		s_shell
 	t_fd			*lst_fd;
 	char			*buffer_std;
 	char			*dir_err;
+	char			char_dir_error;
 	t_var_status	*lst_var_len;
 }					t_shell;
 
@@ -276,7 +278,9 @@ t_var_status	*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
 ** split_args_utils_skip.c
 */
 int			is_redir_quotes_char(char c);
+int			skip_quotes(t_shell *shell, char **str);
 int			skip_redir(t_shell *shell, char **str);
+int			skip_arg(t_shell *shell, char **str);
 
 /*
 ** split_args_utils_.c
@@ -284,7 +288,6 @@ int			skip_redir(t_shell *shell, char **str);
 char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int ind);
 char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args, int ind);
 char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind);
-void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind);
 
 /*
 ** split_args.c
