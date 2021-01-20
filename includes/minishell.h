@@ -241,6 +241,7 @@ int		ft_lst_env_size(t_env *env);
 */
 int		ft_add_new_env(t_shell *shell, char *name, char *content, int hidden);
 char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
+int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *content);
 int		replace_env_content(t_shell *shell, char *name, char *content, int hidden);
 
 /*

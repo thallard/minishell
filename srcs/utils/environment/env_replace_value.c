@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/19 17:14:12 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 15:37:22 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int		replace_env_content(t_shell *shell, char *name, char *content, int hidden)
 		{
 			begin->hidden = hidden;
 			begin->content = content;
-			
+
 			// free(begin->content);
 			ft_change_value_tab_env(shell, &shell->tab_env, name, content);		
 			return (SUCCESS);
