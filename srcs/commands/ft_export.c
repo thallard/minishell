@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/19 17:14:52 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 15:39:14 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 		if ((j + 2) <= ft_strlen(arg[i]))
 			if (ft_strncmp(&arg[i][j], "\"\"", 2) == 0 || ft_strncmp(&arg[i][j], "\'\'", 2) == 0)
 				((char *)new_lst->content)[0] = '\0';
+
+dprintf(1, "--> |%s|\n", arg[i]);
+				
 		ft_filter_and_add(shell, new_lst, arg[i], j);
 	}
 	return (SUCCESS);

@@ -125,6 +125,26 @@ static int	go_to_old_pwd(t_shell *shell)
 	return (get_correct_return(res));
 }
 
+static int		replace_env_content_pwd(t_shell *shell, char *name, char *content, int hidden)
+{
+	t_env	*begin;
+
+	begin = shell->var_env;
+	while (begin)
+	{
+		if (!ft_strncmp(begin->name, name, (ft_strlen(name))))
+		{
+			begin->hidden = hidden;
+			begin->content = content;
+			// free(begin->content);
+			ft_change_value_tab_env(shell, &shell->tab_env, name, content);		
+			return (SUCCESS);
+		}
+		begin = begin->next;
+	}
+	return (SUCCESS);
+}
+
 int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 {
 	int		res;
@@ -133,6 +153,10 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 
 	// ft_print_tab_char(exec_args);
 	(void)tab_env;
+	if (!(old_path = ft_calloc(1, 500)) || !add_lst_to_free(shell, old_path))
+		ft_exit_failure(shell, F_MALLOC, old_path);
+	getcwd(old_path, 500);
+
 	if (!exec_args[1] || !ft_strncmp(exec_args[1], "~", 2))
 		res = go_to_home(shell);
 	else if (!ft_strncmp(exec_args[1], "..", 3))
@@ -144,8 +168,8 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	if (res == -1)
 		return (print_error(shell, exec_args[1]));	// a voir
 	get_var_env(shell, "PWD", &old_path);
-	if (!(old_path = ft_strdup(old_path)) || !add_lst_to_free(shell, old_path))
-		ft_exit_failure(shell, F_MALLOC, old_path);
+	// if (!(old_path = ft_strdup(old_path)) || !add_lst_to_free(shell, old_path))
+	// 	ft_exit_failure(shell, F_MALLOC, old_path);
 	if (!(cur_path = ft_calloc(1, 500)) || !add_lst_to_free(shell, cur_path))
 		ft_exit_failure(shell, F_MALLOC, cur_path);
 
@@ -158,11 +182,11 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	// else if (!ft_strncmp(exec_args[1], "/etc", 5))
 	// 	ft_memcpy(cur_path, "/etc", 4);
 	else
-		getcwd(cur_path, 1000);
+		getcwd(cur_path, 500);
 
 	// dprintf(1, "sortie de current path = %s\n", cur_path);
-	replace_env_content(shell, "OLDPWD", old_path, 0); // pb possible avec lst des ptrs
-	replace_env_content(shell, "PWD", cur_path, 0);
+	replace_env_content_pwd(shell, "OLDPWD", old_path, 0); // pb possible avec lst des ptrs
+	replace_env_content_pwd(shell, "PWD", cur_path, 0);
 
 // ft_print_env_var(shell->var_env);
 // dprintf(1, "\n\n");
