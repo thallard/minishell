@@ -153,9 +153,9 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 
 	// ft_print_tab_char(exec_args);
 	(void)tab_env;
-	if (!(old_path = ft_calloc(1, 500)) || !add_lst_to_free(shell, old_path))
-		ft_exit_failure(shell, F_MALLOC, old_path);
-	getcwd(old_path, 500);
+	// if (!(old_path = ft_calloc(1, 500)) || !add_lst_to_free(shell, old_path))
+	// 	ft_exit_failure(shell, F_MALLOC, old_path);
+	// getcwd(old_path, 500);
 
 	if (!exec_args[1] || !ft_strncmp(exec_args[1], "~", 2))
 		res = go_to_home(shell);
@@ -168,8 +168,8 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	if (res == -1)
 		return (print_error(shell, exec_args[1]));	// a voir
 	get_var_env(shell, "PWD", &old_path);
-	// if (!(old_path = ft_strdup(old_path)) || !add_lst_to_free(shell, old_path))
-	// 	ft_exit_failure(shell, F_MALLOC, old_path);
+	if (!(old_path = ft_strdup(old_path)) || !add_lst_to_free(shell, old_path))
+		ft_exit_failure(shell, F_MALLOC, old_path);
 	if (!(cur_path = ft_calloc(1, 500)) || !add_lst_to_free(shell, cur_path))
 		ft_exit_failure(shell, F_MALLOC, cur_path);
 
