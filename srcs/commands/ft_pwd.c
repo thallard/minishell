@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/20 15:04:13 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 15:39:43 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env)
 	if (get_var_env(shell, "PWD", &path) && path)
 	{		
 		res = ft_printf(STDOUT_FILENO, "%s\n", path);
-	}
 	else
 	{
 		getcwd(path, 500);

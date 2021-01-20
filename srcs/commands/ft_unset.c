@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 16:42:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/17 14:36:37 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 13:54:39 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			ft_unset(t_shell *shell, char **exec_args, char **tab_env)
 
 	if (!exec_args[1])
 	{
-		shell->exit = 1;
+		shell->exit = 0;
 		return (SUCCESS);	// FAILURE ou SUCCESS
 	}
 	else
