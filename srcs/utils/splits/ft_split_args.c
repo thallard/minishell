@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 13:30:29 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/19 13:00:45 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 17:18:33 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,6 @@ t_args		*ft_split_args(t_shell *shell, char *str)
 	// ft_printf(1,"entree = %s\n", str);
 	while (ft_strlen(temp) >= ++i && temp[i])
 	{
-	
 		if (temp[i] == ' ')
 			continue ;
 		else if ((temp[i] == '>' || temp[i] == '<') && i++ > -10)

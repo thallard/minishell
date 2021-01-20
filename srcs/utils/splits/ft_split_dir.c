@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:33 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/19 14:23:15 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 17:19:23 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_skip_quotes(t_shell *shell, char *str_bis)
 	while (str_bis[k] && str_bis[k] != c)
 		k++;
 	if (!str_bis[k])
-		ft_exit_split(shell, "Error : need a quote to finish the line.\n");
+		ft_exit_split(shell, "Error : need a quote to finish the line4.\n");
 	return (k);
 }
 
@@ -100,7 +100,7 @@ char	*ft_create_word_dir(t_shell *shell, t_split *s, char *str, int *iterator)
 			word[++j] = str[i];
 	word[++j] = '\0';
 	if (s->d_quotes % 2 != 0 || s->s_quotes % 2 != 0)
-		ft_exit_split(shell, "Error : need a quote to finish the line.\n");
+		ft_exit_split(shell, "Error : need a quote to finish the line2.\n");
 	*iterator += i;
 	return (word);
 }
