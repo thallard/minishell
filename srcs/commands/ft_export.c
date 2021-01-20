@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/17 14:17:19 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 17:14:52 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 		}
 		else if (env->hidden != 2)
 		{
-			//dprintf(1, "j'entre ici3 et hidden =%d et %d %d et content %s\n", env->hidden, j, ft_strlen(str), env->content);
+	
 			env->hidden = 1;
 			((char *)env->content)[k] = '\0';
 			

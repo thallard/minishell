@@ -239,7 +239,7 @@ int		ft_lst_env_size(t_env *env);
 /*
 ** env_replace_value.c
 */
-int		ft_add_new_env(t_shell *shell, char *name, char *content);
+int		ft_add_new_env(t_shell *shell, char *name, char *content, int hidden);
 char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
 int		replace_env_content(t_shell *shell, char *name, char *content, int hidden);
 

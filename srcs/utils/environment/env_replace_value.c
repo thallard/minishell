@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/17 15:13:07 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 17:14:12 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char		*ft_get_env_value(t_shell *shell, char *txt, int *j, int i)
 		return (NULL);
 	}
 	while (txt[k] && txt[k] != ' ' && txt[k] != '\'' && txt[k] != '\"' &&
-		txt[k] != '/' && txt[k] != '$' && txt[k] != '_' && txt[k] != '=')
+		txt[k] != '/' && txt[k] != '$' && txt[k] != '=')
 		k++;
 	tmp = ft_search_env_content(shell, txt, k);
 	//dprintf(1, "debug env = |%s| et limit %d\n", tmp, k);
@@ -79,14 +79,14 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *
 	return (1);
 }
 
-int		ft_add_new_env(t_shell *shell, char *name, char *content)
+int		ft_add_new_env(t_shell *shell, char *name, char *content, int hidden)
 {
 	t_env	*new;
 
 	new = ft_prepare_lst_env(shell, content, name);
 	new->name = ft_memmove(new->name, name, ft_strlen(name) + 1);
 	new->content = ft_memmove(new->content, content, ft_strlen(content) + 1);
-	new->hidden = 0;
+	new->hidden = hidden;
 	ft_env_add_back(&shell->var_env, new);
 	return (SUCCESS);
 }
@@ -102,13 +102,14 @@ int		replace_env_content(t_shell *shell, char *name, char *content, int hidden)
 		{
 			begin->hidden = hidden;
 			begin->content = content;
+			
 			// free(begin->content);
 			ft_change_value_tab_env(shell, &shell->tab_env, name, content);		
 			return (SUCCESS);
 		}
 		begin = begin->next;
 	}
-	ft_add_new_env(shell, name, content);
+	ft_add_new_env(shell, name, content, hidden);
 	ft_change_value_tab_env(shell, &shell->tab_env, name, content);
 	return (SUCCESS);
 }
