@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/20 10:29:03 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 15:39:43 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env)
 	if (!(path = ft_calloc(1, 500)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	
-	if (get_var_env(shell, "PWD", &path) && ft_strncmp(path, "//", 2) == 0)
+	// if (get_var_env(shell, "PWD", &path) && !ft_strncmp(path, "//", 2))
+	if (get_var_env(shell, "PWD", &path) && path)
+	{		
 		res = ft_printf(STDOUT_FILENO, "%s\n", path);
 	else
 	{

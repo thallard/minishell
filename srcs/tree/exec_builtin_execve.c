@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 13:57:38 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 14:19:23 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)
 	waitpid(program, &(shell->exit), 0);
 	
 	shell->exit /= 256;				// pourquoi ?
+
+// dprintf(1, "exit status = %d\n", shell->exit);
 
 	if (dup2(shell->std[0], STDIN_FILENO) == -1 ||
 		dup2(shell->std[1], STDOUT_FILENO) == -1 ||

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:26:03 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/20 09:44:12 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 10:21:29 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,11 @@ char	*strdup_and_inc_input(t_shell *shell, char **input)
 	else
 	{
 		while (!is_separator((*input)[len])	&& (*input)[len])
-		{
+		{	
 			if ((*input)[len] == '\'' || (*input)[len] == '\"')
 				skip_quotes_int(shell, *input, &len);
+			if ((*input)[len] == '\\' && (*input)[len + 1])
+				len++;
 			len++;
 		}
 	}

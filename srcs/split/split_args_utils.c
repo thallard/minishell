@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:04:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 10:02:36 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 13:43:21 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,12 @@ char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int i
 	if (!(arg_part = malloc_lst(shell, len + 1)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	i = 0;
-	while (i < len)
+	while (!is_redir_quotes_char(**str))
 	{
 		if (**str == '\\')
 			(*str)++;
-		arg_part[i++] = *((*str)++);
+		if (**str != ' ' && **str)
+			arg_part[i++] = *((*str)++);
 	}
 	arg_part[i] = 0;
 	if (args)
@@ -101,7 +102,7 @@ char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args,
 	{
 		if (**str == '\\' && (*str)[1] == '$' && ((*str)[1] = -36))
 			(*str)++;
-		else if (**str == '\\')
+		else if (**str == '\\' && ((*str)[1] == '\"' || (*str)[1] == '\\'))
 			(*str)++;
 		arg_part[i++] = *((*str)++);
 	}

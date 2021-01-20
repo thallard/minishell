@@ -151,12 +151,15 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 
 	// a proteger ?
 
+
 	if (ft_strlen(exec_args[1]) >= 2 && 
 		ft_strncmp(exec_args[1], "//", 2) == 0 && exec_args[1][2] != '/')
-		cur_path = exec_args[1];
+		ft_memcpy(cur_path, exec_args[1], ft_strlen(exec_args[1]) + 1);
+	// else if (!ft_strncmp(exec_args[1], "/etc", 5))
+	// 	ft_memcpy(cur_path, "/etc", 4);
 	else
 		getcwd(cur_path, 1000);
-	
+
 	// dprintf(1, "sortie de current path = %s\n", cur_path);
 	replace_env_content(shell, "OLDPWD", old_path, 0); // pb possible avec lst des ptrs
 	replace_env_content(shell, "PWD", cur_path, 0);

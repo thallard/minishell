@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 08:40:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 10:02:53 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 10:22:00 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ t_args	*split_arguments(t_shell *shell, char *str)
 {
 	t_args	*args;
 	int		ind;
+
+// dprintf(1, "begin split args - str = |%s|\n", str);
 
 	if (!str)
 		return (NULL);

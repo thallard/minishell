@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 17:40:04 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 13:29:06 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,15 @@ static char	*is_exec_in_path(t_shell *shell, char *exec, char *folder_path)
 	return (NULL);
 }
 
+static int	is_exec_path(char *exec)
+{
+	struct stat sb;
+
+	if (!stat(exec, &sb))
+		return (1);
+	return (0);
+}
+
 static char	*find_exec(t_shell *shell, t_tree *node)
 {
 	char	*paths;
@@ -36,8 +45,8 @@ static char	*find_exec(t_shell *shell, t_tree *node)
 	int		i;
 
 	paths = NULL;
-	
-	if (is_builtin(node->args->args[0]))
+	if (is_builtin(node->args->args[0]) ||
+		is_exec_path(node->args->args[0]))
 		return (node->args->args[0]);
 	if (get_var_env(shell, "PATH", &paths) <= 0)
 		ft_exit_failure(shell, NO_EXEC_PATH, NULL);
