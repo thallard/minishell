@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 15:30:13 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 16:39:16 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 10:11:00 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,21 @@ int		find_sep_error(char *str)
 int		print_sep_error(t_shell *shell, int err)
 {
 	if (err == DOUBLE_SEP_DV)
-		ft_printf(STDERR_FILENO, "syntax error near unexpected token `%s'\n", ";;");
+		ft_printf(STDERR_FILENO, "syntax error near unexpected token `;;'\n");
 	else if (err == DOUBLE_SEP_V)
-		ft_printf(STDERR_FILENO, "syntax error near unexpected token `%s'\n", ";");
+		ft_printf(STDERR_FILENO, "syntax error near unexpected token `;'\n");
 	else if (err == DOUBLE_SEP_P)
-		ft_printf(STDERR_FILENO, "syntax error near unexpected token `%s'\n", "|");
+		ft_printf(STDERR_FILENO, "syntax error near unexpected token `|'\n");
 	else if (err == DOUBLE_SEP_DP)
-		ft_printf(STDERR_FILENO, "syntax error near unexpected token `%s'\n", "||");
+		ft_printf(STDERR_FILENO, "syntax error near unexpected token `||'\n");
 	shell->exit = 258;
+	if (err == CHAR_DIR_ERR)
+	{
+		if (shell->char_dir_error)
+			ft_printf(STDERR_FILENO, "syntax error near unexpected token `%c'\n", shell->char_dir_error);
+		else
+			ft_printf(STDERR_FILENO, "syntax error near unexpected token `newline'\n");
+		shell->exit = 2;
+	}
 	return (SUCCESS);
 }

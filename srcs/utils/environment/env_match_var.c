@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 16:00:58 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 17:46:24 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,16 @@ void		ft_match_var_env(t_shell *shell, t_tree *node)
 				node->args->null[i] = 0;
 		}
 	}
+
+	i = -1;
+	while (node->dir[++i].file)
+	{
+		if (node->dir[i].var && node->dir[i].file)
+		{
+			shell->lst_var_len = node->dir[i].var;
+			node->dir[i].file = 
+			replace_all_var_env_values(shell, node->dir[i].file);
+		}
+	}
+	
 }

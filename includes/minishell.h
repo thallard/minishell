@@ -28,6 +28,7 @@
 # define DOUBLE_SEP_DV -3
 # define DOUBLE_SEP_P -4
 # define DOUBLE_SEP_DP -5
+# define CHAR_DIR_ERR -6
 
 # define F_MALLOC 12
 # define NO_EXEC_PATH 4
@@ -66,6 +67,7 @@ typedef struct		s_dir
 {
 	int				dir;
 	char			*file;
+	t_var_status	*var;
 }					t_dir;
 
 typedef struct		s_tree
@@ -74,7 +76,7 @@ typedef struct		s_tree
 	struct s_tree	*right;
 	t_args			*args;
 	// char			**args;
-	t_dir			**dir;
+	t_dir			*dir;
 	char			*exec_path;
 }					t_tree;
 
@@ -110,6 +112,7 @@ typedef struct		s_shell
 	t_fd			*lst_fd;
 	char			*buffer_std;
 	char			*dir_err;
+	char			char_dir_error;
 	t_var_status	*lst_var_len;
 }					t_shell;
 
@@ -149,7 +152,7 @@ void	ft_ctrl_back(int sign);
 /*
 ** redirection.c
 */
-void	manage_redirection(t_shell *shell, t_dir **exec_dir);
+void		manage_redirection(t_shell *shell, t_dir *exec_dir);
 
 
 /*
@@ -260,53 +263,56 @@ t_env	*ft_clone_export_env(t_env *lst);
 
 /*
 **--------------------
-**		splits		**
+**		split		**
 **--------------------
 */
-/*
-** All splits 
-*/
-char		**ft_split_quotes(t_shell *shell, t_split *s, char *str);
-char		*ft_create_word(t_shell *shell, t_split *s, char *str, int *iterator);
-t_dir		**ft_split_redirection(t_shell *shell, char *str);
-t_dir		**ft_split_minishell_dir(char const *s, char c, t_shell *shell);
-char		**ft_split_args_quotes(t_shell *shell, char *str);
-char		**ft_split_exec_paths(char const *s, char c, t_shell *shell);
-t_args		*ft_split_args(t_shell *shell, char *str);
-
-
-/*
-** Utils for splits
-*/
-int			ft_get_nb_env(t_shell *shell, char *str);
-char		*ft_create_word_simple_dir(t_shell *shell, char *str, int *iterator);
-char		*ft_create_word_double_dir(t_shell *shell, char *str, int *iterator);
-char		*ft_create_word_dir(t_shell *shell, t_split *s, char *str, int *iterator);
-int			is_redirection(char *str, int i);
-int			ft_fill_split_env(char *str);
-int			ft_add_dir_error(t_shell *shell, char *str_bis);
-t_dir		*ft_add_redirection(t_shell *shell, char *str, int *i, int *j);
 
 /*
 ** split_args_utils_lst.c
 */
 t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args, int len, int ind);
+t_var_status	*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
+				int len, int ind);
 
 /*
 ** split_args_utils_skip.c
 */
 int			is_redir_quotes_char(char c);
+int			skip_quotes(t_shell *shell, char **str);
 int			skip_redir(t_shell *shell, char **str);
+int			skip_arg(t_shell *shell, char **str);
 
 /*
 ** split_args_utils_.c
 */
-void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind);
+char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int ind);
+char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args, int ind);
+char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind);
 
 /*
 ** split_args.c
 */
 t_args		*split_arguments(t_shell *shell, char *str);
+
+/*
+** split_dir_utils_skip.c
+*/
+int	skip_arg(t_shell *shell, char **str);
+
+/*
+** split_dir_utils_skip.c
+*/
+void	create_new_dir(t_shell *shell, char **str, t_dir *dir, int *ind);
+
+/*
+** split_dir.c
+*/
+t_dir	*split_redirection(t_shell *shell, char *str);
+
+/*
+** split_exec_paths.c
+*/
+char		**ft_split_exec_paths(char const *s, char c, t_shell *shell);
 
 
 /*
@@ -342,7 +348,7 @@ char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2);
 */
 void	ft_print_tree(t_tree *node, int nb); // a supprimer
 void	ft_print_tab_char(char **tab);
-void	ft_print_tab_dir(t_dir **dir);
+void	ft_print_tab_dir(t_dir *dir);
 void	ft_print_node(t_tree *node);
 
 

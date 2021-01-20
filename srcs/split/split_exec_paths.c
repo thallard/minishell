@@ -6,11 +6,11 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:15:21 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/17 13:28:51 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 09:32:00 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static int	get_word_len(const char *str, int i, char c)
 {

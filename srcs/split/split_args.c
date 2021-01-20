@@ -6,15 +6,39 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 08:40:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 14:05:51 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 10:02:53 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
+
+static void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind)
+{
+	char	*arg_part;
+
+	if (!(args->args[*ind] = malloc_lst(shell, 1)))
+		ft_exit_failure(shell, F_MALLOC, NULL);
+	args->args[*ind][0] = 0;
+	while (**str && **str != ' ' && **str != '<' && **str != '>')
+	{		
+		if (**str != '\'' && **str != '\"')
+			arg_part = create_new_arg_part_normal(shell, str, args, *ind);
+		else if (**str == '\"')
+			arg_part = create_new_arg_part_double_quote(shell, str, args, *ind);
+		else
+			arg_part = create_new_arg_part_simple_quote(shell, str, args, *ind);
+		if (!(args->args[*ind] = ft_strjoin(args->args[*ind], arg_part)) ||
+			!add_lst_to_free(shell, args->args[*ind]))
+			ft_exit_failure(shell, F_MALLOC, args->args[*ind]);
+	}
+	(*ind)++;
+}
+
 
 static int	add_new_arg(t_shell *shell, t_args *args, char **str, int *ind)
 {
-	if (**str == '<' || **str == '>')
+	if (**str == '<' || **str == '>' ||
+		(**str == '2' &&  (*str)[1] == '>' && (*str)++))
 		skip_redir(shell, str);
 	else
 		create_new_arg(shell, str, args, ind);
@@ -54,7 +78,7 @@ t_args	*split_arguments(t_shell *shell, char *str)
 {
 	t_args	*args;
 	int		ind;
-	
+
 	if (!str)
 		return (NULL);
 	args = init_args(shell, str);

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:10:09 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 16:20:28 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 16:22:45 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static void	print_echo_arg(int *remove_eol, int *print_space, char *arg,
 	if (*print_space && var_status)
 		ft_printf(1, " ");
 	ft_printf(1, "%s", arg);
-	*print_space = 1;
+	if (var_status)
+		*print_space = 1;
 	*remove_eol *= (-1) * *remove_eol;
 }
 

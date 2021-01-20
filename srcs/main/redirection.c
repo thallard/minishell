@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:36:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 10:39:48 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 09:03:20 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,29 @@ static void	ft_dir_error(t_shell *shell)
 	}
 }
 
-void		manage_redirection(t_shell *shell, t_dir **exec_dir)
+void		manage_redirection(t_shell *shell, t_dir *exec_dir)
 {
 	int 	i;
 	int		fd;
 
+// ft_print_tab_dir(exec_dir);
+		// ft_match_var_env(shell, node);
 	i = -1;
-	while (exec_dir[++i]->file)
+	while (exec_dir[++i].file)
 	{		
-		if (exec_dir[i]->dir >= 0)
+		if (exec_dir[i].dir >= 0)
 		{
-			if ((exec_dir[i]->dir == 1 && (fd = open(exec_dir[i]->file,
+			if ((exec_dir[i].dir == 1 && (fd = open(exec_dir[i].file,
 				O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1) ||
-				(exec_dir[i]->dir == 2 && (fd = open(exec_dir[i]->file,
+				(exec_dir[i].dir == 2 && (fd = open(exec_dir[i].file,
 				O_APPEND | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1))
 				print_error_and_exit(shell, "fd", -1 * EMFILE); // possible exit status
 			if (!(ft_lstfdadd_back(shell, fd)) || dup2(fd, 1) == -1)
 				print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 		}
-		if (exec_dir[i]->dir == -1)
+		if (exec_dir[i].dir == -1)
 		{
-			if ((fd = open(exec_dir[i]->file, O_RDONLY, 0666)) == -1)
+			if ((fd = open(exec_dir[i].file, O_RDONLY, 0666)) == -1)
 				print_error_and_exit(shell, "fd", -1 * EMFILE); // possible exit status
 			if (dup2(fd, STDIN_FILENO) == -1)
 				print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status

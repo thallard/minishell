@@ -74,14 +74,14 @@ void	ft_print_tab_char(char **tab)
 	dprintf(1, "---------------\n");
 }
 
-void	ft_print_tab_dir(t_dir **dir)
+void	ft_print_tab_dir(t_dir *dir)
 {
 	int i;
 
 	i = -1;
-	while (dir[++i]->dir)
-		dprintf(1, "i = %d, file = %s, dir = %d\n", i, dir[i]->file, dir[i]->dir);
-	dprintf(1, "i = %d, file = %s, dir = %d\n", i, dir[i]->file, dir[i]->dir);
+	while (dir[++i].dir)
+		dprintf(1, "i = %d, file = %s, dir = %d\n", i, dir[i].file, dir[i].dir);
+	dprintf(1, "i = %d, file = %s, dir = %d\n", i, dir[i].file, dir[i].dir);
 }
 
 

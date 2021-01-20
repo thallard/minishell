@@ -69,7 +69,8 @@ static void	ft_launch_tree(t_shell *shell)
 	{
 		res = create_main_tree(shell, shell->buffer_std);
 		if (res == DOUBLE_SEP_V || res == DOUBLE_SEP_DV ||
-			res == DOUBLE_SEP_P || res == DOUBLE_SEP_DP)
+			res == DOUBLE_SEP_P || res == DOUBLE_SEP_DP ||
+			res == CHAR_DIR_ERR)
 			print_sep_error(shell, res); // a ajuster
 		if (res >= 0)
 		{

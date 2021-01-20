@@ -6,11 +6,22 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:26:03 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/17 13:10:19 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/20 09:44:12 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+static void	skip_quotes_int(t_shell *shell, char *str, int *len)
+{
+	char	c;
+
+	c = str[(*len)++];
+	while (str[*len] && str[*len] != c)
+		(*len)++;
+	if (!str[*len])
+		ft_exit_split(shell, "Error : need a quote to finish the line.\n");
+}
 
 int		is_separator(char c)
 {
@@ -49,7 +60,11 @@ char	*strdup_and_inc_input(t_shell *shell, char **input)
 	else
 	{
 		while (!is_separator((*input)[len])	&& (*input)[len])
+		{
+			if ((*input)[len] == '\'' || (*input)[len] == '\"')
+				skip_quotes_int(shell, *input, &len);
 			len++;
+		}
 	}
 	if (!(op = malloc_lst(shell, len + 1)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
