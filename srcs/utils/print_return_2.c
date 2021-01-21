@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 15:30:13 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 10:11:00 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 13:33:56 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ int		print_unset_error(t_shell *shell, char *cmd)
 	return (SUCCESS);
 }
 
-int		ft_cmd_not_found(t_shell *shell, char *exec)
+int		ft_cmd_not_found(t_shell *shell, char *exec, t_tree *node)
 {
-	(void)shell;					// utilite de shell ?
+	if (manage_redirection(shell, node->dir) == FAILURE)////////////////////
+			exit(1); // a confirmer
 	ft_printf(STDERR_FILENO, "minishell: %s: command not found\n", exec);	// message a ajuster
 	shell->exit = 127;	// selon test
+	reset_stds(shell);
 	return (SUCCESS);
 }
 

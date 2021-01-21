@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 10:53:18 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 13:46:06 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	ft_exec(t_shell *shell, char *exec_path, t_tree *node)
 	exec_args = node->args->args;
 	if (!ft_strncmp(exec_path, "echo", 5))
 		return (ft_echo(shell, exec_args, node->args->null));
-	change_last_arg_env(shell, exec_args);
 	if (!ft_strncmp(exec_path, "cd", 3))
 		return (ft_cd(shell, exec_args, shell->tab_env));	// retour a gerer
 	if (!ft_strncmp(exec_path, "pwd", 4))
@@ -48,6 +47,10 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 	if (close(pipe_fd[shell->last_pipe][0]) == -1 ||
 		close(pipe_fd[1 - shell->last_pipe][1]) == -1)
 		print_error_and_exit(shell, "close", -1 * EBADF); // possible exit status
+
+	if (manage_redirection(shell, node->dir) == FAILURE)
+			exit(1) ; // a confirmer	
+		
 	if (ft_exec(shell, exec_path, node) == -1)	// if execve == -1
 		;		// faire quelque chose ?
 		// shell->exit = EXIT_FAILURE;	// bonne valeur ?
@@ -56,19 +59,19 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 
 static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)
 {
-	char	*exec_path;
+(void)node;
 
-	exec_path = node->exec_path;
 	waitpid(program, &(shell->exit), 0);
 	
 	shell->exit /= 256;				// pourquoi ?
 
 // dprintf(1, "exit status = %d\n", shell->exit);
 
-	if (dup2(shell->std[0], STDIN_FILENO) == -1 ||
-		dup2(shell->std[1], STDOUT_FILENO) == -1 ||
-		dup2(shell->std[2], STDERR_FILENO) == -1)
-		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+	reset_stds(shell);
+	// if (dup2(shell->std[0], STDIN_FILENO) == -1 ||
+	// 	dup2(shell->std[1], STDOUT_FILENO) == -1 ||
+	// 	dup2(shell->std[2], STDERR_FILENO) == -1)
+	// 	print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 	signal(SIGQUIT,SIG_IGN);
 }
 
@@ -84,17 +87,19 @@ int			exec_builtin(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 		dup2(pipe_fd[1 - shell->last_pipe][0], STDIN_FILENO) == -1)
 		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 
+	if (manage_redirection(shell, node->dir) == FAILURE)
+		return (SUCCESS); // a confirmer
+
 	if (ft_exec(shell, node->exec_path, node) == -1)	// A CHECKER
 		exit(FAILURE);	// bonne valeur
 
 	if (close(pipe_fd[shell->last_pipe][1]) == -1 ||
 		close(pipe_fd[1 - shell->last_pipe][0]) == -1)
-		print_error_and_exit(shell, "close", -1 * EBADF); // possible exit status
-	
-	if (dup2(shell->std[0], STDIN_FILENO) == -1 ||
-		dup2(shell->std[1], STDOUT_FILENO) == -1 ||
-		dup2(shell->std[2], STDERR_FILENO) == -1)
-		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+		// print_error_and_exit(shell, "close", -1 * EBADF); // possible exit status
+		return (print_error(shell, "close", 1));	// a confirmer vs ligne du dessus
+
+	reset_stds(shell);
+
 	return (SUCCESS);
 }
 
@@ -107,11 +112,13 @@ int			exec_execve(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 	if (!program) // erreur a gerer si program = -1 ?
 	{
 		signal(SIGQUIT,SIG_DFL);
+
 		if (is_pipe / 2 < 1 && dup2(0, pipe_fd[1 - shell->last_pipe][0]) == -1) // if !PIPE_IN
 			print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
 		if (is_pipe % 2 != PIPE_OUT &&
 			dup2(1, pipe_fd[shell->last_pipe][1]) == -1)
 			print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+		
 		exec_child(shell, node, pipe_fd);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:36:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 10:18:13 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 13:34:19 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		manage_redirection(t_shell *shell, t_dir *exec_dir)
 	int		fd;
 
 // ft_print_tab_dir(exec_dir);
-		// ft_match_var_env(shell, node);
+// ft_match_var_env(shell, node);
 	i = -1;
 	while (exec_dir[++i].file)
 	{		

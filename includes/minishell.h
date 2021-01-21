@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/21 14:45:00 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/21 14:45:00 by bjacob           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -130,7 +142,6 @@ typedef struct		s_shell
 */
 int		ft_cd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_echo(t_shell *shell, char **exec_args, int *tab_null);
-void	change_last_arg_env(t_shell *shell, char **exec_args);
 int		ft_env(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_unset(t_shell *shell, char **exec_args, char **tab_env);
@@ -219,9 +230,14 @@ void	ft_exit_split(t_shell *shell, char *str);
 */
 int		print_oldpwd_error(t_shell *shell, char *cmd);
 int		print_unset_error(t_shell *shell, char *cmd);
-int		ft_cmd_not_found(t_shell *shell, char *exec);
+int		ft_cmd_not_found(t_shell *shell, char *exec, t_tree *node);
 int		find_sep_error(char *str);
 int		print_sep_error(t_shell *shell, int err);
+
+/*
+** stds_utils.c
+*/
+int	reset_stds(t_shell *shell);
 
 /*
 **--------------------
@@ -267,6 +283,11 @@ void	ft_env_remove_if(t_env **begin_list, void *name_ref,
 int		get_var_env(t_shell *shell, char *var_name, char **content);
 void	ft_sort_export_var(t_env *env);
 t_env	*ft_clone_export_env(t_env *lst);
+
+/*
+** env_utils2.c
+*/
+void	change_last_arg_env(t_shell *shell, t_tree *node);
 
 /*
 ** env_unset_utils.c

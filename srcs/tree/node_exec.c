@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 10:14:25 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 13:51:49 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	is_exec_path(char *exec)
 {
 	struct stat sb;
 
-	if (!stat(exec, &sb))
+	if (!stat(exec, &sb) && ft_memchr(exec, '/', ft_strlen(exec)))
 		return (1);
 	return (0);
 }
@@ -72,22 +72,25 @@ int			launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 // ft_print_tab_char(node->args->args);
 // ft_print_node(node);
 
-
 	ft_match_var_env(shell, node);
-	if (manage_redirection(shell, node->dir) == FAILURE)
-		return (SUCCESS); // a confirmer
-
-
+	
 	if (!node->args->args[0])
+	{
+		manage_redirection(shell, node->dir); ////////////////
+		reset_stds(shell);
 		return (SUCCESS);
+	}
 
 	if (!(node->exec_path = find_exec(shell, node)))
-		return (ft_cmd_not_found(shell, node->args->args[0]));	// valeur de retour a confirmer
+		return (ft_cmd_not_found(shell, node->args->args[0], node));	// valeur de retour a confirmer
+	
 	if (is_builtin(node->args->args[0]))
 		exec_builtin(shell, node, pipe_fd, is_pipe);
 	else
 		exec_execve(shell, node, pipe_fd, is_pipe);
-		
+
+	change_last_arg_env(shell, node);
+	
 	ft_lstfd_close_clear(&shell->lst_fd);	// a mettre ici ?
 
 // verifie-t-on le shell->exit du child apres exec_execve ?
@@ -100,9 +103,6 @@ int			ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_p
 	if ((pipe(pipe_fd[1 - shell->last_pipe]) == -1))
 		print_error_and_exit(shell, "pipe", -1 * ENFILE); // possible exit status
 
-	// dup2(pipe_fd[shell->last_pipe][0], pipe_fd[1 - shell->last_pipe][0]);
-	// dup2(pipe_fd[shell->last_pipe][1], pipe_fd[1 - shell->last_pipe][1]);
-	
 	shell->last_pipe = 1 - shell->last_pipe;
 
 	launch_exec(shell, node, pipe_fd, is_pipe);
