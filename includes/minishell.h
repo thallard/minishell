@@ -280,7 +280,7 @@ void	ft_remove_elem(t_env **ptr_back, t_env **ptr);
 t_env	*ft_get_var_env(t_shell *shell, char *name);
 void	ft_env_remove_if(t_env **begin_list, void *name_ref,
 		int (*cmp)());
-int		get_var_env(t_shell *shell, char *var_name, char **content);
+int			get_var_env(t_shell *shell, char *var_name, char **content, int unset);
 void	ft_sort_export_var(t_env *env);
 t_env	*ft_clone_export_env(t_env *lst);
 
@@ -320,7 +320,6 @@ int			skip_arg(t_shell *shell, char **str);
 */
 char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int ind);
 char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args, int ind);
-char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind);
 
 /*
 ** split_args.c

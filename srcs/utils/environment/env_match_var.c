@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 11:05:31 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 15:23:13 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*get_new_part(t_shell *shell, char *part)
 								!add_lst_to_free(shell, new_part)))
 			ft_exit_failure(shell, F_MALLOC, new_part);	
 	else
-		get_var_env(shell, part + 1, &new_part);
+		get_var_env(shell, part + 1, &new_part, 1);
 	return (new_part);	
 }
 

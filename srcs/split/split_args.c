@@ -6,11 +6,34 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 08:40:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 11:05:25 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 16:04:29 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind)
+{
+	char	*arg_part;
+	int		i;
+
+	i = 1;
+	while ((*str)[i] && (*str)[i] != '\'')
+		i++;
+	if (!(*str)[i])
+		ft_exit_split(shell, "Error : need a quote to finish the line.\n");
+	if (!(arg_part = malloc_lst(shell, i + 1)))
+		ft_exit_failure(shell, F_MALLOC, NULL);
+	i = 0;
+	(*str)++;
+	while (**str != '\'')
+		arg_part[i++] = *((*str)++);
+	arg_part[i] = 0;
+	(*str)++;
+	if (args)
+		add_var_env_status_simple_quote(shell, arg_part, args, ind);
+	return (arg_part);
+}
 
 static void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind)
 {

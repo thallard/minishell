@@ -101,7 +101,7 @@ static int	go_to_home(t_shell *shell)
 	int		res;
 
 	path = NULL;
-	if ((get_var_env(shell, "HOME", &path) == -1) || !path)
+	if ((get_var_env(shell, "HOME", &path, 1) == -1) || !path)
 		return (-1);
 	res = chdir(path);
 	return (get_correct_return(res));
@@ -115,10 +115,10 @@ static int	go_to_old_pwd(t_shell *shell)
 	t_env	*old_pwd;
 
 	path = NULL;
-	if ((get_var_env(shell, "OLDPWD", &path) == -1) || !path)
+	if ((get_var_env(shell, "OLDPWD", &path, 1) == -1) || !path)
 		return (print_oldpwd_error(shell, "cd"));
 	res = chdir(path);
-	if (!(pwd = ft_get_var_env(shell, "PWD")) ||
+	if (!(pwd = ft_get_var_env(shell, "PWD")) ||	// a verifier si tjs valide
 		!(old_pwd = ft_get_var_env(shell, "OLDPWD")))
 		return (FAILURE);			// a voir comment on le gere
 	ft_swap_env_content(pwd, old_pwd);
@@ -126,7 +126,7 @@ static int	go_to_old_pwd(t_shell *shell)
 	return (get_correct_return(res));
 }
 
-static int		replace_env_content_pwd(t_shell *shell, char *name, char *content, int hidden)
+static int		replace_env_content_pwd(t_shell *shell, char *name, char *content)
 {
 	t_env	*begin;
 
@@ -135,10 +135,12 @@ static int		replace_env_content_pwd(t_shell *shell, char *name, char *content, i
 	{
 		if (!ft_strncmp(begin->name, name, (ft_strlen(name))))
 		{
-			begin->hidden = hidden;
 			begin->content = content;
+			if (begin->hidden != UNSET && content)
+				begin->hidden = 0;
 			// free(begin->content);
-			ft_change_value_tab_env(shell, &shell->tab_env, name, content);		
+			if (!begin->hidden)
+				ft_change_value_tab_env(shell, &shell->tab_env, name, content);
 			return (SUCCESS);
 		}
 		begin = begin->next;
@@ -168,8 +170,10 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 		res = go_to_folder(shell, exec_args[1]);
 	if (res == -1)
 		return (print_error(shell, exec_args[1], 1));	// a voir
-	get_var_env(shell, "PWD", &old_path);
-	if (!(old_path = ft_strdup(old_path)) || !add_lst_to_free(shell, old_path))
+	get_var_env(shell, "PWD", &old_path, 0);
+
+	if (!(old_path = ft_strdup(old_path))
+		|| !add_lst_to_free(shell, old_path))
 		ft_exit_failure(shell, F_MALLOC, old_path);
 	if (!(cur_path = ft_calloc(1, 500)) || !add_lst_to_free(shell, cur_path))
 		ft_exit_failure(shell, F_MALLOC, cur_path);
@@ -186,8 +190,8 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 		getcwd(cur_path, 500);
 
 	// dprintf(1, "sortie de current path = %s\n", cur_path);
-	replace_env_content_pwd(shell, "OLDPWD", old_path, 0); // pb possible avec lst des ptrs
-	replace_env_content_pwd(shell, "PWD", cur_path, 0);
+	replace_env_content_pwd(shell, "OLDPWD", old_path); // pb possible avec lst des ptrs
+	replace_env_content_pwd(shell, "PWD", cur_path);
 
 // ft_print_env_var(shell->var_env);
 // dprintf(1, "\n\n");

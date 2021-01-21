@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 13:51:49 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 15:23:00 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*find_exec(t_shell *shell, t_tree *node)
 	if (is_builtin(node->args->args[0]) ||
 		is_exec_path(node->args->args[0]))
 		return (node->args->args[0]);
-	if (get_var_env(shell, "PATH", &paths) <= 0)
+	if (get_var_env(shell, "PATH", &paths, 1) <= 0)
 		ft_exit_failure(shell, NO_EXEC_PATH, NULL);
 	if(!(tab_paths = ft_split_exec_paths(paths, ':', shell)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
