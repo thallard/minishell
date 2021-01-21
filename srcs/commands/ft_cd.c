@@ -166,7 +166,7 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	else
 		res = go_to_folder(shell, exec_args[1]);
 	if (res == -1)
-		return (print_error(shell, exec_args[1]));	// a voir
+		return (print_error(shell, exec_args[1], 1));	// a voir
 	get_var_env(shell, "PWD", &old_path);
 	if (!(old_path = ft_strdup(old_path)) || !add_lst_to_free(shell, old_path))
 		ft_exit_failure(shell, F_MALLOC, old_path);

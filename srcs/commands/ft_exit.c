@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 13:16:07 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 09:23:09 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,45 @@
 
 static int	is_full_digit(char *arg)
 {
-	if (*arg == '-' && !ft_isdigit(*(++arg)))
+	while (*arg == ' ')	// aussi whitespaces ?
+		arg++;
+	if ((*arg == '-' || *arg == '+') && !ft_isdigit(*(++arg)))
 		return (0);
-	while (*arg)
-		if (!ft_isdigit(*(arg++)))
-			return (0);
+	while (*arg && ft_isdigit(*arg))
+		arg++;
+	while (*arg == ' ')	// aussi whitespaces ?
+		arg++;
 	if (!*arg)
 		return (1);
 	return (0);
 }
 
-void		ft_exit(t_shell *shell, char **exec_args, char **tab_env)
+int		ft_exit(t_shell *shell, char **exec_args, char **tab_env)
 {
 	(void)tab_env;
-	// free_all_ptr(shell);			// A REMETTRE
-	if (shell->lst_fd)
-		ft_lstfd_close_clear(&(shell->lst_fd));
+	// shell->exit = 0;
+	if (exec_args[1] && exec_args[2])
+	{
+		if (!is_full_digit(exec_args[1]))
+			return (print_exit_error(shell, exec_args[1],
+					": numeric argument required", 255));
+		if (exec_args[2])
+			return (print_exit_error(shell, "",
+					"too many arguments", 1));
+	}
 	if (exec_args[1])
 	{
-		if (exec_args[2])
-			shell->exit = 1;
-		else if (is_full_digit(exec_args[1]))
-		{
-			shell->exit = ft_atoi(exec_args[1]);
-			shell->exit = shell->exit % 256;
-		}
+		if (!is_full_digit(exec_args[1]))
+			print_exit_error(shell, exec_args[1],
+					": numeric argument required", 255);
 		else
-			shell->exit = 255;
+			shell->exit = ft_atoi(exec_args[1]) % 256;
 	}
-
-	// ft_printf(shell->std[1], "exit\n");	// a enlever pour les tests ?
+	ft_printf(STDERR_FILENO, "exit\n");
 	
+	if (shell->lst_fd)
+		ft_lstfd_close_clear(&(shell->lst_fd));
+	// free_all_ptr(shell);			// A REMETTRE
 	exit(shell->exit);
 }
 
@@ -81,5 +89,3 @@ void		ft_exit_failure(t_shell *shell, int int_failure, void *ptr)
 	
 	exit(shell->exit);
 }
-
-// ft_exit_failure(shell, F_MALLOC, NULL);

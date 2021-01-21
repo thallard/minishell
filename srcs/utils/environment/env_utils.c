@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:23:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 11:43:45 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 13:25:55 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ void	ft_print_env_var(t_env *var_end)
 
 void	ft_print_export_var(t_env *var_end)
 {
+
+dprintf(1, "p1 export\n");	//////////////////
+
 	while (var_end)
 	{ 
 		// if (var_end->hidden == 2)

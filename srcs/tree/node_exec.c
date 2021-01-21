@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 13:29:06 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 10:14:25 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,15 @@ int			launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 
 
 	ft_match_var_env(shell, node);
+	if (manage_redirection(shell, node->dir) == FAILURE)
+		return (SUCCESS); // a confirmer
+
+
+	if (!node->args->args[0])
+		return (SUCCESS);
+
 	if (!(node->exec_path = find_exec(shell, node)))
 		return (ft_cmd_not_found(shell, node->args->args[0]));	// valeur de retour a confirmer
-	manage_redirection(shell, node->dir);
 	if (is_builtin(node->args->args[0]))
 		exec_builtin(shell, node, pipe_fd, is_pipe);
 	else

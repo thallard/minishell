@@ -6,7 +6,11 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/01/21 13:24:33 by thallard         ###   ########lyon.fr   */
+=======
+/*   Updated: 2021/01/21 11:01:53 by bjacob           ###   ########lyon.fr   */
+>>>>>>> a3f89f7f98841be81ea7e8a0ab2a7753801b38f9
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +102,11 @@ int		replace_env_content(t_shell *shell, char *name, char *content, int hidden)
 	begin = shell->var_env;
 	while (begin)
 	{
-		if (!ft_strncmp(begin->name, name, (ft_strlen(name))))
+		if (!ft_strncmp(begin->name, name, (ft_strlen(name) + 1)))
 		{
+
+// dprintf(1, "p1 - %s\n", name);
+			
 			begin->hidden = hidden;
 			begin->content = content;
 			// free(begin->content);

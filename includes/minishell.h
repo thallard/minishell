@@ -129,11 +129,12 @@ typedef struct		s_shell
 */
 int		ft_cd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_echo(t_shell *shell, char **exec_args, int *tab_null);
+void	change_last_arg_env(t_shell *shell, char **exec_args);
 int		ft_env(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_unset(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_export(t_shell *shell, char **exec_args, char **tab_env);
-void	ft_exit(t_shell *shell, char **exec_args, char **tab_env);
+int		ft_exit(t_shell *shell, char **exec_args, char **tab_env);
 void	ft_exit_failure(t_shell *shell, int int_failure, void *ptr);
 
 /*
@@ -155,7 +156,7 @@ void	ft_ctrl_back(int sign);
 /*
 ** redirection.c
 */
-void		manage_redirection(t_shell *shell, t_dir *exec_dir);
+int		manage_redirection(t_shell *shell, t_dir *exec_dir);
 
 
 /*
@@ -208,7 +209,8 @@ void	ft_lstfd_close_clear(t_fd **lst);
 */
 void	print_header(int fd);
 void	print_error_and_exit(t_shell *shell, char *cmd, int int_failure);
-int		print_error(t_shell *shell, char *cmd);
+int		print_error(t_shell *shell, char *cmd, int exit_status);
+int		print_exit_error(t_shell *shell, char *arg, char *text, int exit_status);
 void	ft_exit_split(t_shell *shell, char *str);
 
 /*
