@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_fill.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:22:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 17:45:39 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 08:21:54 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,13 @@ static int	ft_fill_tab_env(t_shell *shell, char **envp)
 	}
 	shell->tab_env[i] = NULL;
 	if (!ft_get_var_env(shell, "OLDPWD"))
-		replace_env_content(shell, "OLDPWD", "", 0);
-// 	if (stat("env_file", &fd_status) == -1)
-// 		return (FAILURE);
-
-// // ft_printf(1, "p0\n");	//////////////////
+	{	
+		replace_env_content(shell, "OLDPWD", "", 1);	// 1 ? 0 ? 3 ?
+	}
 
 
-// 	fd = open("env_file", O_RDONLY);
-// 	read(fd, str_file, 10000);
-// 	if (!(shell->tab_env = ft_split_minishell(str_file, '\n', shell)))
-// 		return (FAILURE);
+
+	
 	return (SUCCESS);
 }
 
@@ -108,6 +104,6 @@ int			ft_fill_lst_env(t_shell *shell, char **envp)
 		if (new_lst->content)
 			new_lst->hidden = 0;
 		ft_env_add_back(&shell->var_env, new_lst);
-	}
+	}	
 	return (SUCCESS);
 }

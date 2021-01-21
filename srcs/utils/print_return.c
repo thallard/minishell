@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:45:02 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/18 16:32:37 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 09:07:55 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,17 @@ void	print_header(int fd)
 		ft_printf(fd, "minishell$ ");
 }
 
-int		print_error(t_shell *shell, char *cmd)
+int		print_error(t_shell *shell, char *cmd, int exit_status)
 {
 	ft_printf(STDERR_FILENO, "minishell: %s: %s\n", cmd, strerror(errno));
-	shell->exit = 1;	// a verifier
-	// exit (shell->exit);
+	shell->exit = exit_status;
+	return (SUCCESS);
+}
+
+int		print_exit_error(t_shell *shell, char *arg, char *text, int exit_status)
+{	
+	ft_printf(STDERR_FILENO, "minishell: exit: %s%s\n", arg, text);
+	shell->exit = exit_status;
 	return (SUCCESS);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:23:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/20 12:13:27 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 08:21:15 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,14 @@ void	ft_print_env_var(t_env *var_end)
 
 void	ft_print_export_var(t_env *var_end)
 {
+
+dprintf(1, "p1 export\n");	//////////////////
+
 	while (var_end)
 	{
+
+dprintf(1, "%s --> %d\n", var_end->name, var_end->hidden);	//////////////////
+		
 		if (var_end->hidden == 2)
 			ft_printf(1, "declare -x %s\n", var_end->name);
 		if (var_end->hidden == 1)

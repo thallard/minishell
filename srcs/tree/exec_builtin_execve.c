@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 14:19:23 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 08:58:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ static int	ft_exec(t_shell *shell, char *exec_path, t_tree *node)
 		return (ft_env(shell, exec_args, shell->tab_env));
 	if (!ft_strncmp(exec_path, "exit", 5))
 		ft_exit(shell, exec_args, shell->tab_env);
-	return (execve(exec_path, exec_args, shell->tab_env));
+	else
+		return (execve(exec_path, exec_args, shell->tab_env));
+	return (SUCCESS);
 }
 
 static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
