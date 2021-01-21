@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 16:08:51 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 16:14:13 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 		j = -1;
 		if (ft_isdigit(arg[i][0]) || arg[i][0] == '-' || arg[i][0] == '=')
 			return (FAILURE);
-		dprintf(1, "oui\n");
+		// dprintf(1, "oui\n");
 		while (arg[i][++j] && arg[i][j] != '=' && arg[i][j] != '+')
 			if (!char_not_valid(arg[i][j]))
 				new_lst->name[j] = arg[i][j];

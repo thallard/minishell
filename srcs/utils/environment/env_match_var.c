@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 15:23:13 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 17:12:44 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@ static char	*get_new_part(t_shell *shell, char *part)
 	if (ft_isdigit(part[1]) && ((!(new_part = ft_strdup(""))) ||
 								!add_lst_to_free(shell, new_part)))
 			ft_exit_failure(shell, F_MALLOC, new_part);
-	else if (part[1] == '?' && ((!(new_part = ft_itoa(shell->exit))) ||
+	if (part[1] == '?' && ((!(new_part = ft_itoa(shell->exit))) ||
 								!add_lst_to_free(shell, new_part)))
-			ft_exit_failure(shell, F_MALLOC, new_part);	
-	else
+			ft_exit_failure(shell, F_MALLOC, new_part);
+	if (part[1] == '\\' && ((!(new_part = ft_strdup("$"))) ||
+								!add_lst_to_free(shell, new_part)))
+			ft_exit_failure(shell, F_MALLOC, new_part);
+	if (!ft_isdigit(part[1]) && part[1] != '?' && part[1] != '\\')
 		get_var_env(shell, part + 1, &new_part, 1);
 	return (new_part);	
 }
@@ -111,7 +114,6 @@ void		ft_match_var_env(t_shell *shell, t_tree *node)
 				node->args->null[i] = 0;
 		}
 	}
-
 	i = -1;
 	while (node->dir[++i].file)
 	{

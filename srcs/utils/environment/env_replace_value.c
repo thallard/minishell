@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 16:01:15 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 16:40:57 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int		replace_env_content(t_shell *shell, char *name, char *content, int hidden)
 	{
 		if (!ft_strncmp(begin->name, name, (ft_strlen(name) + 1)))
 		{
-// dprintf(1, "p1 - %s\n", name);
 			if (hidden != NOT_PRINT)
 			{
 				begin->hidden = hidden;

@@ -6,13 +6,13 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:04:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 09:31:52 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 16:26:32 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	add_var_env_status_normal(t_shell *shell, char *part, t_dir *dir, int ind)
+static void	add_var_env_status_normal_dir(t_shell *shell, char *part, t_dir *dir, int ind)
 {
 	int	len;
 
@@ -39,7 +39,7 @@ static void	add_var_env_status_normal(t_shell *shell, char *part, t_dir *dir, in
 	}
 }
 
-static void	add_var_env_status_simple_quote(t_shell *shell, char *part, t_dir *dir, int ind)
+static void	add_var_env_status_simple_quote_dir(t_shell *shell, char *part, t_dir *dir, int ind)
 {
 	while (*part)
 	{
@@ -78,7 +78,7 @@ static char	*create_new_dir_part_normal(t_shell *shell, char **str, t_dir *dir, 
 		dir_part[i++] = *((*str)++);
 	}
 	dir_part[i] = 0;
-	add_var_env_status_normal(shell, dir_part, dir, ind);
+	add_var_env_status_normal_dir(shell, dir_part, dir, ind);
 	return (dir_part);
 }
 
@@ -106,7 +106,7 @@ static char	*create_new_dir_part_double_quote(t_shell *shell, char **str, t_dir 
 	}
 	dir_part[i] = 0;
 	(*str)++;
-	add_var_env_status_normal(shell, dir_part, dir, ind);
+	add_var_env_status_normal_dir(shell, dir_part, dir, ind);
 	return (dir_part);
 }
 
@@ -128,7 +128,7 @@ static char	*create_new_dir_part_simple_quote(t_shell *shell, char **str, t_dir 
 		dir_part[i++] = *((*str)++);
 	dir_part[i] = 0;
 	(*str)++;
-	add_var_env_status_simple_quote(shell, dir_part, dir, ind);
+	add_var_env_status_simple_quote_dir(shell, dir_part, dir, ind);
 	return (dir_part);
 }
 

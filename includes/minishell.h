@@ -320,12 +320,15 @@ int			skip_arg(t_shell *shell, char **str);
 /*
 ** split_args_utils_.c
 */
+void	add_var_env_status_normal(t_shell *shell, char *part, t_args *args, int ind);
+void	add_var_env_status_simple_quote(t_shell *shell, char *part, t_args *args, int ind);
 char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int ind);
 char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args, int ind);
 
 /*
 ** split_args.c
 */
+char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind);
 t_args		*split_arguments(t_shell *shell, char *str);
 
 /*

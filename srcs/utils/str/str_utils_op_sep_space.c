@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:26:03 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/20 10:21:29 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 16:39:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ static void	skip_quotes_int(t_shell *shell, char *str, int *len)
 
 	c = str[(*len)++];
 	while (str[*len] && str[*len] != c)
+	{
+		if (str[*len] == '\\' && str[*len + 1])
+			(*len)++;
 		(*len)++;
+	}
 	if (!str[*len])
 		ft_exit_split(shell, "Error : need a quote to finish the line.\n");
 }

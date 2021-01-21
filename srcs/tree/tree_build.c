@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 10:23:46 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 16:40:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 
 	// if (!(args = ft_split_args(shell, shell->op)))
 	// 	ft_exit_failure(shell, F_MALLOC, NULL);
+	
 	args = split_arguments(shell, shell->op);	// a proteger
 
 	// if (!(dir = ft_split_redirection(shell, shell->op)))
@@ -67,6 +68,7 @@ static int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 
 	// if (!(args = ft_split_args(shell, shell->sep)))
 	// 	ft_exit_failure(shell, F_MALLOC, NULL);
+
 	args = split_arguments(shell, shell->sep);	// a proteger
 
 	if (!((*t_current)->right = tree_create_node(shell, args, NULL)))
@@ -110,7 +112,6 @@ int		create_main_tree(t_shell *shell, char *input)
 	// 	ft_exit_failure(shell, F_MALLOC, NULL);
 
 	root = split_arguments(shell, "ROOT");
-
 	if (!(shell->root = tree_create_node(shell, root, NULL)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	t_current = shell->root;

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:48:28 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 16:09:35 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 16:14:49 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		ft_set_shlvl(t_shell *shell)
 		{
 			lvl = ft_atoi(content);
 			content = ft_itoa(++lvl);
-			dprintf(1, "content = %s\n", content);
+			// dprintf(1, "content = %s\n", content);
 			replace_env_content(shell, "SHLVL", content, TO_PRINT);
 			return (SUCCESS);
 		}

@@ -6,13 +6,13 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 08:40:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 16:04:29 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 16:41:31 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind)
+char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind)
 {
 	char	*arg_part;
 	int		i;
@@ -58,16 +58,14 @@ static void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind)
 }
 
 static int	add_new_arg(t_shell *shell, t_args *args, char **str, int *ind)
-{
+{	
 	if (**str == '<' || **str == '>' ||
 		(**str == '2' &&  (*str)[1] == '>' && (*str)++))
 		skip_redir(shell, str);
 	else
 		create_new_arg(shell, str, args, ind);
-
 	while (**str == ' ')
 		(*str)++;
-	
 	return (0);
 }
 
@@ -100,8 +98,6 @@ t_args	*split_arguments(t_shell *shell, char *str)
 {
 	t_args	*args;
 	int		ind;
-
-// dprintf(1, "begin split args - str = |%s|\n", str);
 
 	if (!str)
 		return (NULL);
