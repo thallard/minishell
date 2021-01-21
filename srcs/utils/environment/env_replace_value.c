@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 11:01:53 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 11:45:01 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,9 @@ int		replace_env_content(t_shell *shell, char *name, char *content, int hidden)
 	{
 		if (!ft_strncmp(begin->name, name, (ft_strlen(name) + 1)))
 		{
-
-// dprintf(1, "p1 - %s\n", name);
-			
 			begin->hidden = hidden;
 			begin->content = content;
-
-// dprintf(1, "name = %s\ncontent = %s\n", name, begin->content);
-
+			
 			// free(begin->content);
 			ft_change_value_tab_env(shell, &shell->tab_env, name, content);		
 			return (SUCCESS);
