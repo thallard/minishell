@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/20 15:37:22 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 13:24:33 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *
 	char	*var;
 	char	**tab_temp;
 
+	
 	success = 0;
 	i = -1;
 	if (!(var = ft_strdup(name)) || !add_lst_to_free(shell, var))
@@ -82,7 +83,6 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *
 int		ft_add_new_env(t_shell *shell, char *name, char *content, int hidden)
 {
 	t_env	*new;
-
 	new = ft_prepare_lst_env(shell, content, name);
 	new->name = ft_memmove(new->name, name, ft_strlen(name) + 1);
 	new->content = ft_memmove(new->content, content, ft_strlen(content) + 1);
@@ -102,9 +102,8 @@ int		replace_env_content(t_shell *shell, char *name, char *content, int hidden)
 		{
 			begin->hidden = hidden;
 			begin->content = content;
-
 			// free(begin->content);
-			ft_change_value_tab_env(shell, &shell->tab_env, name, content);		
+			ft_change_value_tab_env(shell, &shell->tab_env, name, content);
 			return (SUCCESS);
 		}
 		begin = begin->next;

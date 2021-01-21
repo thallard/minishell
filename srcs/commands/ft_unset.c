@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 16:42:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/20 13:54:39 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 11:57:49 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int			ft_unset(t_shell *shell, char **exec_args, char **tab_env)
 		// tab = ft_split_minishell_args(exec_args[1], ' ', shell);
 		while (exec_args[++row])
 			if ((ft_search_wrong_character(exec_args[row])) == 1)
-				ft_env_remove_if(&shell->var_env, exec_args[row], &ft_strncmp);
+				// ft_env_remove_if(&shell->var_env, exec_args[row], &ft_strncmp);
+				ft_unset_hide_env(&shell->var_env, exec_args[row]);
 			else
 				print_unset_error(shell, exec_args[row]);	// return ou non ?
 	}

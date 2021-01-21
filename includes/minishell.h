@@ -41,6 +41,9 @@
 # define PARENT 1
 # define CHILD 0
 
+# define TO_PRINT 0
+# define NOT_PRINT 1
+
 
 # define PRINT_HEADER 0
 
@@ -261,6 +264,11 @@ void	ft_env_remove_if(t_env **begin_list, void *name_ref,
 int		get_var_env(t_shell *shell, char *var_name, char **content);
 void	ft_sort_export_var(t_env *env);
 t_env	*ft_clone_export_env(t_env *lst);
+
+/*
+** env_unset_utils.c
+*/
+int		ft_unset_hide_env(t_env **env, char *name);
 
 /*
 **--------------------

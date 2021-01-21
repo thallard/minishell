@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/20 17:45:27 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 13:08:03 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_env	*ft_prepare_lst_env(t_shell *shell, char *content, char *name)
 		ft_exit_failure(shell, F_MALLOC, new_lst->name);
 	if (!(new_lst->content = malloc_lst(shell, sizeof(char) * size + 100)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
+	new_lst->hidden = TO_PRINT;
 	return (new_lst);
 }
 
@@ -55,12 +56,11 @@ int		ft_add_value_to_existent_env(t_shell *shell, t_env *env, char *str)
 		new_content = ft_strjoin_free(old_content, new_content, 0, 0);
 			// dprintf(1, "debug du content = %s\n", new_content);
 		replace_env_content(shell, new_name, new_content, env->hidden);
-		
 	}
 	else
 	{
-			// dprintf(1, "debug du content2 = %s\n", new_content);
-			replace_env_content(shell, new_name, new_content, env->hidden);
+		// dprintf(1, "debug du content2 = %s\n", new_content);
+		replace_env_content(shell, new_name, new_content, env->hidden);
 	}
 	
 		
@@ -72,30 +72,21 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 	int		k;
 
 	k = 0;
-	if (j <= ft_strlen(str) && ((char *)env->content)[0] != '\0' && env->hidden != 2)
+	if (j <= ft_strlen(str) && ((char *)env->content)[0] != '\0' && env->hidden != 1)
 		{
 			if (str[j] == ' ')
 				j = ft_strlen(str) + 1;
 			while (str[j])
 				((char *)env->content)[k++] = str[j++];
 			((char *)env->content)[k] = '\0';
-			//dprintf(1, "j'entre ici2\n");
-			env->hidden = 0;
+			env->hidden = TO_PRINT;
 			replace_env_content(shell, env->name, env->content,  env->hidden);
 		}
-		else if (env->hidden != 2)
+		else
 		{
-	
-			env->hidden = 1;
+			env->hidden = NOT_PRINT;
 			((char *)env->content)[k] = '\0';
-			
-			replace_env_content(shell, env->name, env->content, env->hidden);
-		}
-		else if (env->hidden == 2)
-		{
-			((char *)env->content)[k] = '\0';
-			//	dprintf(1, "j'entre ici4\n");
-			replace_env_content(shell, env->name, env->content, env->hidden);
+			replace_env_content(shell, env->name, env->content, 1);
 		}
 	return (SUCCESS);
 }
@@ -119,26 +110,26 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 		{
 			if (arg[i][j] != '\'' && arg[i][j] != '\"' && arg[i][j] != ' '
 				&& arg[i][j] != '\'' && arg[i][j] != '&' &&
-				arg[i][j] != '|' && arg[i][j] != ';')
+				arg[i][j] != '|' && arg[i][j] != ';' && arg[i][j] != '\\' &&
+				arg[i][j] != '$')
 				new_lst->name[j] = arg[i][j];
 			else
 				return (FAILURE);
 		}
-			
 	
 		if (arg[i][j])
 			if (arg[i][j] != '=' || (!ft_isalnum(arg[i][j - 1]) && arg[i][j - 1] != '+' && arg[i][j]))
 				return (FAILURE);
 		if (arg[i][j] == '=' && arg[i][j - 1] == '+' && j && !(add = 1))
 			arg[i][j++] = '\0';
+	
 		if (arg[i][j] == '=' && !arg[i][j + 1])
-			new_lst->hidden = 2;
+			new_lst->hidden = TO_PRINT;
 		else if (arg[i][j] != '=' && !arg[i][j])
-			new_lst->hidden = 1;
-		else
-			new_lst->hidden = 0;
+			new_lst->hidden = NOT_PRINT;
+		// else
+		// 	new_lst->hidden = 0;
 			new_lst->name[j++] = '\0';
-		// dprintf(1, "debug du name = %s\n", new_lst->name);
 		if (add)
 			return (ft_add_value_to_existent_env(shell, new_lst, &arg[i][j]));
 		
