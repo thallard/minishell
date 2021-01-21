@@ -43,6 +43,7 @@
 
 # define TO_PRINT 0
 # define NOT_PRINT 1
+# define UNSET 2
 
 
 # define PRINT_HEADER 0

@@ -6,11 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/01/21 13:24:33 by thallard         ###   ########lyon.fr   */
-=======
-/*   Updated: 2021/01/21 11:01:53 by bjacob           ###   ########lyon.fr   */
->>>>>>> a3f89f7f98841be81ea7e8a0ab2a7753801b38f9
+/*   Updated: 2021/01/21 14:33:01 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +59,13 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *
 	i = -1;
 	if (!(var = ft_strdup(name)) || !add_lst_to_free(shell, var))
 		ft_exit_failure(shell, F_MALLOC, var);
-	if (!(var = ft_strjoin_free(var, "=", 1, 0)))
-		ft_exit_failure(shell, F_MALLOC, NULL);
+		if (!(var = ft_strjoin_free(var, "=", 1, 0)))
+			ft_exit_failure(shell, F_MALLOC, NULL);
 	while ((*tab_env)[++i])
 		if (!ft_strncmp((*tab_env)[i], var, ft_strlen(var)) && !success++ &&
 			!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
 			ft_exit_failure(shell, F_MALLOC, NULL);
-	if (!success)
+	if (!success && content[0])
 	{
 		tab_temp = *tab_env;
 		if (!(*tab_env = malloc_lst(shell, sizeof(char *) * (i + 2))))
@@ -77,8 +73,9 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *
 		i = -1;
 		while (tab_temp[++i])
 			(*tab_env)[i] = tab_temp[i];
-		if (!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
-			ft_exit_failure(shell, F_MALLOC, NULL);
+		
+			if (!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
+				ft_exit_failure(shell, F_MALLOC, NULL);
 		(*tab_env)[++i] = NULL;
 	}
 	return (1);
@@ -117,5 +114,6 @@ int		replace_env_content(t_shell *shell, char *name, char *content, int hidden)
 	}
 	ft_add_new_env(shell, name, content, hidden);
 	ft_change_value_tab_env(shell, &shell->tab_env, name, content);
+	
 	return (SUCCESS);
 }

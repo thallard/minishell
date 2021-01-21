@@ -6,11 +6,17 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 16:42:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 11:57:49 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 13:42:41 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	is_not_valid(char c)
+{
+	return (c == ';' || c == '\\' || c == '\'' || c == '&' || c == '!' ||
+			c == '\"' || c == '$' || c == '@' || c == '|');
+}
 
 static int	ft_search_wrong_character(char *str)
 {
@@ -22,8 +28,8 @@ static int	ft_search_wrong_character(char *str)
 	while (str[++i])
 		if (ft_isalpha(str[i]))
 			alpha = 1;
-		else if ((str[i] == '-') ||
-				(alpha == 0 && ft_isdigit(str[i])))
+		else if ((str[i] == '-') || is_not_valid(str[i]) ||
+				(!alpha && ft_isdigit(str[i])))
 			return (0);
 	return (1);
 }
@@ -48,7 +54,12 @@ int			ft_unset(t_shell *shell, char **exec_args, char **tab_env)
 				// ft_env_remove_if(&shell->var_env, exec_args[row], &ft_strncmp);
 				ft_unset_hide_env(&shell->var_env, exec_args[row]);
 			else
-				print_unset_error(shell, exec_args[row]);	// return ou non ?
+			{
+				shell->exit = 1;
+				print_unset_error(shell, exec_args[row]);		// return ou non 
+				return (SUCCESS);
+			}
+			
 	}
 	shell->exit = 0;
 	return (SUCCESS);

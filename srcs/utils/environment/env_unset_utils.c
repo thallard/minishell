@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:48:28 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 13:05:37 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 14:35:06 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_unset_hide_env(t_env **env, char *name)
 		if (!ft_strncmp(begin->name, name, ft_strlen(name) + 1))
 		{
 			begin->content = "";
-			begin->hidden = 2;
+			begin->hidden = UNSET;
 			return (SUCCESS);
 		}
 		begin = begin->next;

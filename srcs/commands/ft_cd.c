@@ -35,7 +35,7 @@ char	*path;
 	return (path);
 }
 
-static int	go_to_upper_folder(void)
+static int	go_to_upper_folder(t_shell *shell)
 {
 	char	*current_path;
 	char	*path_temp;
@@ -43,8 +43,9 @@ static int	go_to_upper_folder(void)
 	int		indice;
 	int		res;
 
-	if (!(current_path = ft_calloc(1, 500)))
-		return (-1);
+	if (!(current_path = ft_calloc(1, 500)) ||
+		!add_lst_to_free(shell, current_path))
+		ft_exit_failure(shell, F_MALLOC, current_path);
 	upper_path = NULL;
 	path_temp = current_path;
 	getcwd(current_path, 1000);
@@ -160,7 +161,7 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	if (!exec_args[1] || !ft_strncmp(exec_args[1], "~", 2))
 		res = go_to_home(shell);
 	else if (!ft_strncmp(exec_args[1], "..", 3))
-		res = go_to_upper_folder();
+		res = go_to_upper_folder(shell);
 	else if (!ft_strncmp(exec_args[1], "-", 2))
 		return (go_to_old_pwd(shell));
 	else

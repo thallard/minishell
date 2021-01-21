@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/01/21 13:08:03 by thallard         ###   ########lyon.fr   */
-=======
-/*   Updated: 2021/01/21 10:55:50 by bjacob           ###   ########lyon.fr   */
->>>>>>> a3f89f7f98841be81ea7e8a0ab2a7753801b38f9
+/*   Updated: 2021/01/21 14:34:08 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +120,8 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 		if (arg[i][j])
 			if (arg[i][j] != '=' || (!ft_isalnum(arg[i][j - 1]) && arg[i][j - 1] != '+' && arg[i][j]))
 				return (FAILURE);
-		if (arg[i][j] == '=' && arg[i][j - 1] == '+' && j && !(add = 1))
-			arg[i][j++] = '\0';
+		if (arg[i][j] == '+' && arg[i][j + 1] == '=' && j && !(add = 1))
+			arg[i][j] = '\0';
 	
 		if (arg[i][j] == '=' && !arg[i][j + 1])
 			new_lst->hidden = TO_PRINT;
@@ -172,6 +168,7 @@ int		ft_export(t_shell *shell, char **exec_args, char **tab_env)
 		ft_sort_export_var(sorted_env);
 		ft_print_export_var(sorted_env);
 		ft_free_export_env(&sorted_env);
+	
 	}
 	return (SUCCESS);
 }

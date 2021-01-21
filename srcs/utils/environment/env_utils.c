@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:23:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 13:25:55 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 14:31:26 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void	ft_env_add_back(t_env **alst, t_env *new)
 
 void	ft_print_env_var(t_env *var_end)
 {
+	
 	while (var_end)
 	{
+		// dprintf(1, "nom et hidden = %s %d\n", var_end->name, var_end->hidden);
 		// if (var_end->hidden == 2)
 		// 	ft_printf(1, "%s=\n", var_end->name);
 		if (var_end->hidden == TO_PRINT)
@@ -51,7 +53,6 @@ void	ft_print_env_var(t_env *var_end)
 void	ft_print_export_var(t_env *var_end)
 {
 
-dprintf(1, "p1 export\n");	//////////////////
 
 	while (var_end)
 	{ 
