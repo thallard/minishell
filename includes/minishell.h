@@ -271,7 +271,9 @@ t_env	*ft_clone_export_env(t_env *lst);
 /*
 ** env_unset_utils.c
 */
-int		ft_unset_hide_env(t_env **env, char *name);
+int		ft_unset_hide_env(t_shell *shell, t_env **env, char *name);
+int		char_not_valid(char c);
+int		ft_set_shlvl(t_shell *shell);
 
 /*
 **--------------------

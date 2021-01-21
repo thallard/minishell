@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:22:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 14:31:16 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 15:56:53 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static int	ft_fill_tab_env(t_shell *shell, char **envp)
 	int	i;
 
 	i = 0;
+	
 	while (envp[i])
 		i++;
 	if (!(shell->tab_env = malloc_lst(shell, sizeof(char *) * (i + 2))))
@@ -71,11 +72,6 @@ static int	ft_fill_tab_env(t_shell *shell, char **envp)
 		shell->tab_env[i] = envp[i];
 	}
 	shell->tab_env[i] = NULL;
-
-	
-
-
-	
 	return (SUCCESS);
 }
 
@@ -110,6 +106,8 @@ int			ft_fill_lst_env(t_shell *shell, char **envp)
 		ft_env_add_back(&shell->var_env, new_lst);
 	}	
 	if (!ft_get_var_env(shell, "OLDPWD"))
-		replace_env_content(shell, "OLDPWD", "", NOT_PRINT);	// 1 ? 0 ? 3 ?
+		replace_env_content(shell, "OLDPWD", "", NOT_PRINT);
+	ft_set_shlvl(shell); // mettre une erreur ici
+
 	return (SUCCESS);
 }

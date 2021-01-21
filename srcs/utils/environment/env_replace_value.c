@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 14:33:01 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 15:32:08 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,14 @@ int		replace_env_content(t_shell *shell, char *name, char *content, int hidden)
 	{
 		if (!ft_strncmp(begin->name, name, (ft_strlen(name) + 1)))
 		{
-
 // dprintf(1, "p1 - %s\n", name);
-			
-			begin->hidden = hidden;
-			begin->content = content;
-			// free(begin->content);
-			ft_change_value_tab_env(shell, &shell->tab_env, name, content);
+			if (hidden != NOT_PRINT)
+			{
+				begin->hidden = hidden;
+				begin->content = content;
+				// free(begin->content);
+				ft_change_value_tab_env(shell, &shell->tab_env, name, content);
+			}
 			return (SUCCESS);
 		}
 		begin = begin->next;
