@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_fill.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:22:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 08:21:54 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 14:31:16 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_swap_env_all(t_env *a, t_env *b)
 {
 	char *lastName;
+	int		hidden;
 
 	lastName = a->name;
 	a->name = b->name;
@@ -23,6 +24,10 @@ void	ft_swap_env_all(t_env *a, t_env *b)
 	lastName = a->content;
 	a->content = b->content;
 	b->content = lastName;
+
+	hidden = a->hidden;
+	a->hidden = b->hidden;
+	b->hidden = hidden;
 }
 
 void	ft_swap_env_content(t_env *a, t_env *b)
@@ -56,21 +61,18 @@ static int	ft_fill_tab_env(t_shell *shell, char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	if (!(shell->tab_env = malloc_lst(shell, sizeof(char *) * (i + 2))))// pourquoi 100 000 ?
+	if (!(shell->tab_env = malloc_lst(shell, sizeof(char *) * (i + 2))))
 		ft_exit_failure(shell, F_MALLOC, shell->tab_env);
 	i = -1;
 	while (envp[++i])
 	{
-		if (!(shell->tab_env[i] = malloc_lst(shell, ft_strlen(envp[i]) + 100))) // + 100
+		if (!(shell->tab_env[i] = malloc_lst(shell, ft_strlen(envp[i]) + 100)))
 			ft_exit_failure(shell, F_MALLOC, NULL);
 		shell->tab_env[i] = envp[i];
 	}
 	shell->tab_env[i] = NULL;
-	if (!ft_get_var_env(shell, "OLDPWD"))
-	{	
-		replace_env_content(shell, "OLDPWD", "", 1);	// 1 ? 0 ? 3 ?
-	}
 
+	
 
 
 	
@@ -96,14 +98,18 @@ int			ft_fill_lst_env(t_shell *shell, char **envp)
 		new_lst->next = NULL;
 		while (shell->tab_env[i][++j] && shell->tab_env[i][j] != '=')
 			str[j] = shell->tab_env[i][j];
+		if (shell->tab_env[i][j] == '=')
+			new_lst->hidden = TO_PRINT;
+		else
+			new_lst->hidden = NOT_PRINT;
 		str[j] = '\0';
 		if (!(new_lst->name = ft_strdup(str)) ||
 			!(add_lst_to_free(shell, new_lst->name)))
 			ft_exit_failure(shell, F_MALLOC, new_lst->name);
 		new_lst->content = ft_fill_env_content(shell, &shell->tab_env[i][j + 1]);
-		if (new_lst->content)
-			new_lst->hidden = 0;
 		ft_env_add_back(&shell->var_env, new_lst);
 	}	
+	if (!ft_get_var_env(shell, "OLDPWD"))
+		replace_env_content(shell, "OLDPWD", "", NOT_PRINT);	// 1 ? 0 ? 3 ?
 	return (SUCCESS);
 }

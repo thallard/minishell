@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/21 14:45:00 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/21 14:45:00 by bjacob           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -40,6 +52,10 @@
 
 # define PARENT 1
 # define CHILD 0
+
+# define TO_PRINT 0
+# define NOT_PRINT 1
+# define UNSET 2
 
 
 # define PRINT_HEADER 0
@@ -272,6 +288,11 @@ t_env	*ft_clone_export_env(t_env *lst);
 ** env_utils2.c
 */
 void	change_last_arg_env(t_shell *shell, t_tree *node);
+
+/*
+** env_unset_utils.c
+*/
+int		ft_unset_hide_env(t_env **env, char *name);
 
 /*
 **--------------------

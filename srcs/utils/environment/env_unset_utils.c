@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   env_unset_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/04 13:21:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 14:34:09 by thallard         ###   ########lyon.fr   */
+/*   Created: 2021/01/21 11:48:28 by thallard          #+#    #+#             */
+/*   Updated: 2021/01/21 14:35:06 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
-int		ft_env(t_shell *shell, char **exec_args, char **tab_env)
-{	
-	(void)exec_args;
-	(void)tab_env;
-	ft_print_env_var(shell->var_env);
+int		ft_unset_hide_env(t_env **env, char *name)
+{
+	t_env	*begin;
 
-	return (SUCCESS);
+	begin = *env;
+	while (begin)
+	{
+		if (!ft_strncmp(begin->name, name, ft_strlen(name) + 1))
+		{
+			begin->content = "";
+			begin->hidden = UNSET;
+			return (SUCCESS);
+		}
+		begin = begin->next;
+	}
+	return (FAILURE);
 }
