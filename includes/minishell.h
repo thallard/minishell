@@ -126,6 +126,7 @@ typedef struct		s_shell
 */
 int		ft_cd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_echo(t_shell *shell, char **exec_args, int *tab_null);
+void	change_last_arg_env(t_shell *shell, char **exec_args);
 int		ft_env(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_unset(t_shell *shell, char **exec_args, char **tab_env);
@@ -152,7 +153,7 @@ void	ft_ctrl_back(int sign);
 /*
 ** redirection.c
 */
-void		manage_redirection(t_shell *shell, t_dir *exec_dir);
+int		manage_redirection(t_shell *shell, t_dir *exec_dir);
 
 
 /*

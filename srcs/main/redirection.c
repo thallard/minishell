@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:36:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 09:03:20 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 10:18:13 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,22 @@ static t_fd	*ft_lstfdadd_back(t_shell *shell, int fd)
 	return (shell->lst_fd);
 }
 
-static void	ft_dir_error(t_shell *shell)
+static int	ft_dir_error(t_shell *shell)
 {
 	int fd;
-	
+
 	if (shell->dir_err)
 	{
 		if ((fd = open(shell->dir_err,
 				O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1) // bon args ?
-		print_error_and_exit(shell, "fd", -1 * EMFILE); // possible exit status
+		return (print_error(shell, "fd", 1));
 		if (dup2(fd, STDERR_FILENO) == -1)
-			print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+			return (print_error(shell, "dup", 1));
 	}
+	return (SUCCESS);
 }
 
-void		manage_redirection(t_shell *shell, t_dir *exec_dir)
+int		manage_redirection(t_shell *shell, t_dir *exec_dir)
 {
 	int 	i;
 	int		fd;
@@ -79,17 +80,18 @@ void		manage_redirection(t_shell *shell, t_dir *exec_dir)
 				O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1) ||
 				(exec_dir[i].dir == 2 && (fd = open(exec_dir[i].file,
 				O_APPEND | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1))
-				print_error_and_exit(shell, "fd", -1 * EMFILE); // possible exit status
+				return (print_error(shell, "fd", 1));
 			if (!(ft_lstfdadd_back(shell, fd)) || dup2(fd, 1) == -1)
-				print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+				return (print_error(shell, "dup", 1));
 		}
 		if (exec_dir[i].dir == -1)
 		{
 			if ((fd = open(exec_dir[i].file, O_RDONLY, 0666)) == -1)
-				print_error_and_exit(shell, "fd", -1 * EMFILE); // possible exit status
+				return (print_error(shell, exec_dir[i].file, 1));
 			if (dup2(fd, STDIN_FILENO) == -1)
-				print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+				return (print_error(shell, "dup", 1));
 		}
 	}
 	ft_dir_error(shell);
+	return (SUCCESS);
 }

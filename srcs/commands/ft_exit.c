@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 09:07:19 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 09:23:09 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	is_full_digit(char *arg)
 int		ft_exit(t_shell *shell, char **exec_args, char **tab_env)
 {
 	(void)tab_env;
-	shell->exit = 0;
+	// shell->exit = 0;
 	if (exec_args[1] && exec_args[2])
 	{
 		if (!is_full_digit(exec_args[1]))

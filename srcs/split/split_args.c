@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 08:40:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 10:22:00 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 11:05:25 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind)
 	}
 	(*ind)++;
 }
-
 
 static int	add_new_arg(t_shell *shell, t_args *args, char **str, int *ind)
 {
@@ -89,6 +88,5 @@ t_args	*split_arguments(t_shell *shell, char *str)
 	ind = 0;
 	while (*str)
 		add_new_arg(shell, args, &str, &ind);
-
 	return (args);
 }

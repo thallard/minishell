@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:45:02 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 09:07:55 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 10:10:08 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		print_error(t_shell *shell, char *cmd, int exit_status)
 {
 	ft_printf(STDERR_FILENO, "minishell: %s: %s\n", cmd, strerror(errno));
 	shell->exit = exit_status;
-	return (SUCCESS);
+	return (FAILURE);
 }
 
 int		print_exit_error(t_shell *shell, char *arg, char *text, int exit_status)

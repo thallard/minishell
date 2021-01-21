@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/19 15:02:15 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 10:01:14 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,21 @@ int			is_builtin(char *exec)
 
 static int	read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int pipe_in)
 {
-	int	res;
 	int	is_end;
 
 	is_end = 0;
 	if (!strncmp((*t_current)->args->args[0], "|", 2))
 		pipe_in = PIPE_IN;
 	*t_current = (*t_current)->right;
+///////
+	if (!(*t_current)->args->args[0] && 
+		ft_exec_and_pipe(shell, *t_current, pipe_fd, pipe_in) == SUCCESS)
+		return (is_end);
+///////	
 	if (!strncmp((*t_current)->args->args[0], ";", 2))
 	{
 		if ((*t_current)->left)
-			res = ft_exec_and_pipe(shell, (*t_current)->left, pipe_fd, pipe_in); // a traiter
+			ft_exec_and_pipe(shell, (*t_current)->left, pipe_fd, pipe_in); // a traiter
 		is_end = ((*t_current)->right != NULL);
 	}
 	else if (!strncmp((*t_current)->args->args[0], "|", 2))
@@ -45,14 +49,14 @@ static int	read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int 
 		if (pipe(pipe_fd[1 - shell->last_pipe]) == -1)
 			print_error_and_exit(shell, "pipe", -1 * ENFILE); // possible exit status
 		shell->last_pipe = 1 - shell->last_pipe;
-		res = launch_exec(shell, (*t_current)->left, pipe_fd, PIPE_OUT + pipe_in);
+		launch_exec(shell, (*t_current)->left, pipe_fd, PIPE_OUT + pipe_in);
 // verif du fd entre les deux ?
 		if ((is_end = ((*t_current)->right != NULL)))
 			return (read_node(shell, t_current, pipe_fd, 0));
 		return (PIPE_STDIN);						// a gerer ?
 	}
 	else
-		res = ft_exec_and_pipe(shell, *t_current, pipe_fd, pipe_in);
+		ft_exec_and_pipe(shell, *t_current, pipe_fd, pipe_in);
 	return (is_end);
 }
 

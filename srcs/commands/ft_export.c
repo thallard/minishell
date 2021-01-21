@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/20 17:45:27 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 10:55:50 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int		ft_add_value_to_existent_env(t_shell *shell, t_env *env, char *str)
 		new_content = ft_strjoin_free(old_content, new_content, 0, 0);
 			// dprintf(1, "debug du content = %s\n", new_content);
 		replace_env_content(shell, new_name, new_content, env->hidden);
-		
 	}
 	else
 	{

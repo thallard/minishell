@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 08:58:52 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 10:53:18 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 static int	ft_exec(t_shell *shell, char *exec_path, t_tree *node)
 {
 	char	**exec_args;
-	int		*tab_null;
 
 	exec_args = node->args->args;
-	tab_null = node->args->null;
 	if (!ft_strncmp(exec_path, "echo", 5))
-		return (ft_echo(shell, exec_args, tab_null));
+		return (ft_echo(shell, exec_args, node->args->null));
+	change_last_arg_env(shell, exec_args);
 	if (!ft_strncmp(exec_path, "cd", 3))
 		return (ft_cd(shell, exec_args, shell->tab_env));	// retour a gerer
 	if (!ft_strncmp(exec_path, "pwd", 4))
