@@ -292,7 +292,9 @@ void	change_last_arg_env(t_shell *shell, t_tree *node);
 /*
 ** env_unset_utils.c
 */
-int		ft_unset_hide_env(t_env **env, char *name);
+int		ft_unset_hide_env(t_shell *shell, t_env **env, char *name);
+int		char_not_valid(char c);
+int		ft_set_shlvl(t_shell *shell);
 
 /*
 **--------------------

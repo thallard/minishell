@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 15:22:37 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/21 16:08:51 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,20 +106,15 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 		j = -1;
 		if (ft_isdigit(arg[i][0]) || arg[i][0] == '-' || arg[i][0] == '=')
 			return (FAILURE);
+		dprintf(1, "oui\n");
 		while (arg[i][++j] && arg[i][j] != '=' && arg[i][j] != '+')
-		{
-			if (arg[i][j] != '\'' && arg[i][j] != '\"' && arg[i][j] != ' '
-				&& arg[i][j] != '\'' && arg[i][j] != '&' &&
-				arg[i][j] != '|' && arg[i][j] != ';' && arg[i][j] != '\\' &&
-				arg[i][j] != '$')
+			if (!char_not_valid(arg[i][j]))
 				new_lst->name[j] = arg[i][j];
 			else
 				return (FAILURE);
-		}
-	
-		if (arg[i][j])
-			if (arg[i][j] != '=' || (!ft_isalnum(arg[i][j - 1]) && arg[i][j - 1] != '+' && arg[i][j]))
-				return (FAILURE);
+		// if (arg[i][j])
+		// 	if (arg[i][j] != '=' || (!ft_isalnum(arg[i][j - 1]) && arg[i][j - 1] != '+' && arg[i][j]))
+		// 		return (FAILURE);
 		if (arg[i][j] == '+' && arg[i][j + 1] == '=' && j && !(add = 1))
 			arg[i][j] = '\0';
 	
@@ -168,7 +163,6 @@ int		ft_export(t_shell *shell, char **exec_args, char **tab_env)
 		ft_sort_export_var(sorted_env);
 		ft_print_export_var(sorted_env);
 		ft_free_export_env(&sorted_env);
-	
 	}
 	return (SUCCESS);
 }
