@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 08:40:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 12:53:36 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 14:28:55 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static t_args	*init_args(t_shell *shell, char *str)
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	if (!(args->null = malloc_lst(shell, sizeof(int) * (len + 3) / 2)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
-	if (!(args->var = malloc_lst(shell, sizeof(t_var_status*) * (len + 3) / 2)))
+	if (!(args->var = malloc_lst(shell, sizeof(t_var_s*) * (len + 3) / 2)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	i = 0;
 	while (i < (len + 3) / 2)

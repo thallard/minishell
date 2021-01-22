@@ -6,24 +6,24 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 10:35:15 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 13:01:05 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 14:28:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static t_var_status	*ft_lstvarnew(t_shell *shell, int len)
+static t_var_s	*ft_lstvarnew(t_shell *shell, int len)
 {
-	t_var_status	*elem;
+	t_var_s	*elem;
 
-	if (!(elem = malloc_lst(shell, sizeof(t_var_status))))
+	if (!(elem = malloc_lst(shell, sizeof(t_var_s))))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	elem->len = len;
 	elem->next = NULL;
 	return (elem);
 }
 
-static t_var_status	*ft_lstvarlast(t_var_status *lst)
+static t_var_s	*ft_lstvarlast(t_var_s *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -32,11 +32,11 @@ static t_var_status	*ft_lstvarlast(t_var_status *lst)
 	return (lst);
 }
 
-t_var_status		*ft_lstvaradd_back(t_shell *shell, t_args *args,
+t_var_s		*ft_lstvaradd_back(t_shell *shell, t_args *args,
 				int len, int ind)
 {
-	t_var_status	*elem;
-	t_var_status	*new;
+	t_var_s	*elem;
+	t_var_s	*new;
 
 	if (!(new = ft_lstvarnew(shell, len)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
@@ -50,11 +50,11 @@ t_var_status		*ft_lstvaradd_back(t_shell *shell, t_args *args,
 	return (args->var[ind]);
 }
 
-t_var_status		*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
+t_var_s		*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
 				int len, int ind)
 {
-	t_var_status	*elem;
-	t_var_status	*new;
+	t_var_s	*elem;
+	t_var_s	*new;
 
 	if (!(new = ft_lstvarnew(shell, len)))
 		ft_exit_failure(shell, F_MALLOC, NULL);

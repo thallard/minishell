@@ -16,7 +16,7 @@ SRCS	=	$(main)/ft_ctrl.c $(main)/minishell.c $(main)/redirection.c \
 			$(split)/split_args.c $(split)/split_args_utils.c $(split)/split_args_utils_lst.c $(split)/split_args_utils_skip.c \
 			$(split)/split_dir.c $(split)/split_dir_utils.c \
 			$(split)/split_exec_paths.c $(split)/split_utils.c \
-			$(comm)/ft_cd.c \
+			$(comm)/ft_cd.c $(comm)/ft_cd_utils.c \
 			$(comm)/ft_pwd.c \
 			$(comm)/ft_echo.c \
 			$(comm)/ft_env.c \
