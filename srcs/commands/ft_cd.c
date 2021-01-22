@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 14:53:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 14:53:43 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:52:50 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,12 @@ static int	go_to_folder(t_shell *shell, char *folder)
 	}
 	else
 	{
-		if (!(current_path = ft_calloc(1, 500)))
-			ft_exit_failure(shell, F_MALLOC, NULL);
-		path_temp = current_path;
-		if (!(getcwd(current_path, 1000)))
-			return (ft_free_ptr(path_temp));
-		else if (!(path = build_path(shell, current_path, folder)))
-			return (-1);
+		if (!(getcwd(current_path, 1000)) || !add_lst_to_free(shell, current_path))
+			ft_exit_failure(shell, F_MALLOC, current_path);
+		else 
+			path = build_path(shell, current_path, folder);
 	}
 	res = chdir(path);
-	ft_free_ptr(current_path);
 	ft_free_ptr(path);
 	return (get_correct_return(res));
 }

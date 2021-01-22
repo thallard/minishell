@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 16:34:58 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:41:04 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 	int		k;
 
 	k = 0;
-	if (str[j] && env->hidden != NOT_PRINT)
+	if (j <= ft_strlen(str) && env->hidden != NOT_PRINT)
 	{
 		if (str[j] == ' ')
 			j = ft_strlen(str) + 1;

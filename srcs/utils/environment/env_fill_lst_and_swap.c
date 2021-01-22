@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_fill_lst_and_swap.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:22:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 14:00:50 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:44:57 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int			ft_fill_lst_env(t_shell *shell, char **envp)
 	i = -1;
 	while (shell->tab_env[++i])
 	{
-		ft_bzero(str, ft_strlen(str));
+		ft_bzero(str, 10000);
 		ft_finish_fill_env(shell, str, &new_lst, shell->tab_env[i]);
 	}
 	if (!ft_get_var_env(shell, "OLDPWD"))
