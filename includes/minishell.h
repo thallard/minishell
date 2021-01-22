@@ -255,6 +255,7 @@ int		ft_lst_env_size(t_env *env);
 /*
 ** env_replace_value.c
 */
+void	change_last_arg_env(t_shell *shell, t_tree *node);
 int		ft_add_new_env(t_shell *shell, char *name, char *content, int hidden);
 int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *content);
 int		replace_env_content(t_shell *shell, char *name, char *content, int hidden);
@@ -278,7 +279,6 @@ t_env		*ft_clone_export_env(t_env *lst);
 /*
 ** env_utils2.c
 */
-void	change_last_arg_env(t_shell *shell, t_tree *node);
 
 /*
 ** env_unset_utils.c
