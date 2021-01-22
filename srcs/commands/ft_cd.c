@@ -6,27 +6,11 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:49:53 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 14:12:28 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 14:26:34 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static char	*build_path(t_shell *shell, char *current_path, char *folder)
-{
-	char	*path_temp;
-	char	*path;
-
-	if (!(path = ft_strjoin(current_path, "/")))
-		ft_exit_failure(shell, F_MALLOC, NULL);
-	if (!(path = ft_strjoin_free(path, folder, 1, 0)))
-		ft_exit_failure(shell, F_MALLOC, NULL);
-	path_temp = path;
-	if (!(path = ft_strtrim(path, "\n")))
-		ft_exit_failure(shell, F_MALLOC, path_temp);
-	free(path_temp);
-	return (path);
-}
 
 static int	go_to_upper_folder(t_shell *shell)
 {
@@ -102,8 +86,6 @@ static int	go_to_old_pwd(t_shell *shell)
 {
 	char	*path;
 	int		res;
-	// t_env	*pwd;
-	// t_env	*old_pwd;
 
 	path = NULL;
 	if ((get_var_env(shell, "OLDPWD", &path, 1) == -1) || !path || !path[0])
@@ -112,42 +94,13 @@ static int	go_to_old_pwd(t_shell *shell)
 		return (FAILURE);
 	}
 	res = chdir(path);
-	// if (!(pwd = ft_get_var_env(shell, "PWD")) ||
-	// if (!(old_pwd = ft_get_var_env(shell, "OLDPWD")))
-		// return (FAILURE);			// a voir comment on le gere
-	// ft_swap_env_content(pwd, old_pwd);
-	// ft_printf(1, "%s\n", pwd->content);
 	ft_printf(1, "%s\n", path);
 	return (get_correct_return(res));
 }
 
-static int		replace_env_content_pwd(t_shell *shell, char *name,
-										char *content)
-{
-	t_env	*begin;
-
-	begin = shell->var_env;
-	while (begin)
-	{
-		if (!ft_strncmp(begin->name, name, (ft_strlen(name))))
-		{
-			begin->content = content;
-			if (begin->hidden != UNSET && content)
-				begin->hidden = 0;
-			if (!begin->hidden)
-				ft_change_value_tab_env(shell, &shell->tab_env, name, content);
-			return (SUCCESS);
-		}
-		begin = begin->next;
-	}
-	return (SUCCESS);
-}
-
-int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
+int			ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 {
 	int		res;
-	char	*old_path;
-	char	*cur_path;
 
 	(void)tab_env;
 	if (!exec_args[1] || !ft_strncmp(exec_args[1], "~", 2))
@@ -158,24 +111,11 @@ int		ft_cd(t_shell *shell, char **exec_args, char **tab_env)
 	{
 		if ((res = go_to_old_pwd(shell)) == FAILURE)
 			return (SUCCESS);
-		// return (SUCCESS);
 	}
 	else
 		res = go_to_folder(shell, exec_args[1]);
 	if (res == -1)
 		return (print_error(shell, exec_args[1], 1));
-	get_var_env(shell, "PWD", &old_path, 0);
-	if (!(old_path = ft_strdup(old_path))
-		|| !add_lst_to_free(shell, old_path))
-		ft_exit_failure(shell, F_MALLOC, old_path);
-	if (!(cur_path = ft_calloc(1, 500)) || !add_lst_to_free(shell, cur_path))
-		ft_exit_failure(shell, F_MALLOC, cur_path);
-	if (ft_strlen(exec_args[1]) >= 2 &&
-		ft_strncmp(exec_args[1], "//", 2) == 0 && exec_args[1][2] != '/')
-		ft_memcpy(cur_path, exec_args[1], ft_strlen(exec_args[1]) + 1);
-	else
-		getcwd(cur_path, 500);
-	replace_env_content_pwd(shell, "OLDPWD", old_path);
-	replace_env_content_pwd(shell, "PWD", cur_path);
+	maj_pwd_and_oldpwd(shell, exec_args);
 	return (SUCCESS);
 }

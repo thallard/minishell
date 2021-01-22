@@ -151,8 +151,9 @@ void	ft_exit_failure(t_shell *shell, int int_failure, void *ptr);
 /*
 ** ft_cd_utils.c
 */
-int	get_correct_return(int res);
-
+int		get_correct_return(int res);
+char	*build_path(t_shell *shell, char *current_path, char *folder);
+void	maj_pwd_and_oldpwd(t_shell *shell, char **exec_args);
 
 /*
 ****************************************************
