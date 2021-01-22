@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/21 14:45:00 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 14:45:00 by bjacob           ###   ########lyon.fr   */
+/*   Created: 2021/01/22 14:30:08 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/22 14:33:20 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,17 @@
 
 # define PRINT_HEADER 0
 
-typedef struct		s_var_status
+typedef struct		s_var_s
 {
-	struct s_var_status		*next;
+	struct s_var_s	*next;
 	int				len;
-}					t_var_status;
+}					t_var_s;
 
-typedef struct 		s_args
+typedef struct		s_args
 {
 	char			**args;
 	int				*null;
-	t_var_status	**var;
+	t_var_s			**var;
 }					t_args;
 
 typedef struct		s_fd
@@ -82,7 +82,7 @@ typedef struct		s_dir
 {
 	int				dir;
 	char			*file;
-	t_var_status	*var;
+	t_var_s			*var;
 }					t_dir;
 
 typedef struct		s_tree
@@ -127,7 +127,7 @@ typedef struct		s_shell
 	char			*buffer_std;
 	char			*dir_err;
 	char			char_dir_error;
-	t_var_status	*lst_var_len;
+	t_var_s			*lst_var_len;
 }					t_shell;
 
 /*
@@ -181,13 +181,16 @@ int		manage_redirection(t_shell *shell, t_dir *exec_dir);
 /*
 ** exec_builtin_execve.c
 */
-int		exec_builtin(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
-int		exec_execve(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
+int		exec_builtin(t_shell *shell, t_tree *node, int pipe_fd[2][2],
+					int is_pipe);
+int		exec_execve(t_shell *shell, t_tree *node, int pipe_fd[2][2],
+					int is_pipe);
 
 /*
 ** node_exec.c
 */
-int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
+int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2],
+					int is_pipe);
 
 /*
 ** tree_build.c
@@ -224,7 +227,8 @@ void	ft_lstfd_close_clear(t_fd **lst);
 void	print_header(int fd);
 void	print_error_and_exit(t_shell *shell, char *cmd, int int_failure);
 int		print_error(t_shell *shell, char *cmd, int exit_status);
-int		print_exit_error(t_shell *shell, char *arg, char *text, int exit_status);
+int		print_exit_error(t_shell *shell, char *arg, char *text,
+						int exit_status);
 void	ft_exit_split(t_shell *shell, char *str);
 
 /*
@@ -266,9 +270,12 @@ int		ft_lst_env_size(t_env *env);
 */
 void	change_last_arg_env(t_shell *shell, t_tree *node);
 int		ft_add_new_env(t_shell *shell, char *name, char *content, int hidden);
-int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *content);
-int		replace_env_content(t_shell *shell, char *name, char *content, int hidden);
-int		ft_prepare_hidden_name_export(t_shell *shell, t_env **env, char *arg, int j);
+int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name,
+								char *content);
+int		replace_env_content(t_shell *shell, char *name, char *content,
+							int hidden);
+int		ft_prepare_hidden_name_export(t_shell *shell, t_env **env, char *arg,
+									int j);
 int		ft_add_value_to_existent_env(t_shell *shell, t_env *env, char *str);
 int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j);
 t_args	*ft_finish_fill_env(t_shell *shell, char *str, t_env **new_lst);
@@ -285,7 +292,8 @@ void	ft_remove_elem(t_env **ptr_back, t_env **ptr);
 ** env_utils2.c
 */
 t_env		*ft_get_var_env(t_shell *shell, char *name);
-int			get_var_env(t_shell *shell, char *var_name, char **content, int unset);
+int			get_var_env(t_shell *shell, char *var_name, char **content,
+						int unset);
 void		ft_sort_export_var(t_env *env);
 t_env		*ft_clone_export_env(t_env *lst);
 
@@ -309,8 +317,8 @@ int		ft_set_shlvl(t_shell *shell);
 /*
 ** split_args_utils_lst.c
 */
-t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args, int len, int ind);
-t_var_status	*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
+t_var_s	*ft_lstvaradd_back(t_shell *shell, t_args *args, int len, int ind);
+t_var_s	*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
 				int len, int ind);
 
 /*
@@ -324,15 +332,20 @@ int			skip_arg(t_shell *shell, char **str);
 /*
 ** split_args_utils.c
 */
-void	add_var_env_status_normal(t_shell *shell, char *part, t_args *args, int ind);
-void	add_var_env_status_simple_quote(t_shell *shell, char *part, t_args *args, int ind);
-char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int ind);
-char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args, int ind);
+void	add_var_env_status_normal(t_shell *shell, char *part,
+									t_args *args, int ind);
+void	add_var_env_status_simple_quote(t_shell *shell, char *part,
+									t_args *args, int ind);
+char	*create_new_arg_part_normal(t_shell *shell, char **str,
+										t_args *args, int ind);
+char	*create_new_arg_part_double_quote(t_shell *shell, char **str,
+										t_args *args, int ind);
 
 /*
 ** split_args.c
 */
-char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind);
+char	*create_new_arg_part_simple_quote(t_shell *shell, char **str,
+										t_args *args, int ind);
 t_args		*split_arguments(t_shell *shell, char *str);
 
 /*
@@ -388,7 +401,6 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp_lower(const char *s1, const char *s2, unsigned int n);
 char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2);
 
-
 /*
 ****************************************************
 **						DRAFT					  **
@@ -402,7 +414,5 @@ void	ft_print_tree(t_tree *node, int nb); // a supprimer
 void	ft_print_tab_char(char **tab);
 void	ft_print_tab_dir(t_dir *dir);
 void	ft_print_node(t_tree *node);
-
-
 
 #endif

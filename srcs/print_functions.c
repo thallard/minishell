@@ -39,7 +39,7 @@ void	ft_print_tree(t_tree *node, int nb)
 }
 
 
-void	print_lst(t_var_status *lst)
+void	print_lst(t_var_s *lst)
 {
 	while (lst)
 	{
