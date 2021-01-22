@@ -240,12 +240,13 @@ int	reset_stds(t_shell *shell);
 **--------------------
 */
 /*
-** env_fill.c
+** env_fill_lst_and_swap.c
 */
 void	ft_swap_env_all(t_env *a, t_env *b);
 void	ft_swap_env_content(t_env *a, t_env *b);
 int		ft_fill_lst_env(t_shell *shell, char **envp);
 t_env	*ft_prepare_lst_env(t_shell *shell, char *content, char *name);
+char	*ft_fill_env_content(t_shell *shell, char *str);
 
 /*
 ** env_match_var.c
@@ -260,6 +261,10 @@ void	change_last_arg_env(t_shell *shell, t_tree *node);
 int		ft_add_new_env(t_shell *shell, char *name, char *content, int hidden);
 int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *content);
 int		replace_env_content(t_shell *shell, char *name, char *content, int hidden);
+int		ft_prepare_hidden_name_export(t_shell *shell, t_env **env, char *arg, int j);
+int		ft_add_value_to_existent_env(t_shell *shell, t_env *env, char *str);
+int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j);
+t_args	*ft_finish_fill_env(t_shell *shell, char *str, t_env **new_lst);
 
 /*
 ** env_print_and_addlast.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_build.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 16:40:52 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 11:45:57 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	// if (!(dir = ft_split_redirection(shell, shell->op)))
 	// 	ft_exit_failure(shell, F_MALLOC, NULL);
 
-	if (!(dir = split_redirection(shell, shell->op)))	// a proteger
+	if (!(dir = split_redirection(shell, shell->op)))
 		return (CHAR_DIR_ERR);
 
 	if (!(t_current->right = tree_create_node(shell, args, dir)))
@@ -69,7 +69,7 @@ static int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 	// if (!(args = ft_split_args(shell, shell->sep)))
 	// 	ft_exit_failure(shell, F_MALLOC, NULL);
 
-	args = split_arguments(shell, shell->sep);	// a proteger
+	args = split_arguments(shell, shell->sep);	
 
 	if (!((*t_current)->right = tree_create_node(shell, args, NULL)))
 		ft_exit_failure(shell, F_MALLOC, NULL);

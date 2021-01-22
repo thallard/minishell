@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_match_var.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 10:10:51 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 11:53:29 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*get_new_part(t_shell *shell, char *part)
 			ft_exit_failure(shell, F_MALLOC, new_part);
 	if (!ft_isdigit(part[1]) && part[1] != '?' && part[1] != '\\' && part[1])
 		get_var_env(shell, part + 1, &new_part, 1);
-	return (new_part);	
+	return (new_part);
 }
 
 static char	*replace_str_part(t_shell *shell, char *str, char *part, int *j)

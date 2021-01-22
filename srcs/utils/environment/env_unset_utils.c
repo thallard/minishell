@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:48:28 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 09:28:59 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 11:45:07 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int		ft_unset_hide_env(t_shell *shell, t_env **env, char *name)
 		if (!ft_strncmp(begin->name, name, ft_strlen(name) + 1))
 		{
 			// begin->content = "";
-			begin->content = ft_strdup("");	// a proteger
+			if (!(begin->content = ft_strdup("")) || !(add_lst_to_free(shell, begin->content)))
+				ft_exit_failure(shell, F_MALLOC, begin->content);
 			begin->hidden = UNSET;
 			ft_remove_element_tab(shell, shell->tab_env, name);
 			return (SUCCESS);
