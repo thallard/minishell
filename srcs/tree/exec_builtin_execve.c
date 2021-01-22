@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_execve.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 10:12:05 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:29:56 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 	if (close(pipe_fd[shell->last_pipe][0]) == -1 ||
 		close(pipe_fd[1 - shell->last_pipe][1]) == -1)
 		print_error_and_exit(shell, "close", -1 * EBADF); // possible exit status
-
 	if (manage_redirection(shell, node->dir) == FAILURE)
 			exit(1) ; // a confirmer	
-		
 	if (ft_exec(shell, exec_path, node) == -1)	// if execve == -1
 		;		// faire quelque chose ?
 		// shell->exit = EXIT_FAILURE;	// bonne valeur ?

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 10:21:44 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:37:55 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *
 	i = -1;
 	if (!(var = ft_strdup(name)) || !add_lst_to_free(shell, var))
 		ft_exit_failure(shell, F_MALLOC, var);
-		if (!(var = ft_strjoin_free(var, "=", 1, 0)))
+		if (!(var = ft_strjoin_free(var, "=", 0, 0)))
 			ft_exit_failure(shell, F_MALLOC, NULL);
 	while ((*tab_env)[++i])
 		if (!ft_strncmp((*tab_env)[i], var, ft_strlen(var)) && !success++ &&
