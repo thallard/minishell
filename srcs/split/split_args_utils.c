@@ -6,20 +6,21 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:04:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 09:26:01 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 12:58:29 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	add_var_env_status_normal(t_shell *shell, char *part, t_args *args, int ind)
+void		add_var_env_status_normal(t_shell *shell, char *part,
+									t_args *args, int ind)
 {
 	int	len;
 
 	while (*part)
 	{
 		if (*part == '\\' && part[1] == '$' &&
-			ft_memmove(part, part + 1, ft_strlen(part))	&& part++)
+			ft_memmove(part, part + 1, ft_strlen(part)) && part++)
 			ft_lstvaradd_back(shell, args, -1, ind);
 		else if (ft_abs(*part) == '$')
 		{
@@ -31,7 +32,7 @@ void	add_var_env_status_normal(t_shell *shell, char *part, t_args *args, int ind
 				*part == '\\') && len++)
 				part++;
 			else
-				while (*part && (ft_isalnum(*part) || *part == '_') && part++)	// $$ a gerer differement
+				while (*part && (ft_isalnum(*part) || *part == '_') && part++)
 					len++;
 			ft_lstvaradd_back(shell, args, len, ind);
 		}
@@ -40,14 +41,15 @@ void	add_var_env_status_normal(t_shell *shell, char *part, t_args *args, int ind
 	}
 }
 
-void	add_var_env_status_simple_quote(t_shell *shell, char *part, t_args *args, int ind)
+void		add_var_env_status_simple_quote(t_shell *shell, char *part,
+											t_args *args, int ind)
 {
 	while (*part)
 	{
 		if (*part == '$')
 		{
 			part++;
-			while (*part && ft_isalnum(*part))	// $$ a gerer differement
+			while (*part && ft_isalnum(*part))
 				part++;
 			ft_lstvaradd_back(shell, args, 1, ind);
 		}
@@ -77,7 +79,8 @@ static void	fill_arg_part(char **str, char *arg_part)
 	arg_part[i] = 0;
 }
 
-char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int ind)
+char		*create_new_arg_part_normal(t_shell *shell, char **str,
+										t_args *args, int ind)
 {
 	char	*arg_part;
 	int		len;
@@ -85,11 +88,11 @@ char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int i
 	len = 0;
 	while (!is_redir_quotes_char((*str)[len]))
 	{
-		// if ((*str)[len] == '\\' && (*str)[len + 1] && (*str)[len + 1] != ' ')
-		if ((*str)[len] == '\\' && (*str)[len + 1] && (!len || (*str)[len - 1] != '$'))
+		if ((*str)[len] == '\\' && (*str)[len + 1] && (!len ||
+			(*str)[len - 1] != '$'))
 			len++;
 		len++;
-	}	
+	}
 	if (!(arg_part = malloc_lst(shell, len + 1)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	fill_arg_part(str, arg_part);
@@ -98,7 +101,8 @@ char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int i
 	return (arg_part);
 }
 
-char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args, int ind)
+char		*create_new_arg_part_double_quote(t_shell *shell, char **str,
+											t_args *args, int ind)
 {
 	char	*arg_part;
 	int		i;
@@ -114,18 +118,7 @@ char	*create_new_arg_part_double_quote(t_shell *shell, char **str, t_args *args,
 		ft_exit_split(shell, "Error : need a quote to finish the line.\n");
 	if (!(arg_part = malloc_lst(shell, i + 1)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
-	i = 0;
-	(*str)++;
-	while (**str != '\"')
-	{
-		if (**str == '\\' && (*str)[1] == '$' && ((*str)[1] = -36))
-			(*str)++;
-		else if (**str == '\\' && ((*str)[1] == '\"' || (*str)[1] == '\\'))
-			(*str)++;
-		arg_part[i++] = *((*str)++);
-	}
-	arg_part[i] = 0;
-	(*str)++;
+	fill_arg_part_double_quote(str, arg_part);
 	if (args)
 		add_var_env_status_normal(shell, arg_part, args, ind);
 	return (arg_part);

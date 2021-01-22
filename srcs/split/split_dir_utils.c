@@ -6,13 +6,14 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:04:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 16:26:32 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:06:02 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	add_var_env_status_normal_dir(t_shell *shell, char *part, t_dir *dir, int ind)
+static void	add_var_env_status_normal_dir(t_shell *shell, char *part,
+										t_dir *dir, int ind)
 {
 	int	len;
 
@@ -27,7 +28,7 @@ static void	add_var_env_status_normal_dir(t_shell *shell, char *part, t_dir *dir
 			if ((ft_isdigit(*part) || *part == '?') && len++)
 				part++;
 			else
-				while (*part && ft_isalnum(*part))	// $$ a gerer differement
+				while (*part && ft_isalnum(*part))
 				{
 					part++;
 					len++;
@@ -39,14 +40,15 @@ static void	add_var_env_status_normal_dir(t_shell *shell, char *part, t_dir *dir
 	}
 }
 
-static void	add_var_env_status_simple_quote_dir(t_shell *shell, char *part, t_dir *dir, int ind)
+static void	add_var_env_status_simple_quote_dir(t_shell *shell, char *part,
+												t_dir *dir, int ind)
 {
 	while (*part)
 	{
 		if (*part == '$')
 		{
 			part++;
-			while (*part && ft_isalnum(*part))	// $$ a gerer differement
+			while (*part && ft_isalnum(*part))
 				part++;
 			ft_lstvaradd_back_dir(shell, dir, 1, ind);
 		}
@@ -55,7 +57,8 @@ static void	add_var_env_status_simple_quote_dir(t_shell *shell, char *part, t_di
 	}
 }
 
-static char	*create_new_dir_part_normal(t_shell *shell, char **str, t_dir *dir, int ind)
+char		*create_new_dir_part_normal(t_shell *shell, char **str,
+										t_dir *dir, int ind)
 {
 	char	*dir_part;
 	int		i;
@@ -82,7 +85,8 @@ static char	*create_new_dir_part_normal(t_shell *shell, char **str, t_dir *dir, 
 	return (dir_part);
 }
 
-static char	*create_new_dir_part_double_quote(t_shell *shell, char **str, t_dir *dir, int ind)
+char		*create_new_dir_part_double_quote(t_shell *shell, char **str,
+											t_dir *dir, int ind)
 {
 	char	*dir_part;
 	int		i;
@@ -110,7 +114,8 @@ static char	*create_new_dir_part_double_quote(t_shell *shell, char **str, t_dir 
 	return (dir_part);
 }
 
-static char	*create_new_dir_part_simple_quote(t_shell *shell, char **str, t_dir *dir, int ind)
+char		*create_new_dir_part_simple_quote(t_shell *shell, char **str,
+												t_dir *dir, int ind)
 {
 	char	*dir_part;
 	int		i;
@@ -130,29 +135,4 @@ static char	*create_new_dir_part_simple_quote(t_shell *shell, char **str, t_dir 
 	(*str)++;
 	add_var_env_status_simple_quote_dir(shell, dir_part, dir, ind);
 	return (dir_part);
-}
-
-void	create_new_dir(t_shell *shell, char **str, t_dir *dir, int *ind)
-{
-	char	*dir_part;
-
-	if (!(dir[*ind].file = malloc_lst(shell, 1)))
-		ft_exit_failure(shell, F_MALLOC, NULL);
-	dir[*ind].file[0] = 0;
-	while (**str && **str != ' ' && **str != '<' && **str != '>')
-	{
-		if (**str != '\'' && **str != '\"')
-			dir_part = create_new_dir_part_normal(shell, str, dir, *ind);
-		else if (**str == '\"')
-			dir_part = create_new_dir_part_double_quote(shell, str, dir, *ind);
-		else
-			dir_part = create_new_dir_part_simple_quote(shell, str, dir, *ind);
-		if (!(dir[*ind].file = ft_strjoin(dir[*ind].file, dir_part)) ||
-			!add_lst_to_free(shell, dir[*ind].file))
-			ft_exit_failure(shell, F_MALLOC, dir[*ind].file);
-	}
-
-// dprintf(1, "file = |%s|\n", dir[*ind].file);
-	
-	(*ind)++;
 }

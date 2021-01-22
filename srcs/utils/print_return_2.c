@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 15:30:13 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 13:33:56 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:30:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ int		print_oldpwd_error(t_shell *shell, char *cmd)
 
 int		print_unset_error(t_shell *shell, char *cmd)
 {
-	ft_printf(STDERR_FILENO, "minishell: unset: `%s': not a valid identifier\n", cmd);
+	ft_printf(STDERR_FILENO,
+			"minishell: unset: `%s': not a valid identifier\n", cmd);
 	shell->exit = 1;
 	return (SUCCESS);
 }
 
 int		ft_cmd_not_found(t_shell *shell, char *exec, t_tree *node)
 {
-	if (manage_redirection(shell, node->dir) == FAILURE)////////////////////
-			exit(1); // a confirmer
-	ft_printf(STDERR_FILENO, "minishell: %s: command not found\n", exec);	// message a ajuster
-	shell->exit = 127;	// selon test
+	manage_redirection(shell, node->dir);
+	ft_printf(STDERR_FILENO, "minishell: %s: command not found\n", exec);
+	shell->exit = 127;
 	reset_stds(shell);
 	return (SUCCESS);
 }
@@ -72,9 +72,12 @@ int		print_sep_error(t_shell *shell, int err)
 	if (err == CHAR_DIR_ERR)
 	{
 		if (shell->char_dir_error)
-			ft_printf(STDERR_FILENO, "syntax error near unexpected token `%c'\n", shell->char_dir_error);
+			ft_printf(STDERR_FILENO,
+				"syntax error near unexpected token `%c'\n",
+				shell->char_dir_error);
 		else
-			ft_printf(STDERR_FILENO, "syntax error near unexpected token `newline'\n");
+			ft_printf(STDERR_FILENO,
+				"syntax error near unexpected token `newline'\n");
 		shell->exit = 2;
 	}
 	return (SUCCESS);

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/13 13:31:50 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/13 13:31:50 by bjacob           ###   ########lyon.fr   */
+/*   Created: 2021/01/22 12:32:26 by bjacob            #+#    #+#             */
+/*   Updated: 2021/01/22 12:39:36 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	init_shell(t_shell *shell, int begin)
 	if ((shell->std[0] = dup(STDIN_FILENO)) == -1 ||
 		(shell->std[1] = dup(STDOUT_FILENO)) == -1 ||
 		(shell->std[2] = dup(STDERR_FILENO)) == -1)
-		print_error_and_exit(shell, "dup", -1 * EMFILE); // possible exit status
+		print_error_and_exit(shell, "dup", -1);
 	shell->lst_fd = NULL;
 	shell->split->env = 0;
 	shell->split->d_quotes = 0;
@@ -62,21 +62,16 @@ static void	ft_launch_tree(t_shell *shell)
 	int res;
 
 	print_header(shell->std[1]);
-	// ft_remove_eol(buf);
 	init_shell(shell, 0);
-	// if (!ft_memchr(shell->buffer_std, -1, ft_strlen(shell->buffer_std)))
 	if (ft_strlen(shell->buffer_std) > 0)
 	{
 		res = create_main_tree(shell, shell->buffer_std);
 		if (res == DOUBLE_SEP_V || res == DOUBLE_SEP_DV ||
 			res == DOUBLE_SEP_P || res == DOUBLE_SEP_DP ||
 			res == CHAR_DIR_ERR)
-			print_sep_error(shell, res); // a ajuster
+			print_sep_error(shell, res);
 		if (res >= 0)
-		{
-			// ft_print_tree(shell->root, 0); ////////////////////////
 			read_tree(shell);
-		}
 	}
 	shell->buffer_std = NULL;
 }
@@ -102,9 +97,9 @@ static int	ft_apply_minishell(t_shell *shell, char *buf)
 	return (SUCCESS);
 }
 
-int main(int argc, char **argv, char **envp)
+int			main(int argc, char **argv, char **envp)
 {
-	char 	*buf;
+	char	*buf;
 	t_shell	*shell;
 
 	if (!(shell = malloc(sizeof(t_shell))))
@@ -117,13 +112,13 @@ int main(int argc, char **argv, char **envp)
 	ft_fill_lst_env(shell, envp);
 	if (!(buf = ft_calloc(1, 10000)) || !add_lst_to_free(shell, buf))
 		ft_exit_failure(shell, F_MALLOC, buf);
-	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))		// a voir
+	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
 		return (ft_apply_minishell(shell, argv[2]));
 	print_header(shell->std[1]);
-	signal(SIGQUIT,SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, &ft_ctrl_c);
 	ft_memset(buf, -1, 10000);
-	while (read(0, buf, 10000) > 0 || shell->buffer_std) // 100 ou 10000
+	while (read(0, buf, 10000) > 0 || shell->buffer_std)
 		ft_apply_minishell(shell, buf);
 	ft_exit_failure(shell, 0, NULL);
 	return (SUCCESS);

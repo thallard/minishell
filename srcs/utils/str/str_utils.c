@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:46:32 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 10:34:33 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:26:42 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,12 @@ char	*ft_remove_eol(char *str)
 {
 	int		i;
 
-// dprintf(1, "----------> |%s|\n", str);
-
 	if (!str)
 		return (NULL);
 	i = -1;
 	while (str[++i])
 		if (str[i] == '\n')
 			str[i] = '\0';
-
-// dprintf(1, "----------> |%s|\n", str);
-
-
 	return (str);
 }
 
@@ -57,7 +51,7 @@ int		ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-int	ft_strncmp_lower(const char *s1, const char *s2, unsigned int n)
+int		ft_strncmp_lower(const char *s1, const char *s2, unsigned int n)
 {
 	unsigned int i;
 

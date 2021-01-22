@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:45:02 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 17:26:56 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:28:05 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		print_error(t_shell *shell, char *cmd, int exit_status)
 }
 
 int		print_exit_error(t_shell *shell, char *arg, char *text, int exit_status)
-{	
+{
 	ft_printf(STDERR_FILENO, "minishell: exit: %s%s\n", arg, text);
 	shell->exit = exit_status;
 	return (SUCCESS);
@@ -38,7 +38,7 @@ void	print_error_and_exit(t_shell *shell, char *cmd, int int_failure)
 	ft_exit_failure(shell, int_failure, NULL);
 }
 
-void	ft_exit_split(t_shell *shell, char *str)	// doit-il exit le programme ?
+void	ft_exit_split(t_shell *shell, char *str)
 {
 	ft_printf(1, "%s", str);
 	ft_exit_failure(shell, -1, NULL);

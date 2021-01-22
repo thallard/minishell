@@ -6,13 +6,14 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 08:40:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 16:41:31 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 12:53:36 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args, int ind)
+char			*create_new_arg_part_simple_quote(t_shell *shell, char **str,
+										t_args *args, int ind)
 {
 	char	*arg_part;
 	int		i;
@@ -35,7 +36,8 @@ char	*create_new_arg_part_simple_quote(t_shell *shell, char **str, t_args *args,
 	return (arg_part);
 }
 
-static void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind)
+static void		create_new_arg(t_shell *shell, char **str, t_args *args,
+								int *ind)
 {
 	char	*arg_part;
 
@@ -43,7 +45,7 @@ static void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind)
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	args->args[*ind][0] = 0;
 	while (**str && **str != ' ' && **str != '<' && **str != '>')
-	{		
+	{
 		if (**str != '\'' && **str != '\"')
 			arg_part = create_new_arg_part_normal(shell, str, args, *ind);
 		else if (**str == '\"')
@@ -57,10 +59,10 @@ static void	create_new_arg(t_shell *shell, char **str, t_args *args, int *ind)
 	(*ind)++;
 }
 
-static int	add_new_arg(t_shell *shell, t_args *args, char **str, int *ind)
-{	
+static int		add_new_arg(t_shell *shell, t_args *args, char **str, int *ind)
+{
 	if (**str == '<' || **str == '>' ||
-		(**str == '2' &&  (*str)[1] == '>' && (*str)++))
+		(**str == '2' && (*str)[1] == '>' && (*str)++))
 		skip_redir(shell, str);
 	else
 		create_new_arg(shell, str, args, ind);
@@ -94,7 +96,7 @@ static t_args	*init_args(t_shell *shell, char *str)
 	return (args);
 }
 
-t_args	*split_arguments(t_shell *shell, char *str)
+t_args			*split_arguments(t_shell *shell, char *str)
 {
 	t_args	*args;
 	int		ind;
