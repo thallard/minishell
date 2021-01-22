@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 10:35:15 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 14:28:52 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 14:54:46 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_var_s	*ft_lstvarlast(t_var_s *lst)
 	return (lst);
 }
 
-t_var_s		*ft_lstvaradd_back(t_shell *shell, t_args *args,
+t_var_s			*ft_lstvaradd_back(t_shell *shell, t_args *args,
 				int len, int ind)
 {
 	t_var_s	*elem;
@@ -50,7 +50,7 @@ t_var_s		*ft_lstvaradd_back(t_shell *shell, t_args *args,
 	return (args->var[ind]);
 }
 
-t_var_s		*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
+t_var_s			*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
 				int len, int ind)
 {
 	t_var_s	*elem;

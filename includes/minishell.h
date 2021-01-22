@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 14:30:08 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 14:50:35 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 14:55:36 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -404,19 +404,5 @@ char	*ft_remove_eol(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp_lower(const char *s1, const char *s2, unsigned int n);
 char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2);
-
-/*
-****************************************************
-**						DRAFT					  **
-****************************************************
-*/
-
-/*
-** print_functions.c // A SUPPRIMER
-*/
-void	ft_print_tree(t_tree *node, int nb); // a supprimer
-void	ft_print_tab_char(char **tab);
-void	ft_print_tab_dir(t_dir *dir);
-void	ft_print_node(t_tree *node);
 
 #endif
