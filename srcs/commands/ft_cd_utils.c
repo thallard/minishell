@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:50:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 16:06:50 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 17:25:15 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void		maj_pwd_and_oldpwd(t_shell *shell, char **exec_args)
 	if (ft_strlen(exec_args[1]) >= 2 &&
 		ft_strncmp(exec_args[1], "//", 2) == 0 && exec_args[1][2] != '/')
 		ft_memcpy(cur_path, exec_args[1], ft_strlen(exec_args[1]) + 1);
-	else
-		getcwd(cur_path, 500);
+	else if	(!(cur_path = getcwd(NULL, 0)) || !add_lst_to_free(shell, cur_path))
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	replace_env_content_pwd(shell, "OLDPWD", old_path);
 	replace_env_content_pwd(shell, "PWD", cur_path);
 }

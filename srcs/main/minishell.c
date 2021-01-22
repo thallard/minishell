@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 12:32:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 12:39:36 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 17:38:06 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	ft_launch_tree(t_shell *shell)
 {
 	int res;
 
-	print_header(shell->std[1]);
 	init_shell(shell, 0);
 	if (ft_strlen(shell->buffer_std) > 0)
 	{
@@ -94,6 +93,7 @@ static int	ft_apply_minishell(t_shell *shell, char *buf)
 	if (len > 0 || buf[0] == '\n')
 		ft_launch_tree(shell);
 	ft_memset(buf, -1, 10000);
+	print_header(shell->std[1]);
 	return (SUCCESS);
 }
 

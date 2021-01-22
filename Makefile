@@ -32,6 +32,7 @@ OBJS	= $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 NAME = minishell
 CC = clang
 RM = rm -f
+# CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror -g3
 INC =	-I./includes -L./libft -lft
 
