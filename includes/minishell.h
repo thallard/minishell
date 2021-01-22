@@ -141,6 +141,7 @@ typedef struct		s_shell
 */
 int		ft_cd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_echo(t_shell *shell, char **exec_args, int *tab_null);
+void	ft_add_env_export_dollar(t_shell *shell, char *str);
 int		ft_env(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env);
 int		ft_unset(t_shell *shell, char **exec_args, char **tab_env);
@@ -362,6 +363,7 @@ char	*strdup_and_inc_input(t_shell *shell, char **input);
 int		ft_strrfind(const char *s, int c);
 char	*ft_remove_eol(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
+int		ft_strncmp_lower(const char *s1, const char *s2, unsigned int n);
 char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2);
 
 

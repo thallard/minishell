@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:46:32 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 11:37:24 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:34:33 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,21 @@ int		ft_strcmp(const char *s1, const char *s2)
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+int	ft_strncmp_lower(const char *s1, const char *s2, unsigned int n)
+{
+	unsigned int i;
+
+	i = 0;
+	while ((s1[i] || s2[i]) && (i < n))
+	{
+		if (ft_tolower(s1[i]) != ft_tolower(s2[i]))
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		else
+			i++;
+	}
+	return (0);
 }
 
 char	*ft_strjoin_free(char *s1, char *s2, int f_s1, int f_s2)
