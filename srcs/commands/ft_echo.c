@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:10:09 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 11:50:19 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 14:56:37 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static	int	is_remove_eol_flag(char *str)
+static int	is_remove_eol_flag(char *str)
 {
 	if (ft_strncmp(str, "-n", 2))
 		return (0);
@@ -37,7 +37,7 @@ static void	print_echo_arg(int *remove_eol, int *print_space, char *arg,
 	*remove_eol *= (-1) * *remove_eol;
 }
 
-int		ft_echo(t_shell *shell, char **exec_args, int *tab_null)
+int			ft_echo(t_shell *shell, char **exec_args, int *tab_null)
 {
 	int		i;
 	int		remove_eol;
@@ -57,7 +57,7 @@ int		ft_echo(t_shell *shell, char **exec_args, int *tab_null)
 				print_echo_arg(&remove_eol, &print_space, exec_args[i],
 								tab_null[i]);
 		if (!remove_eol)
-				ft_printf(1, "\n");
+			ft_printf(1, "\n");
 	}
 	shell->exit = 0;
 	return (SUCCESS);
