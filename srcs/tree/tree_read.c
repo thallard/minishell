@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 13:21:42 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:15:33 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2],
 		return (is_end);
 	if (!strncmp((*t_current)->args->args[0], ";", 2))
 		is_end = read_sep_pointv(shell, t_current, pipe_fd, pipe_in);
-	else if (!strncmp((*t_current)->args->args[0], "|", 2))
+	else if (!ft_strncmp((*t_current)->args->args[0], "|", 2))
 	{
 		if (pipe(pipe_fd[1 - shell->last_pipe]) == -1)
 			return (print_error(shell, "pipe", 1));
