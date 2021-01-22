@@ -10,8 +10,9 @@ SRCS	=	$(main)/ft_ctrl.c $(main)/minishell.c $(main)/redirection.c \
 			$(tree)/node_exec.c $(tree)/exec_builtin_execve.c $(tree)/tree_build.c $(tree)/tree_read.c \
 			$(utils)/print_return.c $(utils)/print_return_2.c $(utils)/clear_objects.c $(utils)/std_utils.c \
 			$(str)/str_utils.c $(str)/str_utils_op_sep_space.c \
-			$(env)/env_utils.c $(env)/env_utils2.c $(env)/env_utils3.c $(env)/env_unset_utils.c\
-			$(env)/env_replace_value.c $(env)/env_match_var.c $(env)/env_fill.c \
+			$(env)/env_change_last_arg_env.c $(env)/env_fill_lst_and_swap.c $(env)/env_print_and_addlast.c \
+			$(env)/export_utils_and_getters.c $(env)/env_unset_utils.c \
+			$(env)/env_replace_value.c $(env)/env_match_var.c \
 			$(split)/split_args.c $(split)/split_args_utils.c $(split)/split_args_utils_lst.c $(split)/split_args_utils_skip.c \
 			$(split)/split_dir.c $(split)/split_dir_utils.c \
 			$(split)/split_exec_paths.c \

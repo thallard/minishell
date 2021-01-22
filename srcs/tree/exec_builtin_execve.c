@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_execve.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 13:46:06 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 09:00:36 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 
 static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)
 {
-(void)node;
+	(void)node;
 
 	waitpid(program, &(shell->exit), 0);
 	
