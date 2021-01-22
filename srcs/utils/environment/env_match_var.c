@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:59:28 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 17:12:44 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:10:51 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 static char	*get_new_part(t_shell *shell, char *part)
 {
 	char	*new_part;
+
+	if (part[1] == 0 && ((!(new_part = ft_strdup("\\$"))) ||
+								!add_lst_to_free(shell, new_part)))
+			ft_exit_failure(shell, F_MALLOC, new_part);
 
 	if (ft_isdigit(part[1]) && ((!(new_part = ft_strdup(""))) ||
 								!add_lst_to_free(shell, new_part)))
@@ -25,7 +29,7 @@ static char	*get_new_part(t_shell *shell, char *part)
 	if (part[1] == '\\' && ((!(new_part = ft_strdup("$"))) ||
 								!add_lst_to_free(shell, new_part)))
 			ft_exit_failure(shell, F_MALLOC, new_part);
-	if (!ft_isdigit(part[1]) && part[1] != '?' && part[1] != '\\')
+	if (!ft_isdigit(part[1]) && part[1] != '?' && part[1] != '\\' && part[1])
 		get_var_env(shell, part + 1, &new_part, 1);
 	return (new_part);	
 }
@@ -39,7 +43,7 @@ static char	*replace_str_part(t_shell *shell, char *str, char *part, int *j)
 	i = *j;
 	res = NULL;
 	if ((new_part = get_new_part(shell, part)))
-		*j += ft_strlen(new_part);
+		*j += ft_strlen(new_part);		
 	while (str[i] && ft_strncmp(str + i, part, ft_strlen(part)))
 		i++;
 	if (str[i])
@@ -55,7 +59,7 @@ static char	*replace_str_part(t_shell *shell, char *str, char *part, int *j)
 		if (str[i] && (!(res = ft_strjoin(res, str + i)) ||
 			!add_lst_to_free(shell, res)))
 			ft_exit_failure(shell, F_MALLOC, res);
-	}
+	}	
 	return (res);
 }
 
@@ -71,7 +75,7 @@ static void	replace_var_env_value(t_shell *shell, char *str, char **res, int *j)
 	*res = replace_str_part(shell, *res, var, j);
 }
 
-static char	*replace_all_var_env_values(t_shell *shell, char *str)
+static char	*replace_all_var_env_values(t_shell *shell, char *str, int export)
 {
 	int		j;
 	char	*res;
@@ -82,18 +86,20 @@ static char	*replace_all_var_env_values(t_shell *shell, char *str)
 	while (*str)
 	{
 		while (*str && *str != '$' && ++j)
-			str++;
+			str++;			
 		if (*str)
 		{
 			if (shell->lst_var_len->len > 1)
 			{
 				replace_var_env_value(shell, str, &res, &j);
-				str += shell->lst_var_len->len;	// +1 ? a ajuster
+				str += shell->lst_var_len->len;
 			}
+			else if (shell->lst_var_len->len == -1 && export && str++)
+				res = replace_str_part(shell, res, "$", &j);
 			else
 				str++;
 			shell->lst_var_len = shell->lst_var_len->next;
-		}		
+		}
 	}
 	return (res);
 }
@@ -109,7 +115,8 @@ void		ft_match_var_env(t_shell *shell, t_tree *node)
 		{
 			shell->lst_var_len = node->args->var[i];
 			node->args->args[i] = 
-			replace_all_var_env_values(shell, node->args->args[i]);
+			replace_all_var_env_values(shell, node->args->args[i],
+					!ft_strncmp(node->args->args[0], "export", 7));
 			if (!ft_strncmp(node->args->args[i], "", 1))
 				node->args->null[i] = 0;
 		}
@@ -121,8 +128,7 @@ void		ft_match_var_env(t_shell *shell, t_tree *node)
 		{
 			shell->lst_var_len = node->dir[i].var;
 			node->dir[i].file = 
-			replace_all_var_env_values(shell, node->dir[i].file);
+			replace_all_var_env_values(shell, node->dir[i].file, 0);
 		}
 	}
-	
 }

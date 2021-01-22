@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 17:21:06 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:04:10 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	trim_first_empty_args(t_tree *node)
 	int		i;
 
 	exec_args = node->args->args;
-	while (exec_args[0][0] == 0)
+	while (exec_args[0] && exec_args[0][0] == 0)
 	{
 		i = -1;
 		while (exec_args[++i])
@@ -87,15 +87,13 @@ int			launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 // ft_print_node(node);
 
 	ft_match_var_env(shell, node);
-	
+	trim_first_empty_args(node);
 	if (!node->args->args[0])
 	{
 		manage_redirection(shell, node->dir); ////////////////
 		reset_stds(shell);
 		return (SUCCESS);
 	}
-	
-	trim_first_empty_args(node);
 
 	if (!(node->exec_path = find_exec(shell, node)))
 		return (ft_cmd_not_found(shell, node->args->args[0], node));	// valeur de retour a confirmer
@@ -108,8 +106,6 @@ int			launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 	change_last_arg_env(shell, node);
 	
 	ft_lstfd_close_clear(&shell->lst_fd);	// a mettre ici ?
-
-// verifie-t-on le shell->exit du child apres exec_execve ?
 
 	return (SUCCESS);								// valeur a confirmer
 }

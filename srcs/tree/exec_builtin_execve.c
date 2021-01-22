@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_execve.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 09:00:36 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:12:05 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ int			exec_builtin(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
 		return (SUCCESS); // a confirmer
 
 	if (ft_exec(shell, node->exec_path, node) == -1)	// A CHECKER
-		exit(FAILURE);	// bonne valeur
+		// exit(shell->exit);	// bonne valeur
+		;
 
 	if (close(pipe_fd[shell->last_pipe][1]) == -1 ||
 		close(pipe_fd[1 - shell->last_pipe][0]) == -1)
