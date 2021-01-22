@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 16:14:13 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 08:44:43 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 		// 		((char *)new_lst->content)[0] = '\0';
 		ft_filter_and_add(shell, new_lst, arg[i], j);
 	}
+	
 	return (SUCCESS);
 }
 

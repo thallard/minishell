@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:04:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 17:04:30 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 09:26:01 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@ void	add_var_env_status_normal(t_shell *shell, char *part, t_args *args, int ind
 
 	while (*part)
 	{
-		if (ft_abs(*part) == '$')
+		if (*part == '\\' && part[1] == '$' &&
+			ft_memmove(part, part + 1, ft_strlen(part))	&& part++)
+			ft_lstvaradd_back(shell, args, -1, ind);
+		else if (ft_abs(*part) == '$')
 		{
 			if (*part < 0 && (*part = '$'))
 				ft_lstvaradd_back(shell, args, 1, ind);
 			part++;
 			len = 1;
-			if ((ft_isdigit(*part) || *part == '?' || *part == '_' ||
+			if ((ft_isdigit(*part) || *part == '?' ||
 				*part == '\\') && len++)
 				part++;
 			else
-				while (*part && (ft_isalnum(*part) || *part == '_'))	// $$ a gerer differement
-				{
-					part++;
+				while (*part && (ft_isalnum(*part) || *part == '_') && part++)	// $$ a gerer differement
 					len++;
-				}				
 			ft_lstvaradd_back(shell, args, len, ind);
 		}
 		else
@@ -67,7 +67,8 @@ static void	fill_arg_part(char **str, char *arg_part)
 			arg_part[i++] = *((*str)++);
 		else
 		{
-			if (**str == '\\' && (*str)[1] && *(*str - 1) != '$')
+			if (**str == '\\' && (*str)[1] && *(*str - 1) != '$'
+				&& (*str)[1] != '$')
 				(*str)++;
 			if (**str != ' ' && **str)
 				arg_part[i++] = *((*str)++);
@@ -88,7 +89,7 @@ char	*create_new_arg_part_normal(t_shell *shell, char **str, t_args *args, int i
 		if ((*str)[len] == '\\' && (*str)[len + 1] && (!len || (*str)[len - 1] != '$'))
 			len++;
 		len++;
-	}
+	}	
 	if (!(arg_part = malloc_lst(shell, len + 1)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	fill_arg_part(str, arg_part);

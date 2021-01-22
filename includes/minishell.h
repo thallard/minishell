@@ -57,7 +57,6 @@
 # define NOT_PRINT 1
 # define UNSET 2
 
-
 # define PRINT_HEADER 0
 
 typedef struct		s_var_status
