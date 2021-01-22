@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 14:39:40 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:33:15 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
 	var = ft_prepare_tab_change_value(shell, name);
 	while ((*tab_env)[++i])
 		if (!ft_strncmp((*tab_env)[i], var, ft_strlen(var)) && !success++ &&
-			!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
+			!((*tab_env)[i] = ft_strjoin_free(var, content, 0, 0)))
 			ft_exit_failure(shell, F_MALLOC, NULL);
 	if (!success && content[0])
 	{
@@ -58,7 +58,7 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
 		i = -1;
 		while (tab_temp[++i])
 			(*tab_env)[i] = tab_temp[i];
-		if (!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
+		if (!((*tab_env)[i] = ft_strjoin_free(var, content, 0, 0)))
 			ft_exit_failure(shell, F_MALLOC, NULL);
 		(*tab_env)[++i] = NULL;
 	}
@@ -110,7 +110,7 @@ int		ft_prepare_hidden_name_export(t_shell *shell,
 	add = 0;
 	if (arg[j] == '=' && arg[j - 1] == '+' && j && !(add = 1))
 		arg[j] = '\0';
-	if (arg[j] == '=' && !arg[j + 1])
+	if (arg[j] == '=' && arg[j + 1])
 		(*env)->hidden = TO_PRINT;
 	else if (arg[j] != '=' && !arg[j])
 		(*env)->hidden = NOT_PRINT;

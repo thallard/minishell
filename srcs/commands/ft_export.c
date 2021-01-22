@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 14:55:51 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:33:35 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 	int		k;
 
 	k = 0;
-	if (j <= ft_strlen(str) && ((char *)env->content)[0] != '\0'
-		&& env->hidden != 1)
+	if (str[j] && env->hidden != NOT_PRINT)
 	{
 		if (str[j] == ' ')
 			j = ft_strlen(str) + 1;
@@ -81,7 +80,7 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 	{
 		env->hidden = NOT_PRINT;
 		((char *)env->content)[k] = '\0';
-		replace_env_content(shell, env->name, env->content, 1);
+		replace_env_content(shell, env->name, env->content, env->hidden);
 	}
 	return (SUCCESS);
 }
