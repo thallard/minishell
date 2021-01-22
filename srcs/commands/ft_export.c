@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 14:55:51 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:20:50 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int		ft_add_value_to_existent_env(t_shell *shell, t_env *env, char *str)
 	char	*new_content;
 
 	new_name = NULL;
-	new_content = ft_strdup(str);
+	if (!(new_content = ft_strdup(str)) || !add_lst_to_free(shell, new_content))
+		ft_exit_failure(shell, F_MALLOC, new_content);
 	i = -1;
 	if (!(new_name = ft_strdup(env->name)) ||
 		!(add_lst_to_free(shell, new_name)))
@@ -53,7 +54,9 @@ int		ft_add_value_to_existent_env(t_shell *shell, t_env *env, char *str)
 	new_name[i] = '\0';
 	if (get_var_env(shell, new_name, &old_content, 1) && old_content)
 	{
-		new_content = ft_strjoin_free(old_content, new_content, 0, 0);
+		if (!(new_content = ft_strjoin(old_content, new_content)) ||
+			!add_lst_to_free(shell, new_content))
+			ft_exit_failure(shell, F_MALLOC, new_content);
 		replace_env_content(shell, new_name, new_content, env->hidden);
 	}
 	else
@@ -134,7 +137,7 @@ int		ft_export(t_shell *shell, char **exec_args, char **tab_env)
 	}
 	else
 	{
-		sorted_env = ft_clone_export_env(shell->var_env);
+		sorted_env = ft_clone_export_env(shell, shell->var_env);
 		ft_sort_export_var(sorted_env);
 		ft_print_export_var(sorted_env);
 		ft_free_export_env(&sorted_env);

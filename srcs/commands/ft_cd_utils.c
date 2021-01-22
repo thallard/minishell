@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 13:50:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 14:25:54 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:06:50 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ char		*build_path(t_shell *shell, char *current_path, char *folder)
 
 	if (!(path = ft_strjoin(current_path, "/")))
 		ft_exit_failure(shell, F_MALLOC, NULL);
+	path_temp = path;
 	if (!(path = ft_strjoin_free(path, folder, 1, 0)))
-		ft_exit_failure(shell, F_MALLOC, NULL);
+		ft_exit_failure(shell, F_MALLOC, path_temp);
 	path_temp = path;
 	if (!(path = ft_strtrim(path, "\n")))
 		ft_exit_failure(shell, F_MALLOC, path_temp);

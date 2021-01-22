@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_replace_value.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 14:39:40 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:13:31 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	change_last_arg_env(t_shell *shell, t_tree *node)
 	}
 }
 
-int		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
+void		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
 		char *name, char *content)
 {
 	int		i;
@@ -48,8 +48,9 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
 	var = ft_prepare_tab_change_value(shell, name);
 	while ((*tab_env)[++i])
 		if (!ft_strncmp((*tab_env)[i], var, ft_strlen(var)) && !success++ &&
-			!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
-			ft_exit_failure(shell, F_MALLOC, NULL);
+			(!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)) ||
+			add_lst_to_free(shell, (*tab_env)[i])))
+			ft_exit_failure(shell, F_MALLOC, (*tab_env)[i]);
 	if (!success && content[0])
 	{
 		tab_temp = *tab_env;
@@ -58,11 +59,11 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
 		i = -1;
 		while (tab_temp[++i])
 			(*tab_env)[i] = tab_temp[i];
-		if (!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
-			ft_exit_failure(shell, F_MALLOC, NULL);
+		if (!((*tab_env)[i] = ft_strjoin_free(var, content, 0, 0)) ||
+			add_lst_to_free(shell, (*tab_env)[i]))
+			ft_exit_failure(shell, F_MALLOC, (*tab_env)[i]);
 		(*tab_env)[++i] = NULL;
 	}
-	return (1);
 }
 
 int		ft_add_new_env(t_shell *shell, char *name, char *content, int hidden)

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 14:30:08 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 15:07:02 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:21:24 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ int					ft_lst_env_size(t_env *env);
 void				change_last_arg_env(t_shell *shell, t_tree *node);
 int					ft_add_new_env(t_shell *shell, char *name, char *content,
 									int hidden);
-int					ft_change_value_tab_env(t_shell *shell, char ***tab_env,
+void				ft_change_value_tab_env(t_shell *shell, char ***tab_env,
 										char *name, char *content);
 int					replace_env_content(t_shell *shell, char *name,
 										char *content, int hidden);
@@ -303,7 +303,7 @@ t_env				*ft_get_var_env(t_shell *shell, char *name);
 int					get_var_env(t_shell *shell, char *var_name, char **content,
 								int unset);
 void				ft_sort_export_var(t_env *env);
-t_env				*ft_clone_export_env(t_env *lst);
+t_env				*ft_clone_export_env(t_shell *shell, t_env *lst);
 
 /*
 ** env_utils3.c

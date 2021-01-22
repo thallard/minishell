@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 09:08:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 14:47:24 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:21:03 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,19 @@ void	ft_sort_export_var(t_env *env)
 			ptr = ptr->next;
 }
 
-t_env	*ft_clone_export_env(t_env *lst)
+t_env	*ft_clone_export_env(t_shell *shell, t_env *lst)
 {
 	t_env	*sorted;
 
 	if (lst == NULL || !(sorted = malloc(sizeof(t_env))))
 		return (NULL);
-	sorted->content = ft_strdup(lst->content);
-	sorted->name = ft_strdup(lst->name);
+	if (!(sorted->content = ft_strdup(lst->content)) ||
+		!add_lst_to_free(shell, sorted->content))
+		ft_exit_failure(shell, F_MALLOC, sorted->content);
+	if (!(sorted->name = ft_strdup(lst->name)) ||
+		!add_lst_to_free(shell, sorted->name))
+		ft_exit_failure(shell, F_MALLOC, sorted->name);
 	sorted->hidden = lst->hidden;
-	sorted->next = ft_clone_export_env(lst->next);
+	sorted->next = ft_clone_export_env(shell, lst->next);
 	return (sorted);
 }

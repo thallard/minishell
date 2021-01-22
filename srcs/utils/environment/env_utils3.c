@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 14:36:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 14:46:21 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 16:12:17 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ char	*ft_prepare_tab_change_value(t_shell *shell, char *name)
 
 	if (!(var = ft_strdup(name)) || !add_lst_to_free(shell, var))
 		ft_exit_failure(shell, F_MALLOC, var);
-	if (!(var = ft_strjoin_free(var, "=", 0, 0)))
-		ft_exit_failure(shell, F_MALLOC, NULL);
+	if (!(var = ft_strjoin(var, "=")) || !add_lst_to_free(shell, var))
+		ft_exit_failure(shell, F_MALLOC, var);
 	return (var);
 }
 
