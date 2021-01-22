@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:44:22 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 13:27:34 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:47:57 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	*malloc_lst(t_shell *shell, int size)
 int		free_all_ptr(t_shell *shell)
 {
 	ft_lstclear(&shell->ptrs, free);
-	return (0);
+	return (SUCCESS);
 }
 
 void	ft_free_export_env(t_env **env)

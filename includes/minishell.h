@@ -149,6 +149,12 @@ int		ft_exit(t_shell *shell, char **exec_args, char **tab_env);
 void	ft_exit_failure(t_shell *shell, int int_failure, void *ptr);
 
 /*
+** ft_cd_utils.c
+*/
+int	get_correct_return(int res);
+
+
+/*
 ****************************************************
 **						MAIN					  **
 ****************************************************
