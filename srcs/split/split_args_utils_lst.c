@@ -6,18 +6,18 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 10:35:15 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 09:31:22 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:01:05 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static t_var_status	*ft_lstvarnew(int len)
+static t_var_status	*ft_lstvarnew(t_shell *shell, int len)
 {
 	t_var_status	*elem;
 
-	if (!(elem = malloc(sizeof(t_var_status))))
-		return (NULL);	// a securiser
+	if (!(elem = malloc_lst(shell, sizeof(t_var_status))))
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	elem->len = len;
 	elem->next = NULL;
 	return (elem);
@@ -32,13 +32,13 @@ static t_var_status	*ft_lstvarlast(t_var_status *lst)
 	return (lst);
 }
 
-t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args,
+t_var_status		*ft_lstvaradd_back(t_shell *shell, t_args *args,
 				int len, int ind)
 {
 	t_var_status	*elem;
 	t_var_status	*new;
 
-	if (!(new = ft_lstvarnew(len)))
+	if (!(new = ft_lstvarnew(shell, len)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	if (!args->var[ind])
 		args->var[ind] = new;
@@ -50,13 +50,13 @@ t_var_status	*ft_lstvaradd_back(t_shell *shell, t_args *args,
 	return (args->var[ind]);
 }
 
-t_var_status	*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
+t_var_status		*ft_lstvaradd_back_dir(t_shell *shell, t_dir *dir,
 				int len, int ind)
 {
 	t_var_status	*elem;
 	t_var_status	*new;
 
-	if (!(new = ft_lstvarnew(len)))
+	if (!(new = ft_lstvarnew(shell, len)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	if (!dir[ind].var)
 		dir[ind].var = new;

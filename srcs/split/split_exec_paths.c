@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:15:21 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/20 09:32:00 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 12:58:58 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static char	*ft_malloc_ptr(t_shell *shell, int *i, const char *str, char c)
 	return (ptr);
 }
 
-static int	sep_str_in_tab(t_shell *shell, const char *str, char c, char ***str_tab)
+static int	sep_str_in_tab(t_shell *shell, const char *str, char c,
+							char ***str_tab)
 {
 	int		i;
 	char	*ptr;

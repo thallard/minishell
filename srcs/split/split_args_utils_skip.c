@@ -6,20 +6,20 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 13:59:16 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 16:29:43 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 12:43:23 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	is_redir_quotes_char(char c)
+int			is_redir_quotes_char(char c)
 {
 	if (!c || c == ' ' || c == '<' || c == '>' || c == '\"' || c == '\'')
 		return (1);
 	return (0);
 }
 
-int	skip_quotes(t_shell *shell, char **str)
+int			skip_quotes(t_shell *shell, char **str)
 {
 	char	c;
 
@@ -47,7 +47,7 @@ static int	skip_char_redir(t_shell *shell, char **str)
 	return (0);
 }
 
-int	skip_redir(t_shell *shell, char **str)
+int			skip_redir(t_shell *shell, char **str)
 {
 	if ((*str)[0] == '>' && (*str)[1] == '>')
 		(*str)++;
@@ -58,7 +58,7 @@ int	skip_redir(t_shell *shell, char **str)
 	return (1);
 }
 
-int	skip_arg(t_shell *shell, char **str)
+int			skip_arg(t_shell *shell, char **str)
 {
 	while (!is_redir_quotes_char(**str))
 		(*str)++;

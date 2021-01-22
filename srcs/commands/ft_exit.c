@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 13:41:38 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 10:36:18 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 12:57:12 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		ft_exit(t_shell *shell, char **exec_args, char **tab_env)
 	
 	if (shell->lst_fd)
 		ft_lstfd_close_clear(&(shell->lst_fd));
-	free_all_ptr(shell);			// A REMETTRE
+	// free_all_ptr(shell);			// A REMETTRE
 	exit(shell->exit);
 }
 
@@ -65,7 +65,7 @@ void		ft_exit_failure(t_shell *shell, int int_failure, void *ptr)
 
 	if (shell->lst_fd)
 		ft_lstfd_close_clear(&(shell->lst_fd));
-	free_all_ptr(shell);			// A REMETTRE
+	// free_all_ptr(shell);			// A REMETTRE
 	
 	if (int_failure < 0)
 		shell->exit = ft_abs(int_failure);

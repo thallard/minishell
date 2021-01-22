@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:37:10 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 16:40:52 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:23:42 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,13 @@ static int		add_op_node(t_shell *shell, t_tree *t_current, char **input)
 	t_args	*args;
 	t_dir	*dir;
 
-// dprintf(1, "\n input = [%s]\n", *input);
-
 	res = SUCCESS;
 	shell->op = strdup_and_inc_input(shell, input);
-
-// dprintf(1, "\n shell->op = [%s]\n\n", shell->op);
-
-
-	// if (!(args = ft_split_args(shell, shell->op)))
-	// 	ft_exit_failure(shell, F_MALLOC, NULL);
-	
-	args = split_arguments(shell, shell->op);	// a proteger
-
-	// if (!(dir = ft_split_redirection(shell, shell->op)))
-	// 	ft_exit_failure(shell, F_MALLOC, NULL);
-
-	if (!(dir = split_redirection(shell, shell->op)))	// a proteger
+	args = split_arguments(shell, shell->op);
+	if (!(dir = split_redirection(shell, shell->op)))
 		return (CHAR_DIR_ERR);
-
 	if (!(t_current->right = tree_create_node(shell, args, dir)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
-
 	str_to_separator(input);
 	shell->last_node = OP;
 	return (res);
@@ -65,21 +50,16 @@ static int		add_sep_node(t_shell *shell, t_tree **t_current, char **input)
 
 	op_node = (*t_current)->right;
 	shell->sep = strdup_and_inc_input(shell, input);
-
-	// if (!(args = ft_split_args(shell, shell->sep)))
-	// 	ft_exit_failure(shell, F_MALLOC, NULL);
-
-	args = split_arguments(shell, shell->sep);	// a proteger
-
+	args = split_arguments(shell, shell->sep);
 	if (!((*t_current)->right = tree_create_node(shell, args, NULL)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	*t_current = (*t_current)->right;
 	(*t_current)->left = op_node;
-	shell->last_node = SEP;	
+	shell->last_node = SEP;
 	return (read_input(shell, t_current, input));
 }
 
-int		read_input(t_shell *shell, t_tree **t_current, char **input)
+int				read_input(t_shell *shell, t_tree **t_current, char **input)
 {
 	skip_spaces(input);
 	if (!(**input))
@@ -102,20 +82,17 @@ int		read_input(t_shell *shell, t_tree **t_current, char **input)
 	return (add_op_node(shell, *t_current, input));
 }
 
-int		create_main_tree(t_shell *shell, char *input)
+int				create_main_tree(t_shell *shell, char *input)
 {
 	int		is_end;
 	t_tree	*t_current;
 	t_args	*root;
 
-	// if (!(root = ft_split_args(shell, "ROOT")))
-	// 	ft_exit_failure(shell, F_MALLOC, NULL);
-
 	root = split_arguments(shell, "ROOT");
 	if (!(shell->root = tree_create_node(shell, root, NULL)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	t_current = shell->root;
-	shell->last_node = SEP;		// a confirmer
+	shell->last_node = SEP;
 	is_end = SUCCESS;
 	while (is_end == SUCCESS)
 		is_end = read_input(shell, &t_current, &input);

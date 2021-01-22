@@ -90,7 +90,6 @@ typedef struct		s_tree
 	struct s_tree	*left;
 	struct s_tree	*right;
 	t_args			*args;
-	// char			**args;
 	t_dir			*dir;
 	char			*exec_path;
 }					t_tree;
@@ -182,7 +181,6 @@ int		exec_execve(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
 ** node_exec.c
 */
 int		launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
-int		ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe);
 
 /*
 ** tree_build.c
@@ -193,6 +191,8 @@ int		create_main_tree(t_shell *shell, char *input);
 /*
 ** tree_read.c
 */
+int		ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2],
+						int is_pipe);
 int		is_builtin(char *exec);
 int		read_tree(t_shell *shell);
 
@@ -310,7 +310,7 @@ int			skip_redir(t_shell *shell, char **str);
 int			skip_arg(t_shell *shell, char **str);
 
 /*
-** split_args_utils_.c
+** split_args_utils.c
 */
 void	add_var_env_status_normal(t_shell *shell, char *part, t_args *args, int ind);
 void	add_var_env_status_simple_quote(t_shell *shell, char *part, t_args *args, int ind);
@@ -326,12 +326,17 @@ t_args		*split_arguments(t_shell *shell, char *str);
 /*
 ** split_dir_utils_skip.c
 */
-int	skip_arg(t_shell *shell, char **str);
+int		skip_arg(t_shell *shell, char **str);
 
 /*
-** split_dir_utils_skip.c
+** split_dir_utils.c
 */
-void	create_new_dir(t_shell *shell, char **str, t_dir *dir, int *ind);
+char	*create_new_dir_part_normal(t_shell *shell, char **str,
+										t_dir *dir, int ind);
+char	*create_new_dir_part_double_quote(t_shell *shell, char **str,
+											t_dir *dir, int ind);
+char	*create_new_dir_part_simple_quote(t_shell *shell, char **str,
+												t_dir *dir, int ind);
 
 /*
 ** split_dir.c
@@ -341,8 +346,13 @@ t_dir	*split_redirection(t_shell *shell, char *str);
 /*
 ** split_exec_paths.c
 */
-char		**ft_split_exec_paths(char const *s, char c, t_shell *shell);
+char	**ft_split_exec_paths(char const *s, char c, t_shell *shell);
 
+/*
+** split_utils.c
+*/
+void	fill_arg_part_double_quote(char **str, char *arg_part);
+int		is_redirection(char **str);
 
 /*
 **--------------------

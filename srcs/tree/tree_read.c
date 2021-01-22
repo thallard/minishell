@@ -6,11 +6,21 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 10:40:13 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:21:42 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int			ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2],
+							int is_pipe)
+{
+	if ((pipe(pipe_fd[1 - shell->last_pipe]) == -1))
+		return (print_error(shell, "pipe", 1));
+	shell->last_pipe = 1 - shell->last_pipe;
+	launch_exec(shell, node, pipe_fd, is_pipe);
+	return (SUCCESS);
+}
 
 int			is_builtin(char *exec)
 {
@@ -25,7 +35,16 @@ int			is_builtin(char *exec)
 	return (0);
 }
 
-static int	read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int pipe_in)
+static int	read_sep_pointv(t_shell *shell, t_tree **t_current,
+							int pipe_fd[2][2], int pipe_in)
+{
+	if ((*t_current)->left)
+		ft_exec_and_pipe(shell, (*t_current)->left, pipe_fd, pipe_in);
+	return (((*t_current)->right != NULL));
+}
+
+static int	read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2],
+						int pipe_in)
 {
 	int	is_end;
 
@@ -33,45 +52,34 @@ static int	read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2], int 
 	if (!strncmp((*t_current)->args->args[0], "|", 2))
 		pipe_in = PIPE_IN;
 	*t_current = (*t_current)->right;
-///////
-	if (!(*t_current)->args->args[0] && 
+	if (!(*t_current)->args->args[0] &&
 		ft_exec_and_pipe(shell, *t_current, pipe_fd, pipe_in) == SUCCESS)
 		return (is_end);
-///////	
 	if (!strncmp((*t_current)->args->args[0], ";", 2))
-	{
-		if ((*t_current)->left)
-			ft_exec_and_pipe(shell, (*t_current)->left, pipe_fd, pipe_in); // a traiter
-		is_end = ((*t_current)->right != NULL);
-	}
+		is_end = read_sep_pointv(shell, t_current, pipe_fd, pipe_in);
 	else if (!strncmp((*t_current)->args->args[0], "|", 2))
 	{
 		if (pipe(pipe_fd[1 - shell->last_pipe]) == -1)
-			print_error_and_exit(shell, "pipe", -1 * ENFILE); // possible exit status
+			return (print_error(shell, "pipe", 1));
 		shell->last_pipe = 1 - shell->last_pipe;
 		launch_exec(shell, (*t_current)->left, pipe_fd, PIPE_OUT + pipe_in);
-// verif du fd entre les deux ?
 		if ((is_end = ((*t_current)->right != NULL)))
 			return (read_node(shell, t_current, pipe_fd, 0));
-		return (PIPE_STDIN);						// a gerer ?
+		return (PIPE_STDIN);
 	}
 	else
 		ft_exec_and_pipe(shell, *t_current, pipe_fd, pipe_in);
 	return (is_end);
 }
 
-int		read_tree(t_shell *shell)
+int			read_tree(t_shell *shell)
 {
 	int		is_end;
 	t_tree	*t_current;
-	int pipe_fd[2][2];
-	if (pipe(pipe_fd[0]) == -1 || pipe(pipe_fd[1]) == -1)
-			print_error_and_exit(shell, "pipe", -1 * ENFILE); // possible exit status
-	// pipe_fd[0][0] = -1;
-	// pipe_fd[0][1] = -1;
-	// pipe_fd[1][0] = -1;
-	// pipe_fd[1][1] = -1;
+	int		pipe_fd[2][2];
 
+	if (pipe(pipe_fd[0]) == -1 || pipe(pipe_fd[1]) == -1)
+		return (print_error(shell, "pipe", 1));
 	t_current = shell->root;
 	is_end = (t_current->right != NULL);
 	while (is_end)

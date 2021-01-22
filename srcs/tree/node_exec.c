@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 11:08:28 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:22:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*find_exec(t_shell *shell, t_tree *node)
 		return (node->args->args[0]);
 	if (get_var_env(shell, "PATH", &paths, 1) <= 0)
 		ft_exit_failure(shell, NO_EXEC_PATH, NULL);
-	if(!(tab_paths = ft_split_exec_paths(paths, ':', shell)))
+	if (!(tab_paths = ft_split_exec_paths(paths, ':', shell)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	i = -1;
 	while (tab_paths[++i])
@@ -66,7 +66,7 @@ static char	*find_exec(t_shell *shell, t_tree *node)
 	return (NULL);
 }
 
-void	trim_first_empty_args(t_tree *node)
+static void	trim_first_empty_args(t_tree *node)
 {
 	char	**exec_args;
 	int		i;
@@ -80,45 +80,24 @@ void	trim_first_empty_args(t_tree *node)
 	}
 }
 
-int			launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
-{	
-
-// ft_print_tab_char(node->args->args);
-// ft_print_node(node);
-
+int			launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2],
+						int is_pipe)
+{
 	ft_match_var_env(shell, node);
 	trim_first_empty_args(node);
-
 	if (!node->args->args[0])
 	{
-		manage_redirection(shell, node->dir); ////////////////
+		manage_redirection(shell, node->dir);
 		reset_stds(shell);
 		return (SUCCESS);
 	}
-
 	if (!(node->exec_path = find_exec(shell, node)))
-		return (ft_cmd_not_found(shell, node->args->args[0], node));	// valeur de retour a confirmer
-	
+		return (ft_cmd_not_found(shell, node->args->args[0], node));
 	if (is_builtin(node->args->args[0]))
 		exec_builtin(shell, node, pipe_fd, is_pipe);
 	else
 		exec_execve(shell, node, pipe_fd, is_pipe);
-
 	change_last_arg_env(shell, node);
-	
-	ft_lstfd_close_clear(&shell->lst_fd);	// a mettre ici ?
-
-	return (SUCCESS);								// valeur a confirmer
-}
-
-int			ft_exec_and_pipe(t_shell *shell, t_tree *node, int pipe_fd[2][2], int is_pipe)
-{
-	if ((pipe(pipe_fd[1 - shell->last_pipe]) == -1))
-		print_error_and_exit(shell, "pipe", -1 * ENFILE); // possible exit status
-
-	shell->last_pipe = 1 - shell->last_pipe;
-
-	launch_exec(shell, node, pipe_fd, is_pipe);
-	
+	ft_lstfd_close_clear(&shell->lst_fd);
 	return (SUCCESS);
 }

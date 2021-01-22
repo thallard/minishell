@@ -6,18 +6,18 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:36:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 13:34:19 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 12:37:59 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static t_fd	*ft_lstfdnew(int fd)
+static t_fd	*ft_lstfdnew(t_shell *shell, int fd)
 {
 	t_fd	*elem;
 
-	if (!(elem = malloc(sizeof(t_fd))))
-		return (NULL);	//	a securiser
+	if (!(elem = malloc(sizeof(t_fd))) && !add_lst_to_free(shell, elem))
+		ft_exit_failure(shell, F_MALLOC, elem);
 	elem->fd = fd;
 	elem->next = NULL;
 	return (elem);
@@ -37,7 +37,7 @@ static t_fd	*ft_lstfdadd_back(t_shell *shell, int fd)
 	t_fd	*elem;
 	t_fd	*new;
 
-	if (!(new = ft_lstfdnew(fd)))
+	if (!(new = ft_lstfdnew(shell, fd)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	if (!shell->lst_fd)
 		shell->lst_fd = new;
@@ -56,24 +56,22 @@ static int	ft_dir_error(t_shell *shell)
 	if (shell->dir_err)
 	{
 		if ((fd = open(shell->dir_err,
-				O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1) // bon args ?
-		return (print_error(shell, "fd", 1));
+			O_TRUNC | O_CREAT | O_WRONLY | O_RDONLY, 0666)) == -1)
+			return (print_error(shell, "fd", 1));
 		if (dup2(fd, STDERR_FILENO) == -1)
 			return (print_error(shell, "dup", 1));
 	}
 	return (SUCCESS);
 }
 
-int		manage_redirection(t_shell *shell, t_dir *exec_dir)
+int			manage_redirection(t_shell *shell, t_dir *exec_dir)
 {
-	int 	i;
-	int		fd;
+	int	i;
+	int	fd;
 
-// ft_print_tab_dir(exec_dir);
-// ft_match_var_env(shell, node);
 	i = -1;
 	while (exec_dir[++i].file)
-	{		
+	{
 		if (exec_dir[i].dir >= 0)
 		{
 			if ((exec_dir[i].dir == 1 && (fd = open(exec_dir[i].file,
@@ -92,6 +90,5 @@ int		manage_redirection(t_shell *shell, t_dir *exec_dir)
 				return (print_error(shell, "dup", 1));
 		}
 	}
-	ft_dir_error(shell);
-	return (SUCCESS);
+	return (ft_dir_error(shell));
 }
