@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 13:49:47 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 14:55:51 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int		ft_add_value_to_existent_env(t_shell *shell, t_env *env, char *str)
 	new_name = NULL;
 	new_content = ft_strdup(str);
 	i = -1;
-	if (!(new_name = ft_strdup(env->name)) || !(add_lst_to_free(shell, new_name)))
+	if (!(new_name = ft_strdup(env->name)) ||
+		!(add_lst_to_free(shell, new_name)))
 		ft_exit_failure(shell, F_MALLOC, new_name);
 	while (new_name[++i] && new_name[i] != '+')
 		;
@@ -65,15 +66,16 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 	int		k;
 
 	k = 0;
-	if (j <= ft_strlen(str) && ((char *)env->content)[0] != '\0' && env->hidden != 1)
+	if (j <= ft_strlen(str) && ((char *)env->content)[0] != '\0'
+		&& env->hidden != 1)
 	{
-			if (str[j] == ' ')
-				j = ft_strlen(str) + 1;
-			while (str[j])
+		if (str[j] == ' ')
+			j = ft_strlen(str) + 1;
+		while (str[j])
 			((char *)env->content)[k++] = str[j++];
 		((char *)env->content)[k] = '\0';
 		env->hidden = TO_PRINT;
-		replace_env_content(shell, env->name, env->content,  env->hidden);
+		replace_env_content(shell, env->name, env->content, env->hidden);
 	}
 	else
 	{
@@ -104,7 +106,7 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 				new_lst->name[j] = arg[i][j];
 			else
 				return (FAILURE);
-			ft_prepare_hidden_name_export(shell, &new_lst, arg[i], j);
+		ft_prepare_hidden_name_export(shell, &new_lst, arg[i], j);
 	}
 	if (new_lst->name)
 		replace_env_content(shell, "_", new_lst->name, TO_PRINT);
