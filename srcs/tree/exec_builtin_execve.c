@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 10:12:05 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:40:31 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ static int	ft_exec(t_shell *shell, char *exec_path, t_tree *node)
 	char	**exec_args;
 
 	exec_args = node->args->args;
-	if (!ft_strncmp(exec_path, "echo", 5))
+	if (!ft_strncmp_lower(exec_path, "echo", 5))
 		return (ft_echo(shell, exec_args, node->args->null));
-	if (!ft_strncmp(exec_path, "cd", 3))
+	if (!ft_strncmp_lower(exec_path, "cd", 3))
 		return (ft_cd(shell, exec_args, shell->tab_env));	// retour a gerer
-	if (!ft_strncmp(exec_path, "pwd", 4))
+	if (!ft_strncmp_lower(exec_path, "pwd", 4))
 		return (ft_pwd(shell, exec_args, shell->tab_env));
 	if (!ft_strncmp(exec_path, "export", 7))
 	 	return (ft_export(shell, exec_args, shell->tab_env));
 	if (!ft_strncmp(exec_path, "unset", 6))					// retour a gerer
 		return (ft_unset(shell, exec_args, shell->tab_env));
-	if (!ft_strncmp(exec_path, "env", 4))
+	if (!ft_strncmp_lower(exec_path, "env", 4))
 		return (ft_env(shell, exec_args, shell->tab_env));
 	if (!ft_strncmp(exec_path, "exit", 5))
 		ft_exit(shell, exec_args, shell->tab_env);

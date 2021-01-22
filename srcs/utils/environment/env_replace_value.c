@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 10:21:44 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:52:02 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	change_last_arg_env(t_shell *shell, t_tree *node)
 	char	**exec_args;
 
 	exec_args = node->args->args;
-	if (exec_args && ft_strncmp(exec_args[0], "export", 7))
+	if (exec_args && ft_strncmp(exec_args[0], "export", 7) &&
+		ft_strncmp(exec_args[0], "env", 4))
 	{
 		exec_args = node->args->args;
 		if (exec_args)

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 10:01:14 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:40:13 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int			is_builtin(char *exec)
 {
-	if (!ft_strncmp(exec, "echo", 5) ||
-		!ft_strncmp(exec, "cd", 3) ||
-		!ft_strncmp(exec, "pwd", 4) ||
+	if (!ft_strncmp_lower(exec, "echo", 5) ||
+		!ft_strncmp_lower(exec, "cd", 3) ||
+		!ft_strncmp_lower(exec, "pwd", 4) ||
 		!ft_strncmp(exec, "export", 7) ||
 		!ft_strncmp(exec, "unset", 6) ||
-		!ft_strncmp(exec, "env", 4) ||
+		!ft_strncmp_lower(exec, "env", 4) ||
 		!ft_strncmp(exec, "exit", 5))
 		return (1);
 	return (0);
