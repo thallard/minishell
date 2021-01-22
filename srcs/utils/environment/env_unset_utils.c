@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:48:28 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 11:45:07 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 14:07:13 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int		ft_sort_tab_env(t_shell *shell, char **tab)
 		!(add_lst_to_free(shell, tab[len])))
 		ft_exit_failure(shell, F_MALLOC, tab[len]);
 	tab[i - 1] = NULL;
-	// ft_print_tab_char(tab);
 	return (SUCCESS);
 }
 
@@ -45,7 +44,6 @@ int		ft_remove_element_tab(t_shell *shell, char **tab, char *name)
 			ft_sort_tab_env(shell, tab);
 			return (SUCCESS);
 		}
-			
 	}
 	return (SUCCESS);
 }
@@ -59,8 +57,8 @@ int		ft_unset_hide_env(t_shell *shell, t_env **env, char *name)
 	{
 		if (!ft_strncmp(begin->name, name, ft_strlen(name) + 1))
 		{
-			// begin->content = "";
-			if (!(begin->content = ft_strdup("")) || !(add_lst_to_free(shell, begin->content)))
+			if (!(begin->content = ft_strdup("")) ||
+				!(add_lst_to_free(shell, begin->content)))
 				ft_exit_failure(shell, F_MALLOC, begin->content);
 			begin->hidden = UNSET;
 			ft_remove_element_tab(shell, shell->tab_env, name);
@@ -71,8 +69,7 @@ int		ft_unset_hide_env(t_shell *shell, t_env **env, char *name)
 	return (FAILURE);
 }
 
-
-int			char_not_valid(char *str)
+int		char_not_valid(char *str)
 {
 	return (str[0] == ';' || str[0] == '\\' || str[0] == '\'' ||
 			str[0] == '&' || str[0] == '!' || str[0] == '\"' ||
@@ -89,8 +86,9 @@ int		ft_set_shlvl(t_shell *shell)
 		if (get_var_env(shell, "SHLVL", &content, 1))
 		{
 			lvl = ft_atoi(content);
-			content = ft_itoa(++lvl);
-			// dprintf(1, "content = %s\n", content);
+			if (!(content = ft_itoa(++lvl)) ||
+			!(add_lst_to_free(shell, content)))
+				ft_exit_failure(shell, F_MALLOC, content);
 			replace_env_content(shell, "SHLVL", content, TO_PRINT);
 			return (SUCCESS);
 		}

@@ -12,7 +12,7 @@ SRCS	=	$(main)/ft_ctrl.c $(main)/minishell.c $(main)/redirection.c \
 			$(str)/str_utils.c $(str)/str_utils_op_sep_space.c \
 			$(env)/env_fill_lst_and_swap.c $(env)/env_print_and_addlast.c \
 			$(env)/export_utils_and_getters.c $(env)/env_unset_utils.c \
-			$(env)/env_replace_value.c $(env)/env_match_var.c \
+			$(env)/env_replace_value.c $(env)/env_match_var.c $(env)/env_utils3.c \
 			$(split)/split_args.c $(split)/split_args_utils.c $(split)/split_args_utils_lst.c $(split)/split_args_utils_skip.c \
 			$(split)/split_dir.c $(split)/split_dir_utils.c \
 			$(split)/split_exec_paths.c $(split)/split_utils.c \

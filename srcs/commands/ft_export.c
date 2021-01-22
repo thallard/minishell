@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 13:43:13 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:49:47 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,16 +104,7 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 				new_lst->name[j] = arg[i][j];
 			else
 				return (FAILURE);
-		if (arg[i][j] == '=' && arg[i][j - 1] == '+' && j && !(add = 1))
-			arg[i][j] = '\0';
-		if (arg[i][j] == '=' && !arg[i][j + 1])
-			new_lst->hidden = TO_PRINT;
-		else if (arg[i][j] != '=' && !arg[i][j])
-			new_lst->hidden = NOT_PRINT;
-		new_lst->name[j++] = '\0';
-		if (add)
-			return (ft_add_value_to_existent_env(shell, new_lst, &arg[i][j]));
-		ft_filter_and_add(shell, new_lst, arg[i], j);
+			ft_prepare_hidden_name_export(shell, &new_lst, arg[i], j);
 	}
 	if (new_lst->name)
 		replace_env_content(shell, "_", new_lst->name, TO_PRINT);

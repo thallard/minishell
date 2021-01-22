@@ -264,7 +264,7 @@ int		replace_env_content(t_shell *shell, char *name, char *content, int hidden);
 int		ft_prepare_hidden_name_export(t_shell *shell, t_env **env, char *arg, int j);
 int		ft_add_value_to_existent_env(t_shell *shell, t_env *env, char *str);
 int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j);
-t_args	*ft_finish_fill_env(t_shell *shell, char *str, t_env **new_lst);
+t_args		*ft_finish_fill_env(t_shell *shell, char *str, t_env **new_lst, char *arg);
 
 /*
 ** env_print_and_addlast.c
@@ -283,8 +283,11 @@ void		ft_sort_export_var(t_env *env);
 t_env		*ft_clone_export_env(t_env *lst);
 
 /*
-** env_utils2.c
+** env_utils3.c
 */
+char	*ft_prepare_tab_change_value(t_shell *shell, char *name);
+int		ft_prepare_env(int unset, t_env *begin, char *var_name, char **content);
+
 
 /*
 ** env_unset_utils.c

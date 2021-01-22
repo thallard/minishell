@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:23:56 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 13:23:49 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 14:00:05 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void		ft_env_add_back(t_env **alst, t_env *new)
 	}
 }
 
-t_args		*ft_finish_fill_env(t_shell *shell, char *str, t_env **new_lst)
+t_args		*ft_finish_fill_env(t_shell *shell, char *str,
+			t_env **new_lst, char *arg)
 {
 	int		j;
 
@@ -42,9 +43,9 @@ t_args		*ft_finish_fill_env(t_shell *shell, char *str, t_env **new_lst)
 	if (!(*new_lst = malloc_lst(shell, sizeof(t_env))))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	(*new_lst)->next = NULL;
-	while (str[++j] && str[j] != '=')
-		str[j] = str[j];
-	if (str[j] == '=')
+	while (arg[++j] && arg[j] != '=')
+		str[j] = arg[j];
+	if (arg[j] == '=')
 		(*new_lst)->hidden = TO_PRINT;
 	else
 		(*new_lst)->hidden = NOT_PRINT;
@@ -52,7 +53,7 @@ t_args		*ft_finish_fill_env(t_shell *shell, char *str, t_env **new_lst)
 	if (!((*new_lst)->name = ft_strdup(str)) ||
 		!(add_lst_to_free(shell, (*new_lst)->name)))
 		ft_exit_failure(shell, F_MALLOC, (*new_lst)->name);
-	(*new_lst)->content = ft_fill_env_content(shell, &str[j + 1]);
+	(*new_lst)->content = ft_fill_env_content(shell, &arg[j + 1]);
 	ft_env_add_back(&shell->var_env, *new_lst);
 	return (NULL);
 }

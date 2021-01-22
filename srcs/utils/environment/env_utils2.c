@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 09:08:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 09:29:30 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 14:47:24 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*ft_get_var_env(t_shell *shell, char *name)
 	return (NULL);
 }
 
-int			get_var_env(t_shell *shell, char *var_name, char **content, int unset)
+int		get_var_env(t_shell *shell, char *var_name, char **content, int unset)
 {
 	t_env	*begin;
 
@@ -40,7 +40,7 @@ int			get_var_env(t_shell *shell, char *var_name, char **content, int unset)
 		(*content)[0] = 0;
 		return (1);
 	}
-	if (var_name && var_name[0] == '?' && !var_name[1])	// bloc a verifier
+	if (var_name && var_name[0] == '?' && !var_name[1])
 	{
 		if (!(*content = ft_itoa(shell->exit)) ||
 			!add_lst_to_free(shell, content))
@@ -48,22 +48,10 @@ int			get_var_env(t_shell *shell, char *var_name, char **content, int unset)
 		return (1);
 	}
 	begin = shell->var_env;
-	while (begin)
-	{
-		if (!ft_strncmp(begin->name, var_name, ft_strlen(var_name) + 1))
-		{
-			if (unset == 0 || begin->hidden != UNSET)
-				*content = begin->content;
-			if (!(*content))
-				return (0);
-			return (1);
-		}
-		begin = begin->next;
-	}
-	return (-1);
+	return (ft_prepare_env(unset, begin, var_name, content));
 }
 
-void		ft_sort_export_var(t_env *env)
+void	ft_sort_export_var(t_env *env)
 {
 	t_env	*ptr;
 
@@ -78,7 +66,7 @@ void		ft_sort_export_var(t_env *env)
 			ptr = ptr->next;
 }
 
-t_env		*ft_clone_export_env(t_env *lst)
+t_env	*ft_clone_export_env(t_env *lst)
 {
 	t_env	*sorted;
 
