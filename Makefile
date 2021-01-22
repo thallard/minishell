@@ -41,6 +41,9 @@ $(NAME): libft $(OBJS)
 	echo "$@ (exec) \033[32mcreated\033[0m"
 	echo "--------------------------------------------"
 
+$(OBJ_DIR):
+	mkdir -p $(dir $@)
+
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c includes/minishell.h libft/includes/libft.h | $(OBJ_DIR)
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
