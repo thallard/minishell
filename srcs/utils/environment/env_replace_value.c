@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 13:35:23 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:39:29 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,14 @@ void	change_last_arg_env(t_shell *shell, t_tree *node)
 			i = 0;
 			while (exec_args[i + 1])
 				i++;
-			if (!(str = ft_strdup(exec_args[i])) ||
-				!add_lst_to_free(shell, str))
+			if (!(str = ft_strdup(exec_args[i])) || !add_lst_to_free(shell, str))
 				ft_exit_failure(shell, F_MALLOC, str);
 			replace_env_content(shell, "_", str, 0);
 		}
 	}
 }
 
-int		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
-		char *name, char *content)
+int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *content)
 {
 	int		i;
 	int		success;
@@ -48,10 +46,8 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
 	i = -1;
 	if (!(var = ft_strdup(name)) || !add_lst_to_free(shell, var))
 		ft_exit_failure(shell, F_MALLOC, var);
-	{
-		if (!(var = ft_strjoin_free(var, "=", 0, 0)))
-			ft_exit_failure(shell, F_MALLOC, NULL);
-	}
+	if (!(var = ft_strjoin_free(var, "=", 0, 0)))
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	while ((*tab_env)[++i])
 		if (!ft_strncmp((*tab_env)[i], var, ft_strlen(var)) && !success++ &&
 			!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
@@ -63,8 +59,8 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
 			ft_exit_failure(shell, F_MALLOC, NULL);
 		while (tab_temp[++i])
 			(*tab_env)[i] = tab_temp[i];
-		if (!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
-			ft_exit_failure(shell, F_MALLOC, NULL);
+			if (!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
+				ft_exit_failure(shell, F_MALLOC, NULL);
 		(*tab_env)[++i] = NULL;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:22:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 13:22:32 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:41:03 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,26 @@ void		ft_swap_env_all(t_env *a, t_env *b)
 	temp = a->name;
 	a->name = b->name;
 	b->name = temp;
+
 	temp = a->content;
 	a->content = b->content;
 	b->content = temp;
+
 	hidden = a->hidden;
 	a->hidden = b->hidden;
 	b->hidden = hidden;
 }
 
-void		ft_swap_env_content(t_env *a, t_env *b)
+void	ft_swap_env_content(t_env *a, t_env *b)
 {
-	char	*temp;
+	char *lastName;
 
-	temp = a->content;
+	lastName = a->content;
 	a->content = b->content;
-	b->content = temp;
+	b->content = lastName;
 }
 
-char		*ft_fill_env_content(t_shell *shell, char *str)
+char	*ft_fill_env_content(t_shell *shell, char *str)
 {
 	char	*content;
 	int		i;
@@ -57,6 +59,7 @@ static int	ft_fill_tab_env(t_shell *shell, char **envp)
 	int	i;
 
 	i = 0;
+	
 	while (envp[i])
 		i++;
 	if (!(shell->tab_env = malloc_lst(shell, sizeof(char *) * (i + 2))))
@@ -86,8 +89,22 @@ int			ft_fill_lst_env(t_shell *shell, char **envp)
 	{
 		ft_bzero(str, ft_strlen(str));
 		j = -1;
-		ft_finish_fill_env(shell, shell->tab_env[i], &new_lst);
-	}
+		if (!(new_lst = malloc_lst(shell, sizeof(t_env))))
+			ft_exit_failure(shell, F_MALLOC, NULL);
+		new_lst->next = NULL;
+		while (shell->tab_env[i][++j] && shell->tab_env[i][j] != '=')
+			str[j] = shell->tab_env[i][j];
+		if (shell->tab_env[i][j] == '=')
+			new_lst->hidden = TO_PRINT;
+		else
+			new_lst->hidden = NOT_PRINT;
+		str[j] = '\0';
+		if (!(new_lst->name = ft_strdup(str)) ||
+			!(add_lst_to_free(shell, new_lst->name)))
+			ft_exit_failure(shell, F_MALLOC, new_lst->name);
+		new_lst->content = ft_fill_env_content(shell, &shell->tab_env[i][j + 1]);
+		ft_env_add_back(&shell->var_env, new_lst);
+	}	
 	if (!ft_get_var_env(shell, "OLDPWD"))
 		replace_env_content(shell, "OLDPWD", "", NOT_PRINT);
 	ft_set_shlvl(shell);
