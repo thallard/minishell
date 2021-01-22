@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 11:26:27 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 11:28:39 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *
 		i = -1;
 		while (tab_temp[++i])
 			(*tab_env)[i] = tab_temp[i];
-			if (!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
+		if (!((*tab_env)[i] = ft_strjoin_free(var, content, 1, 0)))
 				ft_exit_failure(shell, F_MALLOC, NULL);
 		(*tab_env)[++i] = NULL;
 	}
