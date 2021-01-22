@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils3.c                                       :+:      :+:    :+:   */
+/*   env_change_last_arg_env.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:50:02 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 08:48:13 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:11:48 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ void	change_last_arg_env(t_shell *shell, t_tree *node)
 {
 	int		i;
 	char	*str;
-	char **exec_args;
-	
-	if (ft_strncmp(node->args->args[0], "export", 7))
+	char	**exec_args;
+
+	exec_args = node->args->args;
+	if (exec_args)
 	{
 		exec_args = node->args->args;
 		if (exec_args)

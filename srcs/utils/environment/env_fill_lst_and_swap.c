@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_fill.c                                         :+:      :+:    :+:   */
+/*   env_fill_lst_and_swap.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:22:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/21 15:56:53 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 09:34:57 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	ft_swap_env_all(t_env *a, t_env *b)
+void		ft_swap_env_all(t_env *a, t_env *b)
 {
 	char *lastName;
 	int		hidden;

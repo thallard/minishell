@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_unset_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:48:28 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 16:14:49 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 09:28:59 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int		ft_remove_element_tab(t_shell *shell, char **tab, char *name)
 	{
 		if (!ft_strncmp(name, tab[i], ft_strlen(name)))
 		{
-				tab[i] = "";
-				ft_sort_tab_env(shell, tab);
-				return (SUCCESS);
+			tab[i] = "";
+			ft_sort_tab_env(shell, tab);
+			return (SUCCESS);
 		}
 			
 	}
@@ -71,10 +71,12 @@ int		ft_unset_hide_env(t_shell *shell, t_env **env, char *name)
 }
 
 
-int			char_not_valid(char c)
+int			char_not_valid(char *str)
 {
-	return (c == ';' || c == '\\' || c == '\'' || c == '&' || c == '!' ||
-			c == '\"' || c == '$' || c == '@' || c == '|');
+	return (str[0] == ';' || str[0] == '\\' || str[0] == '\'' ||
+			str[0] == '&' || str[0] == '!' || str[0] == '\"' ||
+			str[0] == '$' || str[0] == '@' || str[0] == '|' ||
+			(str[0] == '+' && str[1] != '='));
 }
 
 int		ft_set_shlvl(t_shell *shell)

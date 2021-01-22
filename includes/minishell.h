@@ -161,14 +161,9 @@ void	ft_ctrl_c(int sign);
 void	ft_ctrl_back(int sign);
 
 /*
-** minishell.c
-*/
-
-/*
 ** redirection.c
 */
 int		manage_redirection(t_shell *shell, t_dir *exec_dir);
-
 
 /*
 ****************************************************
@@ -261,12 +256,11 @@ int		ft_lst_env_size(t_env *env);
 ** env_replace_value.c
 */
 int		ft_add_new_env(t_shell *shell, char *name, char *content, int hidden);
-char	*ft_get_env_value(t_shell *shell, char *txt, int *j, int i);
 int		ft_change_value_tab_env(t_shell *shell, char ***tab_env, char *name, char *content);
 int		replace_env_content(t_shell *shell, char *name, char *content, int hidden);
 
 /*
-** env_utils.c
+** env_print_and_addlast.c
 */
 void	ft_env_add_back(t_env **alst, t_env *new);
 void	ft_print_env_var(t_env *var_end);
@@ -276,12 +270,10 @@ void	ft_remove_elem(t_env **ptr_back, t_env **ptr);
 /*
 ** env_utils2.c
 */
-t_env	*ft_get_var_env(t_shell *shell, char *name);
-void	ft_env_remove_if(t_env **begin_list, void *name_ref,
-		int (*cmp)());
+t_env		*ft_get_var_env(t_shell *shell, char *name);
 int			get_var_env(t_shell *shell, char *var_name, char **content, int unset);
-void	ft_sort_export_var(t_env *env);
-t_env	*ft_clone_export_env(t_env *lst);
+void		ft_sort_export_var(t_env *env);
+t_env		*ft_clone_export_env(t_env *lst);
 
 /*
 ** env_utils2.c
@@ -292,7 +284,7 @@ void	change_last_arg_env(t_shell *shell, t_tree *node);
 ** env_unset_utils.c
 */
 int		ft_unset_hide_env(t_shell *shell, t_env **env, char *name);
-int		char_not_valid(char c);
+int		char_not_valid(char *str);
 int		ft_set_shlvl(t_shell *shell);
 
 /*

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 09:08:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 15:19:40 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 09:29:30 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,36 +26,6 @@ t_env	*ft_get_var_env(t_shell *shell, char *name)
 		begin = begin->next;
 	}
 	return (NULL);
-}
-
-void		ft_env_remove_if(t_env **begin_list, void *name_ref,
-		int (*cmp)())
-{
-	t_env	*ptr;
-	t_env	*ptr_back;
-
-	if (*begin_list == NULL)
-		return ;
-	ptr = (*begin_list)->next;
-	ptr_back = (*begin_list);
-	while (ptr)
-	{
-		if (cmp(ptr->name, name_ref) == 0)
-			ft_remove_elem(&ptr_back, &ptr);
-		else
-		{
-			ptr_back = ptr;
-			ptr = ptr->next;
-		}
-	}
-	if (cmp((*begin_list)->name, name_ref) == 0)
-	{
-		ptr = (*begin_list)->next;
-		free((*begin_list)->name);
-		free(ptr->content);
-		free(*begin_list);
-		*begin_list = ptr;
-	}
 }
 
 int			get_var_env(t_shell *shell, char *var_name, char **content, int unset)

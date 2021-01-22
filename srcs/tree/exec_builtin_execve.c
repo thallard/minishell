@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 08:29:53 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 10:12:05 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 
 static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)
 {
-(void)node;
+	(void)node;
 
 	waitpid(program, &(shell->exit), 0);
 	
