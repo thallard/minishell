@@ -6,11 +6,12 @@
 /*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 12:24:07 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 13:43:13 by thallard         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../libft/includes/libft.h"
 
 t_env	*ft_prepare_lst_env(t_shell *shell, char *content, char *name)
 {
@@ -44,8 +45,7 @@ int		ft_add_value_to_existent_env(t_shell *shell, t_env *env, char *str)
 	new_name = NULL;
 	new_content = ft_strdup(str);
 	i = -1;
-	if (!(new_name = ft_strdup(env->name)) ||
-		!(add_lst_to_free(shell, new_name)))
+	if (!(new_name = ft_strdup(env->name)) || !(add_lst_to_free(shell, new_name)))
 		ft_exit_failure(shell, F_MALLOC, new_name);
 	while (new_name[++i] && new_name[i] != '+')
 		;
@@ -65,16 +65,15 @@ int		ft_filter_and_add(t_shell *shell, t_env *env, char *str, int j)
 	int		k;
 
 	k = 0;
-	if (j <= ft_strlen(str) && ((char *)env->content)[0] != '\0'
-		&& env->hidden != 1)
+	if (j <= ft_strlen(str) && ((char *)env->content)[0] != '\0' && env->hidden != 1)
 	{
-		if (str[j] == ' ')
-			j = ft_strlen(str) + 1;
-		while (str[j])
+			if (str[j] == ' ')
+				j = ft_strlen(str) + 1;
+			while (str[j])
 			((char *)env->content)[k++] = str[j++];
 		((char *)env->content)[k] = '\0';
 		env->hidden = TO_PRINT;
-		replace_env_content(shell, env->name, env->content, env->hidden);
+		replace_env_content(shell, env->name, env->content,  env->hidden);
 	}
 	else
 	{
@@ -105,7 +104,16 @@ int		ft_get_arg_values_env(t_shell *shell, char **arg)
 				new_lst->name[j] = arg[i][j];
 			else
 				return (FAILURE);
-		ft_prepare_hidden_name_export(shell, &new_lst, arg[i], j);
+		if (arg[i][j] == '=' && arg[i][j - 1] == '+' && j && !(add = 1))
+			arg[i][j] = '\0';
+		if (arg[i][j] == '=' && !arg[i][j + 1])
+			new_lst->hidden = TO_PRINT;
+		else if (arg[i][j] != '=' && !arg[i][j])
+			new_lst->hidden = NOT_PRINT;
+		new_lst->name[j++] = '\0';
+		if (add)
+			return (ft_add_value_to_existent_env(shell, new_lst, &arg[i][j]));
+		ft_filter_and_add(shell, new_lst, arg[i], j);
 	}
 	if (new_lst->name)
 		replace_env_content(shell, "_", new_lst->name, TO_PRINT);
@@ -118,10 +126,13 @@ int		ft_export(t_shell *shell, char **exec_args, char **tab_env)
 
 	sorted_env = NULL;
 	(void)tab_env;
-	if (exec_args[1] && exec_args[1][0])
+	if (exec_args[1])
 	{
 		if (ft_get_arg_values_env(shell, exec_args) > 0)
-			return ((shell->exit = 0) - 1);
+		{
+			shell->exit = 0;
+			return (SUCCESS);
+		}
 		else
 		{
 			ft_printf(2, "Error : name syntax is not correct.\n");
@@ -134,7 +145,6 @@ int		ft_export(t_shell *shell, char **exec_args, char **tab_env)
 		ft_sort_export_var(sorted_env);
 		ft_print_export_var(sorted_env);
 		ft_free_export_env(&sorted_env);
-		ft_add_env_export_dollar(shell, "export");
 	}
 	return (SUCCESS);
 }
