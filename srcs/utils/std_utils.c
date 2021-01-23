@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 13:00:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/23 13:38:45 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 14:41:46 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,12 @@ int	print_dir_error(t_shell *shell, char *cmd)
 {
 	ft_printf(STDERR_FILENO, "minishell: %s: is a directory\n", cmd);
 	shell->exit = 126;
+	return (SUCCESS);
+}
+
+int	print_dir_file_error(t_shell *shell, char *cmd)
+{
+	ft_printf(STDERR_FILENO, "minishell: %s: No such file or directory\n", cmd);
+	shell->exit = 127;
 	return (SUCCESS);
 }

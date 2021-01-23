@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 12:32:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/23 13:55:44 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 14:08:17 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ static void	ft_launch_tree(t_shell *shell)
 static int	ft_apply_minishell(t_shell *shell, char *buf)
 {
 	int	len;
-
-dprintf(1, "buf = |%s|\n", buf);
 
 	len = ft_bufferlen(buf, -1);
 	if (len != 0)

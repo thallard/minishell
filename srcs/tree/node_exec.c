@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 11:54:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/23 13:37:30 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 14:52:00 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,14 @@ static int	is_exec_path(char *exec)
 		return (-1);
 	fd = open(exec, O_DIRECTORY, 0666);
 	if (fd != -1)
+	{
+		close(fd);
 		return (-1);
-	close(fd);
+	}
 	if (!stat(exec, &sb) && ft_memchr(exec, '/', ft_strlen(exec)))
 		return (1);
+	if (ft_memchr(exec, '/', ft_strlen(exec)))
+		return (-2);
 	return (0);
 }
 
@@ -99,13 +103,14 @@ int			launch_exec(t_shell *shell, t_tree *node, int pipe_fd[2][2],
 		reset_stds(shell);
 		return (SUCCESS);
 	}
-	is_exec = find_exec(shell, node, &node->exec_path);
-	if (is_exec == 0)
+	if (!(is_exec = find_exec(shell, node, &node->exec_path)))
 		return (ft_cmd_not_found(shell, node->args->args[0], node));
 	if (is_exec == 1)
 		node->exec_path = node->args->args[0];
 	if (is_exec == -1)
 		return (print_dir_error(shell, node->args->args[0]));
+	if (is_exec == -2)
+		return (print_dir_file_error(shell, node->args->args[0]));
 	if (is_builtin(node->args->args[0]))
 		exec_builtin(shell, node, pipe_fd, is_pipe);
 	else

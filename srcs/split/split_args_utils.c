@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:04:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/23 13:35:53 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 14:31:13 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,12 @@ char		*create_new_arg_part_normal(t_shell *shell, char **str,
 	if (!(arg_part = malloc_lst(shell, len + 1)))
 		ft_exit_failure(shell, F_MALLOC, NULL);
 	fill_arg_part(str, arg_part);
+	if (arg_part[0] == '~' &&
+		(arg_part[1] == '/' || !arg_part[1]) &&
+		(**str == ' ' || !**str) && !args->args[ind][0] &&
+		(!(arg_part = ft_strjoin("$HOME", arg_part + 1)) ||
+		!add_lst_to_free(shell, arg_part)))
+		ft_exit_failure(shell, F_MALLOC, arg_part);
 	if (args)
 		add_var_env_status_normal(shell, arg_part, args, ind);
 	return (arg_part);

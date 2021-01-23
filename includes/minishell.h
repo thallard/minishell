@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 14:30:08 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/23 13:34:52 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 14:45:33 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,7 @@ int					print_sep_error(t_shell *shell, int err);
 */
 int					reset_stds(t_shell *shell);
 int					print_dir_error(t_shell *shell, char *cmd);
+int					print_dir_file_error(t_shell *shell, char *cmd);
 
 /*
 **--------------------

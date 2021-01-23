@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/23 13:46:45 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 14:47:31 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_exec(t_shell *shell, char *exec_path, t_tree *node)
 	if (!ft_strncmp(exec_path, "exit", 5))
 		ft_exit(shell, exec_args, shell->tab_env);
 	else
-		return (execve(exec_path, exec_args, shell->tab_env));	// peut-on recup l'exit status ?
+		return (execve(exec_path, exec_args, shell->tab_env));
 	return (SUCCESS);
 }
 
@@ -50,7 +50,7 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 	if (manage_redirection(shell, node->dir) == FAILURE)
 		exit(1);
 	if (ft_exec(shell, exec_path, node) == -1)
-		exit(1);
+		exit(127);
 }
 
 static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)

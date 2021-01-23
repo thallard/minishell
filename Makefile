@@ -36,7 +36,7 @@ RM = rm -f
 CFLAGS = -Wall -Wextra -Werror -g3
 INC =	-I./includes -L./libft -lft
 
-$(NAME): libft $(OBJS)
+$(NAME): libft $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(INC) -o $(NAME) 
 	echo "$@ (exec) \033[32mcreated\033[0m"
 	echo "--------------------------------------------"
