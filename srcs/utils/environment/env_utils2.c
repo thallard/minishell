@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 09:08:08 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 16:21:03 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 09:35:35 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ t_env	*ft_clone_export_env(t_shell *shell, t_env *lst)
 {
 	t_env	*sorted;
 
-	if (lst == NULL || !(sorted = malloc(sizeof(t_env))))
+	if (lst == NULL)
 		return (NULL);
+	if (!(sorted = malloc_lst(shell, sizeof(t_env))))
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	if (!(sorted->content = ft_strdup(lst->content)) ||
 		!add_lst_to_free(shell, sorted->content))
 		ft_exit_failure(shell, F_MALLOC, sorted->content);

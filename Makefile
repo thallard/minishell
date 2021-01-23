@@ -52,18 +52,17 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c includes/minishell.h libft/includes/libft.h | $(OBJ
 libft:
 	@$(MAKE) -C ./libft
 
-$(OBJS): includes/minishell.h libft/includes/libft.h
+$(OBJS): includes/minishell.h libft/includes/libft.h libft/includes/get_next_line.h libft/printf/includes/printf.h
 
 all:	$(NAME)
 
-allc : all clean
-
 clean:
-	@$(RM) $(OBJS) 
+	rm -rf $(OBJ_DIR)
 	@$(MAKE) clean -C libft
 
 fclean: 	clean
 	@$(RM) libft/libft.a
+	rm -f minishell
 
 re:		fclean all
 

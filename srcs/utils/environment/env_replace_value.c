@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 12:38:37 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 16:39:37 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 09:13:14 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	change_last_arg_env(t_shell *shell, t_tree *node)
 	}
 }
 
-void		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
-		char *name, char *content)
+void	ft_change_value_tab_env(t_shell *shell, char ***tab_env,
+								char *name, char *content)
 {
 	int		i;
 	int		success;
@@ -44,8 +44,7 @@ void		ft_change_value_tab_env(t_shell *shell, char ***tab_env,
 	char	**tab_temp;
 
 	success = 0;
-	i = -1;
-	var = ft_prepare_tab_change_value(shell, name);
+	var = ft_prepare_tab_change_value(shell, name, &i);
 	while ((*tab_env)[++i])
 		if (!ft_strncmp((*tab_env)[i], var, ft_strlen(var)) && !success++ &&
 			(!((*tab_env)[i] = ft_strjoin_free(var, content, 0, 0)) ||

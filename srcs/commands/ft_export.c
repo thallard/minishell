@@ -6,12 +6,11 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 16:41:04 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 09:43:54 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../../libft/includes/libft.h"
 
 t_env	*ft_prepare_lst_env(t_shell *shell, char *content, char *name)
 {
@@ -139,7 +138,6 @@ int		ft_export(t_shell *shell, char **exec_args, char **tab_env)
 		sorted_env = ft_clone_export_env(shell, shell->var_env);
 		ft_sort_export_var(sorted_env);
 		ft_print_export_var(sorted_env);
-		ft_free_export_env(&sorted_env);
 	}
 	return (SUCCESS);
 }

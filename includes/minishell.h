@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 14:30:08 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 16:21:24 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 09:37:48 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,6 @@ int					read_tree(t_shell *shell);
 void				*add_lst_to_free(t_shell *shell, void *ptr);
 void				*malloc_lst(t_shell *shell, int size);
 int					free_all_ptr(t_shell *shell);
-void				ft_free_export_env(t_env **env);
 void				ft_lstfd_close_clear(t_fd **lst);
 
 /*
@@ -310,7 +309,8 @@ t_env				*ft_clone_export_env(t_shell *shell, t_env *lst);
 */
 int					ft_prepare_env(int unset, t_env *begin, char *var_name,
 									char **content);
-char				*ft_prepare_tab_change_value(t_shell *shell, char *name);
+char				*ft_prepare_tab_change_value(t_shell *shell, char *name,
+												int *i);
 
 /*
 ** env_unset_utils.c
