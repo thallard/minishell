@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 08:40:23 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 14:28:55 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 13:35:34 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ static void		create_new_arg(t_shell *shell, char **str, t_args *args,
 			!add_lst_to_free(shell, args->args[*ind]))
 			ft_exit_failure(shell, F_MALLOC, args->args[*ind]);
 	}
+	if (!ft_strncmp(args->args[*ind], "~", 2) &&
+		(!(args->args[*ind] = ft_strdup("$HOME")) ||
+		!add_lst_to_free(shell, args->args[*ind]) ||
+		!add_var_env_status_normal(shell, args->args[*ind], args, *ind)))
+		ft_exit_failure(shell, F_MALLOC, args->args[*ind]);
 	(*ind)++;
 }
 

@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 12:32:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 17:38:06 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 13:55:44 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ static int	ft_apply_minishell(t_shell *shell, char *buf)
 {
 	int	len;
 
+dprintf(1, "buf = |%s|\n", buf);
+
 	len = ft_bufferlen(buf, -1);
 	if (len != 0)
 	{
@@ -91,9 +93,11 @@ static int	ft_apply_minishell(t_shell *shell, char *buf)
 			ft_exit_failure(shell, F_MALLOC, shell->buffer_std);
 	}
 	if (len > 0 || buf[0] == '\n')
+	{
 		ft_launch_tree(shell);
+		print_header(shell->std[1]);
+	}
 	ft_memset(buf, -1, 10000);
-	print_header(shell->std[1]);
 	return (SUCCESS);
 }
 

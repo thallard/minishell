@@ -6,13 +6,13 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:04:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 12:58:29 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 13:35:53 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void		add_var_env_status_normal(t_shell *shell, char *part,
+int			add_var_env_status_normal(t_shell *shell, char *part,
 									t_args *args, int ind)
 {
 	int	len;
@@ -39,6 +39,7 @@ void		add_var_env_status_normal(t_shell *shell, char *part,
 		else
 			part++;
 	}
+	return (1);
 }
 
 void		add_var_env_status_simple_quote(t_shell *shell, char *part,

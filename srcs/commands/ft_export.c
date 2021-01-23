@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 15:36:35 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/23 09:43:54 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 12:39:07 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int		ft_export(t_shell *shell, char **exec_args, char **tab_env)
 
 	sorted_env = NULL;
 	(void)tab_env;
-	if (exec_args[1])
+	if (exec_args[1] && exec_args[1][0])
 	{
 		if (ft_get_arg_values_env(shell, exec_args) > 0)
 		{

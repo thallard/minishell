@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 14:30:08 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/23 09:37:48 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 13:34:52 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,7 @@ int					print_sep_error(t_shell *shell, int err);
 ** stds_utils.c
 */
 int					reset_stds(t_shell *shell);
+int					print_dir_error(t_shell *shell, char *cmd);
 
 /*
 **--------------------
@@ -344,7 +345,7 @@ int					skip_arg(t_shell *shell, char **str);
 /*
 ** split_args_utils.c
 */
-void				add_var_env_status_normal(t_shell *shell, char *part,
+int					add_var_env_status_normal(t_shell *shell, char *part,
 												t_args *args, int ind);
 void				add_var_env_status_simple_quote(t_shell *shell, char *part,
 												t_args *args, int ind);

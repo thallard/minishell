@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 13:00:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 13:31:34 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 13:38:45 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,12 @@ int	reset_stds(t_shell *shell)
 		dup2(shell->std[1], STDOUT_FILENO) == -1 ||
 		dup2(shell->std[2], STDERR_FILENO) == -1)
 		return (print_error(shell, "dup", 1));
+	return (SUCCESS);
+}
+
+int	print_dir_error(t_shell *shell, char *cmd)
+{
+	ft_printf(STDERR_FILENO, "minishell: %s: is a directory\n", cmd);
+	shell->exit = 126;
 	return (SUCCESS);
 }
