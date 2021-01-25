@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:31:58 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/21 15:22:51 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 17:24:08 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ int		ft_pwd(t_shell *shell, char **exec_args, char **tab_env)
 		res = ft_printf(STDOUT_FILENO, "%s\n", path_var);
 	else
 	{
-		if (!(path_cwd = ft_calloc(1, 500)))
+		if (!(path_cwd = getcwd(NULL, 0)))
 			ft_exit_failure(shell, F_MALLOC, NULL);
-		getcwd(path_cwd, 500);
 		res = ft_printf(STDOUT_FILENO, "%s\n", path_cwd);
 	}
 	ft_free_ptr(path_cwd);

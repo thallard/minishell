@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_unset_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:48:28 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 14:07:13 by thallard         ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 09:46:05 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int		char_not_valid(char *str)
 	return (str[0] == ';' || str[0] == '\\' || str[0] == '\'' ||
 			str[0] == '&' || str[0] == '!' || str[0] == '\"' ||
 			str[0] == '$' || str[0] == '@' || str[0] == '|' ||
+			str[0] == '-' ||
 			(str[0] == '+' && str[1] != '='));
 }
 

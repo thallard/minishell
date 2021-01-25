@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 13:22:41 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 13:25:15 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 14:47:31 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,23 @@ static void	exec_child(t_shell *shell, t_tree *node, int pipe_fd[2][2])
 		print_error_and_exit(shell, "close", -1);
 	if (manage_redirection(shell, node->dir) == FAILURE)
 		exit(1);
-	ft_exec(shell, exec_path, node);
+	if (ft_exec(shell, exec_path, node) == -1)
+		exit(127);
 }
 
 static void	exec_parent(t_shell *shell, t_tree *node, pid_t program)
 {
 	(void)node;
 	waitpid(program, &(shell->exit), 0);
-	shell->exit /= 256;
+	if (shell->exit < 256)
+	{
+		if (shell->exit == 2)
+			shell->exit = 130;
+		else if (shell->exit == 3)
+			shell->exit = 131;
+	}
+	else
+		shell->exit /= 256;
 	reset_stds(shell);
 	signal(SIGQUIT, SIG_IGN);
 }

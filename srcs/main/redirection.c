@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:36:26 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 12:37:59 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/22 17:34:25 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_fd	*ft_lstfdnew(t_shell *shell, int fd)
 {
 	t_fd	*elem;
 
-	if (!(elem = malloc(sizeof(t_fd))) && !add_lst_to_free(shell, elem))
+	if (!(elem = malloc(sizeof(t_fd))) || !add_lst_to_free(shell, elem))
 		ft_exit_failure(shell, F_MALLOC, elem);
 	elem->fd = fd;
 	elem->next = NULL;

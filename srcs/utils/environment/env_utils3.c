@@ -6,16 +6,17 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 14:36:19 by thallard          #+#    #+#             */
-/*   Updated: 2021/01/22 16:12:17 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 09:12:32 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char	*ft_prepare_tab_change_value(t_shell *shell, char *name)
+char	*ft_prepare_tab_change_value(t_shell *shell, char *name, int *i)
 {
 	char	*var;
 
+	*i = -1;
 	if (!(var = ft_strdup(name)) || !add_lst_to_free(shell, var))
 		ft_exit_failure(shell, F_MALLOC, var);
 	if (!(var = ft_strjoin(var, "=")) || !add_lst_to_free(shell, var))

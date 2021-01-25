@@ -32,10 +32,11 @@ OBJS	= $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 NAME = minishell
 CC = clang
 RM = rm -f
+# CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror -g3
 INC =	-I./includes -L./libft -lft
 
-$(NAME): libft $(OBJS)
+$(NAME): libft $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(INC) -o $(NAME) 
 	echo "$@ (exec) \033[32mcreated\033[0m"
 	echo "--------------------------------------------"
@@ -51,18 +52,17 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c includes/minishell.h libft/includes/libft.h | $(OBJ
 libft:
 	@$(MAKE) -C ./libft
 
-$(OBJS): includes/minishell.h libft/includes/libft.h
+$(OBJS): includes/minishell.h libft/includes/libft.h libft/includes/get_next_line.h libft/printf/includes/printf.h
 
 all:	$(NAME)
 
-allc : all clean
-
 clean:
-	@$(RM) $(OBJS) 
+	rm -rf $(OBJ_DIR)
 	@$(MAKE) clean -C libft
 
 fclean: 	clean
 	@$(RM) libft/libft.a
+	rm -f minishell
 
 re:		fclean all
 

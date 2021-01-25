@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 10:39:14 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/22 16:15:33 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/23 09:23:42 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ static int	read_node(t_shell *shell, t_tree **t_current, int pipe_fd[2][2],
 {
 	int	is_end;
 
-	is_end = 0;
-	if (!strncmp((*t_current)->args->args[0], "|", 2))
+	if (!(is_end = 0) && !strncmp((*t_current)->args->args[0], "|", 2))
 		pipe_in = PIPE_IN;
 	*t_current = (*t_current)->right;
+	if (!(*t_current) && (shell->exit = 2))
+		return (is_end);
 	if (!(*t_current)->args->args[0] &&
 		ft_exec_and_pipe(shell, *t_current, pipe_fd, pipe_in) == SUCCESS)
 		return (is_end);
