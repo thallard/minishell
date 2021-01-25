@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    test.sh                                            :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+         #
+#    By: thallard <thallard@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/13 20:16:23 by thallard          #+#    #+#              #
-#    Updated: 2021/01/15 08:36:43 by bjacob           ###   ########lyon.fr    #
+#    Updated: 2021/01/18 09:16:26 by thallard         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ GREEN='\033[1;32m'
 RED='\033[0;31m'
 BLANK='\033[0m'
 YELLOW='\033[0;33m'
+make all -C ..
 cp ../minishell .
 
 # ECHO PART
@@ -47,5 +48,6 @@ cat tests/echo_tests.txt | while read line
             fi
         fi
         i=$(($i + 1))
+		sleep 0.1
     done
 printf "\n${GREEN}Conclusion : $correct/$i\n"
