@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 14:53:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/28 11:46:56 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/28 12:37:59 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	go_to_upper_folder(t_shell *shell)
 	upper_path = NULL;
 	current_path = NULL;
 	if (!(current_path = getcwd(NULL, 0)))
-		ft_exit_failure(shell, F_MALLOC, NULL);	
+		ft_exit_failure(shell, F_MALLOC, NULL);
 	indice = ft_strrfind(current_path, '/');
 	if (!indice)
 		indice = 1;
