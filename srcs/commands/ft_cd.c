@@ -6,7 +6,7 @@
 /*   By: bjacob <bjacob@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 14:53:40 by bjacob            #+#    #+#             */
-/*   Updated: 2021/01/23 09:09:48 by bjacob           ###   ########lyon.fr   */
+/*   Updated: 2021/01/28 11:46:56 by bjacob           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,12 @@ static int	go_to_upper_folder(t_shell *shell)
 	upper_path = NULL;
 	current_path = NULL;
 	if (!(current_path = getcwd(NULL, 0)))
-		ft_exit_failure(shell, F_MALLOC, NULL);
+		ft_exit_failure(shell, F_MALLOC, NULL);	
 	indice = ft_strrfind(current_path, '/');
-	if (indice > 0)
-	{
-		if (!(upper_path = ft_substr(current_path, 0, indice)))
-			ft_exit_failure(shell, F_MALLOC, current_path);
-	}
-	else
-		upper_path = current_path;
+	if (!indice)
+		indice = 1;
+	if (!(upper_path = ft_substr(current_path, 0, indice)))
+		ft_exit_failure(shell, F_MALLOC, current_path);
 	res = chdir(upper_path);
 	if (current_path != upper_path)
 		ft_free_ptr(upper_path);
